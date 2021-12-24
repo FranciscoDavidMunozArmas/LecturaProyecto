@@ -4,7 +4,8 @@ import cors from 'cors';
 
 import { CONSTANTS } from './lib/utils';
 
-import indexRouter from './app/routes/index.routes';
+import userRouter from './app/routes/user.routes';
+import studentRouter from './app/routes/student.routes';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended:false }));
 app.use(express.json());
 
 //routes
-app.use("/", indexRouter);
+app.use("/users", userRouter);
+app.use("/students", studentRouter);
 
 export default app;

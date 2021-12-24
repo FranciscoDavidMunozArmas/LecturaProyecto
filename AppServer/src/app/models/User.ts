@@ -1,9 +1,9 @@
-class User {
+export class User {
     login: string;
     user: string;
-    role: string[];
+    role: string;
 
-    constructor(login: string, user: string, role: string[]) {
+    constructor(login: string, user: string, role: string) {
         this.login = login;
         this.user = user;
         this.role = role;

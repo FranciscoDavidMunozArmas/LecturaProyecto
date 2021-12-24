@@ -9,5 +9,6 @@ export const CONSTANTS = {
     storageBucket: process.env.storageBucket,
     messagingSenderId: process.env.messagingSenderId,
     appId: process.env.appId,
-    PORT: process.env.PORT || 3000
+    PORT: process.env.PORT || 3000,
+    TOKEN_KEY: process.env.TOKEN_KEY || ""
 }
