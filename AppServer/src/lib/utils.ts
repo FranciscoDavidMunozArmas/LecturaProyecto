@@ -10,5 +10,6 @@ export const CONSTANTS = {
     messagingSenderId: process.env.messagingSenderId,
     appId: process.env.appId,
     PORT: process.env.PORT || 3000,
-    TOKEN_KEY: process.env.TOKEN_KEY || ""
+    TOKEN_KEY: process.env.TOKEN_KEY || "",
+    API_VERSION: 'v1'
 }

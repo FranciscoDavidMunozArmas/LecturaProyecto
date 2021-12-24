@@ -109,7 +109,7 @@ export const deleteTeacher = async (req: Request, res: Response) => {
         if(docData) {
             const teacherDoc = await getDoc(documentReference(docData.user));
             if(teacherDoc.data()) {
-                await deleteUser(docData.user);
+                await deleteUser(docData.login);
                 await deleteDoc(documentReference(docData.user));
                 return res.status(200).json({ message: "Teacher deleted" });
             }

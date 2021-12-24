@@ -55,7 +55,7 @@ export const deleteStudents = async (req: Request, res: Response) => {
             documents++;
             deleteDoc(doc.ref);
         });
-        return res.status(200).json(documents);
+        return res.status(200).json({documents});
     } catch (error: any) {
         return res.status(500).json({
             message: 'Internal server error'
