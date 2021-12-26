@@ -27,8 +27,14 @@ router.route("/course/:courseId/content/topics/topic/:topicId")
 
 router.route("/course/:courseId/content/topics/topic/:topicId/class")
     // .post(authUser, authTeacher, Controller.addCourseContent)
-    .post(authUser, authAdmin, multerAudioConfig.single("audio"), Controller.addCourseClasses)
+    .post(authUser, authAdmin, multerAudioConfig.single("audio"), Controller.addCourseClass)
     // .put(authUser, authTeacher, Controller.updateCourseContent)
-    // .put(authUser, authAdmin, Controller.updateCourseContent);
+    .delete(authUser, authAdmin, Controller.deleteCourseClasses);
+
+router.route("/course/:courseId/content/topics/topic/:topicId/class/:classId")
+    // .put(authUser, authTeacher, Controller.addCourseContent)
+    .put(authUser, authAdmin, Controller.updateCourseClass)
+    // .put(authUser, authTeacher, Controller.addCourseContent)
+    .delete(authUser, authAdmin, Controller.deleteCourseClass);
 
 export default router;

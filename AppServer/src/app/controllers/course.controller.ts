@@ -160,9 +160,10 @@ export const updateTopic = async (req: Request, res: Response) => {
     };
 }
 
-export const addCourseClasses = async (req: Request, res: Response) => {
+export const addCourseClass = async (req: Request, res: Response) => {
     try {
         const { courseId, topicId } = req.params;
+        req.body.id = v4();
         req.body.file = req.file?.filename;
         const data = courseClassConverter.fromJSON(req.body);
         if (data) {
@@ -181,6 +182,89 @@ export const addCourseClasses = async (req: Request, res: Response) => {
             }
         }
         return res.status(401).json({ message: 'Invalid Class' });
+    } catch (error: any) {
+                return res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    };
+}
+
+export const deleteCourseClasses = async (req: Request, res: Response) => {
+    try {
+        const { courseId, topicId } = req.params;
+        const data = await getDoc(documentReference(courseId));
+        if (data.data()) {
+            const course = courseConverter.fromJSON(data.data());
+            course.content.topics.map(topic => {
+                if (topic.id === topicId) {
+                    topic.classes = [];
+                }
+                return topic;
+            });
+            await updateDoc(documentReference(courseId), courseConverter.toJSON(course));
+            return res.status(200).json({ message: 'Classes Deleted' });
+        }
+        return res.status(404).json({ message: 'Course not found' });
+    } catch (error: any) {
+                return res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    };
+}
+
+export const updateCourseClass = async (req: Request, res: Response) => {
+    try {
+        const { courseId, topicId, classId } = req.params;
+        const data = courseClassConverter.fromJSON(req.body);
+        if (data) {
+            const docData = await getDoc(documentReference(courseId));
+            if (docData.data()) {
+                const course = courseConverter.fromJSON(docData.data());
+                course.content.topics = course.content.topics.map(topic => {
+                    if (topic.id === topicId) {
+                        topic.classes.map(courseClass => {
+                            if (courseClass.id === classId) {
+                                courseClass.name = data.name;
+                                if (req.file) {
+                                    courseClass.file = req.file.filename;
+                                }
+                            }
+                            return courseClass;
+                        });
+                    }
+                    return topic;
+                });
+                await updateDoc(documentReference(courseId), courseConverter.toJSON(course));
+                return res.status(201).json({ message: 'Class Updated' });
+            }
+        }
+        return res.status(401).json({ message: 'Invalid Class' });
+    } catch (error: any) {
+        return res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    };
+}
+
+export const deleteCourseClass = async (req: Request, res: Response) => {
+    try {
+        const { courseId, topicId, classId } = req.params;
+        const data = await getDoc(documentReference(courseId));
+        if (data.data()) {
+            const course = courseConverter.fromJSON(data.data());
+            course.content.topics.map(topic => {
+                if (topic.id === topicId) {
+                    topic.classes = topic.classes.filter(courseClass => courseClass.id !== classId);
+                }
+                return topic;
+            });
+            await updateDoc(documentReference(courseId), courseConverter.toJSON(course));
+            return res.status(200).json({ message: 'Class Deleted' });
+        }
+        return res.status(404).json({ message: 'Course not found' });
     } catch (error: any) {
                 return res.status(500).json({
             message: 'Internal Server Error',
