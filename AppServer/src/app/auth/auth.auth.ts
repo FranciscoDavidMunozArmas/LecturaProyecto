@@ -48,3 +48,12 @@ export const authUser = (req: any, res: any, next: any) => {
     })
     .catch(() => { return res.status(401).json({ message: 'Unauthorized' }) });
 }
+
+export const authStudent = (req: any, res: any, next: any) => {
+    const { payload } = req;
+    if(payload.role === "student") {
+        next();
+    } else {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+}

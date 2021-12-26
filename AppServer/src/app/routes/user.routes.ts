@@ -4,7 +4,7 @@ import * as Controller from '../controllers/user.controller';
 
 const router = Router();
 
-router.route("/authorization")
+router.route("/authorize")
 .post(authUser, Controller.authorization);
 
 router.route("/")
