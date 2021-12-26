@@ -67,3 +67,8 @@ export const authTeacher = (req: any, res: any, next: any) => {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 }
+
+export const authAdmin = (req: any, res: any, next: any) => {
+    const { payload } = req;
+    next();
+}

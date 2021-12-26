@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authStudent, authUser } from '../auth/auth.auth';
+import { authAdmin, authStudent, authUser } from '../auth/auth.auth';
 import * as Controller from '../controllers/student.controller';
 
 const router = Router();
@@ -7,7 +7,7 @@ const router = Router();
 router.route("/")
     .get(authUser, Controller.getStudents)
     .post(Controller.createStudent)
-    .delete(authUser, Controller.deleteStudents);
+    .delete(authUser, authAdmin, Controller.deleteStudents);
 
 router.route("/student/:id")
     .get(authUser, authStudent, Controller.getStudent)

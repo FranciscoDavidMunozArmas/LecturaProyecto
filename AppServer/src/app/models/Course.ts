@@ -5,24 +5,24 @@ import { Teacher, teacherConverter } from "./Teacher";
 export class Course {
     name: string;
     teacher: Teacher;
+    language: string;
     duration: number;
     pricing: number;
-    language: string;
     score: Score[];
     objectives: string[];
-    contents: Content[];
+    content: Content;
     completed: number[];
 
-    constructor(name: string, teacher: Teacher, duration: number, pricing: number, language: string, score: Score[], objectives: string[], contents: Content[], completed: number[]) {
+    constructor(name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content, completed: number[]) {
         this.name = name;
         this.teacher = teacher;
-        this.duration = duration;
-        this.pricing = pricing;
         this.language = language;
-        this.score = (score) ? score : [];
+        this.score = score;
         this.objectives = (objectives) ? objectives : [];
-        this.contents = (contents) ? contents : [];
+        this.content = content;
         this.completed = (completed) ? completed : [];
+        this.duration = this.content.topics.map(topic => topic.duration).reduce((a, b) => a + b);
+        this.pricing = 0;
     }
 }
 
@@ -36,7 +36,7 @@ export const courseConverter = {
             language: course.language,
             score: course.score.map(scoreConverter.toJSON),
             objectives: course.objectives,
-            contents: course.contents.map(contentConverter.toJSON),
+            contents: contentConverter.toJSON(course.content),
             completed: course.completed
         }
     },
@@ -44,12 +44,10 @@ export const courseConverter = {
         return new Course(
             snapshot.name,
             teacherConverter.fromJSON(snapshot.teacher),
-            snapshot.duration,
-            snapshot.pricing,
             snapshot.language,
-            snapshot.score.map(scoreConverter.fromJSON),
+            (snapshot.score) ? snapshot.score.map(scoreConverter.fromJSON) : [],
             snapshot.objectives,
-            snapshot.contents.map(contentConverter.fromJSON),
+            (snapshot.contents) ? contentConverter.fromJSON(snapshot.contents) : new Content([""], "", []),
             snapshot.completed
         );
     }

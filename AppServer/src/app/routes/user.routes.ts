@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { authUser } from '../auth/auth.auth';
+import { authAdmin, authUser } from '../auth/auth.auth';
 import * as Controller from '../controllers/user.controller';
 
 const router = Router();
 
 router.route("/authorize")
-.post(authUser, Controller.authorization);
+.post(Controller.authorization);
 
 router.route("/")
-.delete(authUser, Controller.deleteUsers);
+.delete(authUser, authAdmin, Controller.deleteUsers);
 
 
 export default router;
