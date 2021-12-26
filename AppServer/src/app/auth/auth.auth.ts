@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken";
 import { decodeToken } from "../../lib/token";
+import { CONSTANTS } from "../../lib/utils";
 import { getUser } from "../controllers/user.controller";
 
 const verifyToken = (auth: any) => {
@@ -51,7 +52,16 @@ export const authUser = (req: any, res: any, next: any) => {
 
 export const authStudent = (req: any, res: any, next: any) => {
     const { payload } = req;
-    if(payload.role === "student") {
+    if(payload.role === CONSTANTS.ROLES[0]) {
+        next();
+    } else {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+}
+
+export const authTeacher = (req: any, res: any, next: any) => {
+    const { payload } = req;
+    if(payload.role === CONSTANTS.ROLES[1]) {
         next();
     } else {
         return res.status(401).json({ message: 'Unauthorized' });

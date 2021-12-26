@@ -11,5 +11,6 @@ export const CONSTANTS = {
     appId: process.env.appId,
     PORT: process.env.PORT || 3000,
     TOKEN_KEY: process.env.TOKEN_KEY || "",
+    ROLES: ["student", "teacher"],
     API_VERSION: 'v1'
 }

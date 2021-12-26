@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../config/firebase.config";
+import { CONSTANTS } from "../../lib/utils";
 import { studentConverter } from "../models/Student";
 import { User, userConverter } from "../models/User";
 import { createUser, deleteUser, deleteUsers, getUser, getUsers } from "./user.controller";
@@ -32,7 +33,7 @@ export const createStudent = async (req: Request, res: Response) => {
         const data = studentConverter.fromJSON(req.body);
         const docData = await addDoc(collectionReference, studentConverter.toJSON(data));
         if (docData) {
-            const flag = await createUser(new User(login, docData.id, "student"));
+            const flag = await createUser(new User(login, docData.id, CONSTANTS.ROLES[0]));
             if (flag) {
                 return res.status(200).json({
                     message: "Student created"
