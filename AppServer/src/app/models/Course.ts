@@ -21,7 +21,10 @@ export class Course {
         this.objectives = (objectives) ? objectives : [];
         this.content = content;
         this.completed = (completed) ? completed : [];
-        this.duration = this.content.topics.map(topic => topic.duration).reduce((a, b) => a + b);
+        this.duration = (this.content.topics.length !== 0) ?
+            this.content.topics
+                .map(topic => topic.duration)
+                .reduce((a, b) => a + b) : 0;
         this.pricing = 0;
     }
 }
@@ -30,13 +33,13 @@ export const courseConverter = {
     toJSON: function (course: Course) {
         return {
             name: course.name,
-            teacher: course.teacher,
+            teacher: teacherConverter.toJSON(course.teacher),
             duration: course.duration,
             pricing: course.pricing,
             language: course.language,
             score: course.score.map(scoreConverter.toJSON),
             objectives: course.objectives,
-            contents: contentConverter.toJSON(course.content),
+            content: contentConverter.toJSON(course.content),
             completed: course.completed
         }
     },
@@ -47,7 +50,7 @@ export const courseConverter = {
             snapshot.language,
             (snapshot.score) ? snapshot.score.map(scoreConverter.fromJSON) : [],
             snapshot.objectives,
-            (snapshot.contents) ? contentConverter.fromJSON(snapshot.contents) : new Content([""], "", []),
+            (snapshot.content) ? contentConverter.fromJSON(snapshot.content) : new Content([""], "", []),
             snapshot.completed
         );
     }

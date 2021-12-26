@@ -8,7 +8,7 @@ export class Content {
     constructor(requirements: string[], description: string, topics: Topic[]) {
         this.description = description;
         this.requirements = (requirements) ? requirements : [];
-        this.topics = (topics) ? topics : [];
+        this.topics = topics;
     }
 }
 
@@ -24,7 +24,7 @@ export const contentConverter = {
         return new Content(
             snapshot.requirements,
             snapshot.description,
-            snapshot.topics.map(topicConverter.fromJSON)
+            (snapshot.topics) ? snapshot.topics.map(topicConverter.fromJSON) : []
         );
     }
 }
