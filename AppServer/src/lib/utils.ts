@@ -12,5 +12,6 @@ export const CONSTANTS = {
     PORT: process.env.PORT || 3000,
     TOKEN_KEY: process.env.TOKEN_KEY || "",
     ROLES: ["student", "teacher"],
-    API_VERSION: 'v1'
+    API_VERSION: 'v1',
+    AUDIO_FOLDER_ROUTE: 'uploads/audios/',
 }
