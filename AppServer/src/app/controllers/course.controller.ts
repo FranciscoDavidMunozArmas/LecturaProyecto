@@ -3,6 +3,7 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "
 import { v4 } from "uuid";
 import { db } from "../../config/firebase.config";
 import { unlinkFile } from "../../lib/files";
+import { CONSTANTS } from "../../lib/utils";
 import { courseConverter } from "../models/Course";
 import { courseClassConverter } from "../models/CourseClass";
 import { topicConverter } from "../models/Topic";
@@ -34,6 +35,8 @@ export const createCourse = async (req: Request, res: Response) => {
         const data = courseConverter.fromJSON(req.body);
         if (data) {
             const docData = await addDoc(collectionReference, courseConverter.toJSON(data));
+            data.id = docData.id;
+            await updateDoc(documentReference(data.id), courseConverter.toJSON(data));
             return res.status(201).json({ message: 'Course Created' });
         }
         return res.status(401).json({ message: 'Invalid Course' });
@@ -261,6 +264,7 @@ export const updateCourseClass = async (req: Request, res: Response) => {
     try {
         const { courseId, topicId, classId } = req.params;
         const data = courseClassConverter.fromJSON(req.body);
+        const filename = req.file?.filename;
         if (data.name) {
             const docData = await getDoc(documentReference(courseId));
             if (docData.data()) {
@@ -270,9 +274,10 @@ export const updateCourseClass = async (req: Request, res: Response) => {
                         topic.classes.map(async courseClass => {
                             if (courseClass.id === classId) {
                                 courseClass.name = data.name;
-                                if (req.file) {
-                                    await unlinkFile(courseClass.file);
-                                    courseClass.file = req.file.filename;
+                                if (filename) {
+                                    console.log(courseClass.file);
+                                    await unlinkFile(`${CONSTANTS.AUDIO_FOLDER_ROUTE}${courseClass.file}`);
+                                    courseClass.file = filename;
                                 }
                             }
                             return courseClass;

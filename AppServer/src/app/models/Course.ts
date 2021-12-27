@@ -3,6 +3,7 @@ import { Score, scoreConverter } from "./Score";
 import { Teacher, teacherConverter } from "./Teacher";
 
 export class Course {
+    id: string;
     name: string;
     teacher: Teacher;
     language: string;
@@ -13,7 +14,8 @@ export class Course {
     content: Content;
     completed: number[];
 
-    constructor(name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content, completed: number[]) {
+    constructor(id: string, name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content, completed: number[]) {
+        this.id = (id) ? id : "";
         this.name = name;
         this.teacher = teacher;
         this.language = language;
@@ -45,6 +47,7 @@ export const courseConverter = {
     },
     fromJSON: function (snapshot: any): Course {
         return new Course(
+            snapshot.id,
             snapshot.name,
             teacherConverter.fromJSON(snapshot.teacher),
             snapshot.language,

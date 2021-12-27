@@ -14,6 +14,8 @@ export const unlinkAllFiles = async (dirname: string) => {
 
 export const unlinkFile = async (filepath: string) => {
     const file: boolean = fs.existsSync(path.resolve(filepath));
+    console.log(path.resolve(filepath));
+    console.log(file);
     if (file) {
         await fs.unlink(path.resolve(filepath));
     }
