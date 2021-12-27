@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { v4 } from "uuid";
 import { db } from "../../config/firebase.config";
-import { unlinkAllFiles, unlinkFile } from "../../lib/files";
-import { CONSTANTS } from "../../lib/utils";
-import { contentConverter } from "../models/Content";
+import { unlinkFile } from "../../lib/files";
 import { courseConverter } from "../models/Course";
 import { courseClassConverter } from "../models/CourseClass";
 import { topicConverter } from "../models/Topic";
@@ -53,6 +51,12 @@ export const deleteCourses = async (req: Request, res: Response) => {
         let documents: number = 0;
         data.forEach(async doc => {
             documents++;
+            const course = courseConverter.fromJSON(doc.data());
+            course.content.topics.forEach(async topic => {
+                topic.classes.forEach(async courseClass => {
+                    await unlinkFile(courseClass.file);
+                });
+            });
             await deleteDoc(doc.ref);
         });
         return res.status(200).json({ documents });
@@ -263,11 +267,11 @@ export const updateCourseClass = async (req: Request, res: Response) => {
                 const course = courseConverter.fromJSON(docData.data());
                 course.content.topics = course.content.topics.map(topic => {
                     if (topic.id === topicId) {
-                        topic.classes.map(courseClass => {
+                        topic.classes.map(async courseClass => {
                             if (courseClass.id === classId) {
                                 courseClass.name = data.name;
                                 if (req.file) {
-                                    unlinkFile(courseClass.file);
+                                    await unlinkFile(courseClass.file);
                                     courseClass.file = req.file.filename;
                                 }
                             }
@@ -297,11 +301,11 @@ export const deleteCourseClass = async (req: Request, res: Response) => {
             const course = courseConverter.fromJSON(data.data());
             course.content.topics.map(topic => {
                 if (topic.id === topicId) {
-                    topic.classes = topic.classes.filter(courseClass => {
+                    topic.classes = topic.classes.filter(async courseClass => {
                         if (courseClass.id !== classId) {
                             return courseClass;
                         }
-                        unlinkFile(courseClass.file);
+                        await unlinkFile(courseClass.file);
                     });
                 }
                 return topic;
