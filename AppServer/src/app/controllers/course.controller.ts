@@ -7,9 +7,9 @@ import { courseConverter } from "../models/Course";
 import { courseClassConverter } from "../models/CourseClass";
 import { topicConverter } from "../models/Topic";
 
-const collectionReference = collection(db, "courses");
+export const collectionReference = collection(db, "courses");
 
-const documentReference = (id: string) => doc(collectionReference, id);
+export const documentReference = (id: string) => doc(collectionReference, id);
 
 export const getCourses = async (req: Request, res: Response) => {
     try {
