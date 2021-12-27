@@ -36,6 +36,7 @@ export const createCourse = async (req: Request, res: Response) => {
         if (data) {
             const docData = await addDoc(collectionReference, courseConverter.toJSON(data));
             data.id = docData.id;
+            console.log(data);
             await updateDoc(documentReference(data.id), courseConverter.toJSON(data));
             return res.status(201).json({ message: 'Course Created' });
         }

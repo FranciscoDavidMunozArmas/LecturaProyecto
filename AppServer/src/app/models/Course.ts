@@ -34,6 +34,7 @@ export class Course {
 export const courseConverter = {
     toJSON: function (course: Course) {
         return {
+            id: course.id,
             name: course.name,
             teacher: teacherConverter.toJSON(course.teacher),
             duration: course.duration,
