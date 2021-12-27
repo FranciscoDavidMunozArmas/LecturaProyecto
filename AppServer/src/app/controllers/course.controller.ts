@@ -327,3 +327,23 @@ export const deleteCourseClass = async (req: Request, res: Response) => {
         });
     };
 }
+
+export const completeCourse = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { completeLevel } = req.body;
+        const data = await getDoc(documentReference(id));
+        if (data.data()) {
+            const course = courseConverter.fromJSON(data.data());
+            course.completed = completeLevel/course.content.topics.length * 100;
+            await updateDoc(documentReference(id), courseConverter.toJSON(course));
+            return res.status(200).json({ message: 'Course Completed' });
+        }
+        return res.status(404).json({ message: 'Course not found' });
+    } catch (error: any) {
+        return res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    };
+}

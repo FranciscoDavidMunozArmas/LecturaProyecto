@@ -19,6 +19,10 @@ router.route("/course/:id")
     .put(authUser, authAdmin, CourseController.updateCourse)
     .delete(authUser, authAdmin, CourseController.deleteCourse);
 
+router.route("/course/:id/complete")
+    // .post(authUser, authStudent, CourseController.completeCourse);
+    .post(authUser, authAdmin, CourseController.completeCourse);
+
 router.route("/course/:courseId/score")
     .post(authUser, ScoreController.setScore)
     .delete(authUser, ScoreController.deleteScore);

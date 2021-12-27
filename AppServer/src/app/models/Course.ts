@@ -12,9 +12,9 @@ export class Course {
     score: Score[];
     objectives: string[];
     content: Content;
-    completed: number[];
+    completed: number;
 
-    constructor(id: string, name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content, completed: number[]) {
+    constructor(id: string, name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content, completed: number) {
         this.id = (id) ? id : "";
         this.name = name;
         this.teacher = teacher;
@@ -22,7 +22,7 @@ export class Course {
         this.score = score;
         this.objectives = (objectives) ? objectives : [];
         this.content = content;
-        this.completed = (completed) ? completed : [];
+        this.completed = (completed) ? completed : 0;
         this.duration = (this.content.topics.length !== 0) ?
             this.content.topics
                 .map(topic => topic.duration)
