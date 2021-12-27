@@ -3,15 +3,17 @@ import { Student, studentConverter } from "./Student";
 
 export class Certificate{
     id: string;
-    course: string;
-    student: string;
+    course: Course;
+    student: Student;
     date: Date;
+    owner: string;
 
-    constructor(id: string, course: string, student: string, date: Date){
+    constructor(id: string, course: Course, student: Student, date: Date, owner: string){
         this.id = id;
         this.course = course;
         this.student = student;
         this.date = date;
+        this.owner = owner;
     }
 }
 
@@ -19,9 +21,10 @@ export const certificateConverter = {
     toJSON: function (certificate: Certificate): any {
         return {
             id: certificate.id,
-            course: certificate.course,
-            student: certificate.student,
-            date: certificate.date
+            course: courseConverter.toJSON(certificate.course),
+            student: studentConverter.toJSON(certificate.student),
+            date: certificate.date,
+            owner: certificate.owner
         }
     },
     fromJSON: function (snapshot: any): Certificate {
@@ -29,7 +32,8 @@ export const certificateConverter = {
             snapshot.id,
             snapshot.course,
             snapshot.student,
-            snapshot.date
+            snapshot.date,
+            snapshot.owner
         );
     }
 }
