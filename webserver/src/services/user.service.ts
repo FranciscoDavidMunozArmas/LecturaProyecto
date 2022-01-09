@@ -1,1 +1,12 @@
-export const app = {};
+import axios from "axios"
+import { getAuthorizationToken } from "../libs/tokenInterceptor";
+import { URI } from "../libs/utils"
+
+export const authorize = async (login: any) => {
+    return await axios.post(`${URI}/authorize`, login,
+        {
+            headers: {
+                Authorization: getAuthorizationToken()
+            }
+        });
+}
