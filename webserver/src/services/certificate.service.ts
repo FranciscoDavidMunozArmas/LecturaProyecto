@@ -2,7 +2,6 @@ import axios from "axios"
 import { getAuthorizationToken } from "../libs/tokenInterceptor";
 import { URI } from "../libs/utils"
 
-
 export const getCertificates = async () => {
     return await axios.get(`${URI}/certificates`,
         {
