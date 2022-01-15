@@ -10,6 +10,7 @@ import { Paper } from "@mui/material";
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import Appmain from './pages/Appmain';
 
 const styles = {
   height: "100vh",
@@ -29,6 +30,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/earlearning" element={<Appmain />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="*"  element={<Navigate to="/login" />} />
           </Routes>

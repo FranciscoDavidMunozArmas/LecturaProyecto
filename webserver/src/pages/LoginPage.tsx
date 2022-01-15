@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useEffect } from 'react';
 import { useSpeechSynthesis } from "react-speech-kit";
 import useKeypress from 'react-use-keypress';
+import { useNavigate } from "react-router-dom";
 import { authUser } from '../auth/auth';
 import Button from '../components/Button'
 import InputText from '../components/InputText'
@@ -34,6 +35,8 @@ function LoginPage() {
     const [user, setuser] = useState<User>({ email: "", password: "" });
     const { speak, cancel } = useSpeechSynthesis();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         return () => { }
     })
@@ -56,7 +59,13 @@ function LoginPage() {
             return;
         }
         const response = await authUser(user.email, user.password);
-        console.log(response);
+        if(response) {
+            navigate("/earlearning");
+        } else {
+            onSpeak(LOGIN_ERROR);
+            toastManager.error(LOGIN_ERROR);
+            return;
+        }
     }
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
