@@ -3,10 +3,5 @@ import { getAuthorizationToken } from "../libs/tokenInterceptor";
 import { URI } from "../libs/utils"
 
 export const authorize = async (login: any) => {
-    return await axios.post(`${URI}/authorize`, login,
-        {
-            headers: {
-                Authorization: getAuthorizationToken()
-            }
-        });
+    return await axios.post(`${URI}/users/authorize`, { login: login });
 }

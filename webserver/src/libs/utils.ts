@@ -1,7 +1,7 @@
 import moment from 'moment';
-// import path from 'path';
+import path from 'path';
 
-// const extensionName = ".mp3";
+const extensionName = ".mp3";
 const passwordLength = 6;
 
 //Strings
@@ -69,7 +69,7 @@ export const checkPassword = (password: string) => {
     return (password.length >= passwordLength);
 }
 
-// export const checkExtension = (file: string) => {
-//     const extension = path.extname(file);
-//     return (extension as string === extensionName);
-// }
+export const checkExtension = (file: string) => {
+    const extension = path.extname(file);
+    return (extension as string === extensionName);
+}

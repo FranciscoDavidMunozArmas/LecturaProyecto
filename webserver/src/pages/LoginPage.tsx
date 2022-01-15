@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useEffect } from 'react';
 import { useSpeechSynthesis } from "react-speech-kit";
-import useKeypress from 'react-use-keypress';
 import { useNavigate } from "react-router-dom";
 import { authUser } from '../auth/auth';
 import Button from '../components/Button'
@@ -10,6 +9,8 @@ import LinkComponent from '../components/LinkComponent'
 import Title from '../components/Title'
 import { toastManager } from '../libs/toastManager';
 import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
+import { authorize } from '../services/user.service';
+import { setUpToken } from '../libs/tokenInterceptor';
 
 const style = {
     container: {
@@ -60,7 +61,14 @@ function LoginPage() {
         }
         const response = await authUser(user.email, user.password);
         if(response) {
-            navigate("/earlearning");
+            const token = await authorize(response);
+            if(token.data) {
+                setUpToken(token.data);
+            }
+            // if(token) {
+            //     setUpToken(token);
+            //     navigate("/earlearning");
+            // }
         } else {
             onSpeak(LOGIN_ERROR);
             toastManager.error(LOGIN_ERROR);
