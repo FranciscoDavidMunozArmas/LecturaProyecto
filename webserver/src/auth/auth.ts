@@ -5,7 +5,6 @@ export const createUser = async (username: string, password: string) => {
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, username, password);
-        console.log(userCredential.user);
         return true;
     } catch (error: any) {
         console.log({
@@ -19,8 +18,7 @@ export const createUser = async (username: string, password: string) => {
 export const authUser = async (username: string, password: string) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, username, password);
-        console.log(userCredential.user);
-        return true;
+        return userCredential.user.uid;
     } catch (error: any) {
         console.log({
             errorCode: error.code,

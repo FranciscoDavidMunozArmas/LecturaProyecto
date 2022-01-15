@@ -1,11 +1,13 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
+import { useNavigate } from "react-router-dom";
+import { createUser } from '../auth/auth';
 import Button from '../components/Button';
 import InputText from '../components/InputText';
 import LinkComponent from '../components/LinkComponent';
 import Title from '../components/Title';
 import { toastManager } from '../libs/toastManager';
-import { checkPassword, EMAIL_INPUT_HELP, LOGIN, PASSWORD_CONFIRM_INPUT_HELP, PASSWORD_DONT_MATCH, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, VOICE_ES } from '../libs/utils';
+import { checkPassword, EMAIL_INPUT_HELP, LOGIN, PASSWORD_CONFIRM_INPUT_HELP, PASSWORD_DONT_MATCH, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, REGISTER_ERROR, VOICE_ES } from '../libs/utils';
 
 const style = {
     container: {
@@ -29,8 +31,10 @@ interface User {
 
 
 function RegisterPage() {
-    const [user, setuser] = useState<User>({ email: "", password: "", confirm: "" });
 
+    const navigate = useNavigate();
+
+    const [user, setuser] = useState<User>({ email: "", password: "", confirm: "" });
     const { speak, cancel } = useSpeechSynthesis();
 
     useEffect(() => {
@@ -41,7 +45,7 @@ function RegisterPage() {
         speak({ text: text, voice: VOICE_ES });
     }
 
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (user.password !== user.confirm) {
             toastManager.error(PASSWORD_DONT_MATCH);
@@ -52,6 +56,13 @@ function RegisterPage() {
             toastManager.error(PASSWORD_LENGTH_ERROR);
             onSpeak(PASSWORD_LENGTH_ERROR);
             return;
+        }
+        const response = await createUser(user.email, user.password);
+        if(response) {
+            navigate("/login");
+        } else {
+            toastManager.error(REGISTER_ERROR);
+            onSpeak(REGISTER_ERROR);
         }
     }
 
