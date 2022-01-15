@@ -56,7 +56,7 @@ function LoginPage() {
             </form>
 
             <LinkComponent text={REGISTER} />
-            <LinkComponent text={FORGOT_PASSWORD} />
+            {/* <LinkComponent text={FORGOT_PASSWORD} /> */}
         </div>
     )
 }
