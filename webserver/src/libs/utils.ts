@@ -12,9 +12,15 @@ export const FORGOT_PASSWORD = "¿OLVIDÓ SU CONTRASEÑA?";
 export const LOGIN_ERROR = "Error al iniciar sesión";
 export const REGISTER_ERROR = "Error al registrar";
 export const FORGOT_PASSWORD_ERROR = "Error al recuperar contraseña";
+export const EMAIL_INPUT_HELP = "Ingrese su correo electrónico";
+export const PASSWORD_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
+export const PASSWORD_CONFIRM_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;
+//Voices
+export const VOICE_ES = window.speechSynthesis.getVoices()[6] as SpeechSynthesisVoice;
+export const VOICE_EN = window.speechSynthesis.getVoices()[0] as SpeechSynthesisVoice;
 //Constants
 export const CONSTANTS = {
     API_URI: process.env.REACT_APP_API_URI || process.env.API_URI,

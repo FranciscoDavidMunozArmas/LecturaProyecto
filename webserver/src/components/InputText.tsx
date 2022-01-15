@@ -2,20 +2,41 @@ import React from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { TextField } from '@material-ui/core';
 import { useState } from 'react';
-import { TAB_KEY } from '../libs/utils';
+import { HelpRounded } from '@material-ui/icons';
+import { TAB_KEY, VOICE_ES } from '../libs/utils';
+
+const styles = {
+    container: {
+        width: "100%",
+        height: "auto",
+        display: "flex",
+        flexDirection: "row" as const,
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "5px 0"
+    },
+    input: {
+        width: "100%",
+        alignItems: "center",
+    },
+    icon: {
+        margin: "0 10px",
+        fontSize: "2rem",
+    }
+}
 
 interface Props {
+    help?: string,
     type?: string | undefined,
     hint: string,
-    onChange?: (text: string) => void,
-    getText?: () => string
+    onChange?: (text: string) => void
 }
 
 function InputText(props: Props) {
 
     const [text, settext] = useState<string>("");
 
-    const { speak } = useSpeechSynthesis();
+    const { speak, cancel } = useSpeechSynthesis();
 
     const handleChange = (event: any) => {
         settext(event.target.value);
@@ -23,24 +44,20 @@ function InputText(props: Props) {
     }
 
     const handleKeyDown = (event: any) => {
-        console.log(event.keyCode);
         if (event.keyCode === TAB_KEY) {
             onSpeak(text);
         }
     }
 
     const onSpeak = (text: string) => {
-        speak({ text: text });
-    }
-
-    const getText = (): string => {
-        return text;
+        speak({ text: text, voice: VOICE_ES });
     }
 
     return (
         <>
-            <div onMouseEnter={() => onSpeak(props.hint)}>
-                <TextField id="text" label={props.hint} variant="outlined" type={props.type} onChange={handleChange} onKeyDown={handleKeyDown} />
+            <div style={styles.container}>
+                <TextField id="text" placeholder={props.hint} variant="outlined" type={props.type} onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()} onChange={handleChange} onKeyDown={handleKeyDown} style={styles.input} />
+                <div onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>
         </>
     );
