@@ -6,7 +6,7 @@ import moment from 'moment';
 //Strings
 export const MAIL = "CORREO";
 export const PASSWORD = "CONTRASEÑA";
-export const LOGIN = "INICIAR SESIÓN";
+export const LOGIN = "INGRESAR";
 export const REGISTER = "REGISTRARSE";
 export const FORGOT_PASSWORD = "¿OLVIDÓ SU CONTRASEÑA?";
 export const LOGIN_ERROR = "Error al iniciar sesión";

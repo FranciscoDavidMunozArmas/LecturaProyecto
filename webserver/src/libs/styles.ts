@@ -18,7 +18,7 @@ export const text = {
         fontSize: "50px",
         lineHeight: "59px",
         fontStyle: "normal",
-        fontWeight: "bold",
+        fontWeight: "500",
     },
 }
 

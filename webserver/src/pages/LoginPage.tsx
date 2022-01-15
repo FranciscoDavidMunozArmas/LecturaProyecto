@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '../components/Button'
 import InputText from '../components/InputText'
+import Title from '../components/Title'
 import { EMAIL_INPUT_HELP, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP } from '../libs/utils'
 
 const style = {
@@ -14,7 +15,7 @@ const style = {
 function LoginPage() {
     return (
         <div style={style}>
-            <h5>Hello</h5>
+            <Title title={LOGIN} />
             <InputText hint='Correo' type='email' help={EMAIL_INPUT_HELP}/>
             <InputText hint='Contraseña' type='password' help={PASSWORD_INPUT_HELP}/>
             <Button text={LOGIN} />
