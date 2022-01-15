@@ -9,6 +9,7 @@ import {
 import { Paper } from "@mui/material";
 import './App.css';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 const styles = {
   height: "100vh",
@@ -28,6 +29,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="*"  element={<Navigate to="/login" />} />
           </Routes>
         </BrowserRouter>

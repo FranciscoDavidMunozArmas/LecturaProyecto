@@ -2,6 +2,7 @@ import moment from 'moment';
 // import path from 'path';
 
 // const extensionName = ".mp3";
+const passwordLength = 6;
 
 //Strings
 export const MAIL = "CORREO";
@@ -9,12 +10,16 @@ export const PASSWORD = "CONTRASEÑA";
 export const LOGIN = "INGRESAR";
 export const REGISTER = "REGISTRARSE";
 export const FORGOT_PASSWORD = "¿OLVIDÓ SU CONTRASEÑA?";
-export const LOGIN_ERROR = "Error al iniciar sesión";
-export const REGISTER_ERROR = "Error al registrar";
-export const FORGOT_PASSWORD_ERROR = "Error al recuperar contraseña";
+
 export const EMAIL_INPUT_HELP = "Ingrese su correo electrónico";
 export const PASSWORD_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
 export const PASSWORD_CONFIRM_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
+
+export const LOGIN_ERROR = "Error al iniciar sesión";
+export const REGISTER_ERROR = "Error al registrar";
+export const FORGOT_PASSWORD_ERROR = "Error al recuperar contraseña";
+export const PASSWORD_DONT_MATCH = "Las contraseñas no coinciden";
+export const PASSWORD_LENGTH_ERROR = `La contraseña debe tener al menos ${passwordLength} caracteres`;
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;
@@ -55,6 +60,10 @@ export const formatNumber = (number: number, decimals: number) => {
 
 export const formatDate = (date: Date) => {
     return moment(date).format("YYYY/MM/DD");
+}
+
+export const checkPassword = (password: string) => {
+    return (password.length >= passwordLength);
 }
 
 // export const checkExtension = (file: string) => {

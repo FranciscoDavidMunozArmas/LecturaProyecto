@@ -54,7 +54,7 @@ function LoginPage() {
                 <Button text={LOGIN} type="submit" />
             </form>
 
-            <LinkComponent text={REGISTER} />
+            <LinkComponent text={REGISTER} path='/register' />
             {/* <LinkComponent text={FORGOT_PASSWORD} /> */}
         </div>
     )
