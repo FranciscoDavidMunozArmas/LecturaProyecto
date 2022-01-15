@@ -4,6 +4,7 @@ import { TextField } from '@material-ui/core';
 import { useState } from 'react';
 import { HelpRounded } from '@material-ui/icons';
 import { TAB_KEY, VOICE_ES } from '../libs/utils';
+import { BORDER_RADIOUS, text } from '../libs/styles';
 
 const styles = {
     container: {
@@ -13,11 +14,18 @@ const styles = {
         flexDirection: "row" as const,
         alignItems: "center",
         justifyContent: "center",
-        margin: "5px 0"
+        margin: "10px 0"
     },
     input: {
         width: "100%",
+        minWidth: "200px",
+        maxWidth: "300px",
+        padding: "5px 20px",
         alignItems: "center",
+        fontSize: text.paragraph.fontSize,
+        lineHeight: text.paragraph.lineHeight,
+        borderRadius: BORDER_RADIOUS,
+        border: "1px solid #ccc",
     },
     icon: {
         margin: "0 10px",
@@ -56,7 +64,7 @@ function InputText(props: Props) {
     return (
         <>
             <div style={styles.container}>
-                <TextField id="text" placeholder={props.hint} variant="outlined" type={props.type} onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()} onChange={handleChange} onKeyDown={handleKeyDown} style={styles.input} />
+                <input id="text" placeholder={props.hint} type={props.type} onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()} onChange={handleChange} onKeyDown={handleKeyDown} style={styles.input} />
                 <div onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>
         </>
