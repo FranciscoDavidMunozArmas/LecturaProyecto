@@ -1,8 +1,21 @@
 import moment from 'moment';
-import path from 'path';
+// import path from 'path';
 
-const extensionName = ".mp3";
+// const extensionName = ".mp3";
 
+//Strings
+export const MAIL = "CORREO";
+export const PASSWORD = "CONTRASEÑA";
+export const LOGIN = "INICIAR SESIÓN";
+export const REGISTER = "REGISTRARSE";
+export const FORGOT_PASSWORD = "¿OLVIDÓ SU CONTRASEÑA?";
+export const LOGIN_ERROR = "Error al iniciar sesión";
+export const REGISTER_ERROR = "Error al registrar";
+export const FORGOT_PASSWORD_ERROR = "Error al recuperar contraseña";
+//Keys
+export const ENTER_KEY = 13;
+export const TAB_KEY = 9;
+//Constants
 export const CONSTANTS = {
     API_URI: process.env.REACT_APP_API_URI || process.env.API_URI,
     SECRET_KEY: process.env.REACT_APP_SECRET_KEY || process.env.SECRET_KEY,
@@ -38,7 +51,7 @@ export const formatDate = (date: Date) => {
     return moment(date).format("YYYY/MM/DD");
 }
 
-export const checkExtension = (file: string) => {
-    const extension = path.extname(file);
-    return (extension as string === extensionName);
-}
+// export const checkExtension = (file: string) => {
+//     const extension = path.extname(file);
+//     return (extension as string === extensionName);
+// }
