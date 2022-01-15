@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { palette, text } from '../libs/styles';
@@ -7,6 +7,7 @@ import { VOICE_ES } from '../libs/utils';
 interface Props {
     text: string,
     path?: string,
+    ref?: any,
 }
 
 const styles = {
@@ -36,7 +37,7 @@ function LinkComponent(props: Props) {
 
     return (
         <>
-            <div onMouseEnter={() => onSpeak(props.text)} onMouseLeave={() => cancel()} style={styles.container}>
+            <div onMouseEnter={() => onSpeak(props.text)} onMouseLeave={() => cancel()} style={styles.container} ref={props.ref}>
                 <a style={styles.link} href={props.path}>{props.text}</a>
             </div>
         </>

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { palette, text } from '../libs/styles';
 import { VOICE_ES } from '../libs/utils';
 
 interface Props {
     title: string,
+    focus?: boolean,
+    ref?: any,
 }
 
 const styles = {
@@ -35,7 +37,7 @@ function Title(props: Props) {
     }
 
     return (
-        <div style={styles.container} onMouseEnter={() => onSpeak(props.title)} onMouseLeave={() => cancel()}>
+        <div style={styles.container} onMouseEnter={() => onSpeak(props.title)} onMouseLeave={() => cancel()} ref={props.ref}>
             <h1 style={styles.title}>{props.title}</h1>
         </div>
     )

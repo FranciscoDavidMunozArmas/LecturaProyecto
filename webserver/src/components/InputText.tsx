@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { TextField } from '@material-ui/core';
 import { useState } from 'react';
@@ -35,6 +35,8 @@ const styles = {
 
 interface Props {
     help?: string,
+    name?: string,
+    ref?: any,
     type?: string | undefined,
     hint: string,
     onChange?: (text: string) => void
@@ -43,7 +45,6 @@ interface Props {
 function InputText(props: Props) {
 
     const [text, settext] = useState<string>("");
-
     const { speak, cancel } = useSpeechSynthesis();
 
     const handleChange = (event: any) => {
@@ -64,7 +65,15 @@ function InputText(props: Props) {
     return (
         <>
             <div style={styles.container}>
-                <input id="text" placeholder={props.hint} type={props.type} onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()} onChange={handleChange} onKeyDown={handleKeyDown} style={styles.input} />
+                <input id="text"
+                    placeholder={props.hint}
+                    type={props.type}
+                    onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()}
+                    onChange={handleChange} 
+                    onKeyDown={handleKeyDown} 
+                    style={styles.input} 
+                    name={props.name}
+                    ref={props.ref}/>
                 <div className='icon' onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>
         </>

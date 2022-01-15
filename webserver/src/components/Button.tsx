@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from 'react'
+import React, { ButtonHTMLAttributes, useEffect } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { BORDER_RADIOUS, text, palette } from '../libs/styles';
 import { TAB_KEY, ENTER_KEY, VOICE_ES } from '../libs/utils';
@@ -22,7 +22,8 @@ const styles = {
 interface Props {
     text: string,
     type?: any,
-    onClick?: (text: string) => void,
+    ref?: any
+    onClick?: () => void,
 }
 
 function Button(props: Props) {
@@ -40,7 +41,12 @@ function Button(props: Props) {
 
     return (
         <>
-            <button style={styles.button} type={props.type} onMouseEnter={() => onSpeak(props.text)} onMouseLeave={() => cancel()}>
+            <button style={styles.button}
+                type={props.type}
+                onMouseEnter={() => onSpeak(props.text)}
+                onMouseLeave={() => cancel()}
+                onClick={props.onClick}
+                ref={props.ref}>
                 {props.text}
             </button>
         </>
