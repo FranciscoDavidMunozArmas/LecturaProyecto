@@ -5,7 +5,7 @@ import { VOICE_ES } from '../libs/utils';
 
 interface Props {
     title: string,
-    focus?: boolean,
+    start?: boolean,
     ref?: any,
 }
 

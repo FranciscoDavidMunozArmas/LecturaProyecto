@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useEffect } from 'react';
 import useKeypress from 'react-use-keypress';
 import Button from '../components/Button'
@@ -21,33 +21,42 @@ const style = {
     }
 }
 
+interface User {
+    email: string,
+    password: string,
+}
+
 function LoginPage() {
 
-    const [counter, setcounter] = useState(0)
-
-    const titleRef = useRef<HTMLElement>();
-    const mailRef = useRef<HTMLElement>();
-    const passwordRef = useRef<HTMLElement>();
-    const buttonRef = useRef<HTMLElement>();
-    const forgotPasswordRef = useRef<HTMLElement>();
-    const registerRef = useRef<HTMLElement>();
+    const [counter, setcounter] = useState(0);
+    const [user, setuser] = useState<User>({ email: "", password: "" });
 
     useEffect(() => {
         return () => { }
     })
 
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(user);
+    }
+
+    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setuser({ ...user, [event.target.name]: event.target.value });
+    }
+
     return (
         <div style={style.container}>
 
-            <form style={style.form}>
-                <Title title={LOGIN} ref={titleRef} />
-                <InputText hint='Correo' type='email' help={EMAIL_INPUT_HELP} ref={mailRef} />
-                <InputText hint='Contraseña' type='password' help={PASSWORD_INPUT_HELP} ref={passwordRef} />
-                <Button text={LOGIN} ref={buttonRef} />
+            <Title title={LOGIN} start={true} />
+
+            <form style={style.form} onSubmit={onSubmit}>
+                <InputText hint='Correo' type='email' name="email" help={EMAIL_INPUT_HELP} onChange={onChange}/>
+                <InputText hint='Contraseña' type='password' name="password" help={PASSWORD_INPUT_HELP} onChange={onChange}/>
+                <Button text={LOGIN} type="submit" />
             </form>
 
-            <LinkComponent text={REGISTER} ref={forgotPasswordRef} />
-            <LinkComponent text={FORGOT_PASSWORD} ref={registerRef} />
+            <LinkComponent text={REGISTER} />
+            <LinkComponent text={FORGOT_PASSWORD} />
         </div>
     )
 }

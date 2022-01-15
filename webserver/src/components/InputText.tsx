@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { TextField } from '@material-ui/core';
 import { useState } from 'react';
@@ -39,7 +39,7 @@ interface Props {
     ref?: any,
     type?: string | undefined,
     hint: string,
-    onChange?: (text: string) => void
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 function InputText(props: Props) {
@@ -49,7 +49,7 @@ function InputText(props: Props) {
 
     const handleChange = (event: any) => {
         settext(event.target.value);
-        props.onChange?.(text);
+        props.onChange?.(event);
     }
 
     const handleKeyDown = (event: any) => {
@@ -68,11 +68,13 @@ function InputText(props: Props) {
                 <input id="text"
                     placeholder={props.hint}
                     type={props.type}
-                    onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()}
+                    onMouseEnter={() => onSpeak(props.hint)}
+                    onMouseLeave={() => cancel()}
                     onChange={handleChange} 
                     onKeyDown={handleKeyDown} 
                     style={styles.input} 
                     name={props.name}
+                    value={text}
                     ref={props.ref}/>
                 <div className='icon' onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>
