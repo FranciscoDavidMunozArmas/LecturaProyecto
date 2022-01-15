@@ -28,7 +28,6 @@ interface User {
 
 function LoginPage() {
 
-    const [counter, setcounter] = useState(0);
     const [user, setuser] = useState<User>({ email: "", password: "" });
 
     useEffect(() => {
