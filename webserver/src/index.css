@@ -27,11 +27,20 @@ p {
     line-height: 1.5;
 }
 
-button {
+button,
+a,
+.icon {
+    cursor: pointer;
     transition: all .3s ease;
 }
 
 button:hover {
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.24);
+    transition: all .3s ease;
+}
+
+.icon:hover,
+a:hover {
+    color: #FF0000 !important;
     transition: all .3s ease;
 }

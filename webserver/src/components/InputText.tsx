@@ -65,7 +65,7 @@ function InputText(props: Props) {
         <>
             <div style={styles.container}>
                 <input id="text" placeholder={props.hint} type={props.type} onMouseEnter={() => onSpeak(props.hint)} onMouseLeave={() => cancel()} onChange={handleChange} onKeyDown={handleKeyDown} style={styles.input} />
-                <div onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
+                <div className='icon' onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>
         </>
     );

@@ -20,6 +20,9 @@ export const text = {
         fontStyle: "normal",
         fontWeight: "500",
     },
+    link: {
+        fontSize: "15px",
+    }
 }
 
 // export const styles = {
