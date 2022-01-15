@@ -1,11 +1,14 @@
 import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useEffect } from 'react';
+import { useSpeechSynthesis } from "react-speech-kit";
 import useKeypress from 'react-use-keypress';
+import { authUser } from '../auth/auth';
 import Button from '../components/Button'
 import InputText from '../components/InputText'
 import LinkComponent from '../components/LinkComponent'
 import Title from '../components/Title'
-import { EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, REGISTER, TAB_KEY } from '../libs/utils'
+import { toastManager } from '../libs/toastManager';
+import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
 
 const style = {
     container: {
@@ -29,18 +32,39 @@ interface User {
 function LoginPage() {
 
     const [user, setuser] = useState<User>({ email: "", password: "" });
+    const { speak, cancel } = useSpeechSynthesis();
 
     useEffect(() => {
         return () => { }
     })
 
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(user);
+        if(user.password === "") {
+            onSpeak(UNFILL_PASSWORD_ERROR);
+            toastManager.error(UNFILL_PASSWORD_ERROR);
+            return;
+        }
+        if(user.email === "") {
+            onSpeak(UNFILL_MAIL_ERROR);
+            toastManager.error(UNFILL_MAIL_ERROR);
+            return;
+        }
+        if(!checkPassword(user.password)) {
+            onSpeak(PASSWORD_LENGTH_ERROR);
+            toastManager.error(PASSWORD_LENGTH_ERROR);
+            return;
+        }
+        const response = await authUser(user.email, user.password);
+        console.log(response);
     }
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setuser({ ...user, [event.target.name]: event.target.value });
+    }
+
+    const onSpeak = (text: string) => {
+        speak({ text: text, voice: VOICE_ES });
     }
 
     return (

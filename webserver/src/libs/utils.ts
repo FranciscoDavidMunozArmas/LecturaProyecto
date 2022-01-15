@@ -16,6 +16,9 @@ export const PASSWORD_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la
 export const PASSWORD_CONFIRM_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
 
 export const LOGIN_ERROR = "Error al iniciar sesión";
+export const UNFILL_MAIL_ERROR = "Debe ingresar un correo electrónico";
+export const UNFILL_PASSWORD_ERROR = "Debe ingresar una contraseña";
+export const UNFILL_PASSWORD_CONFIRM_ERROR = "Debe confirmar la contraseña";
 export const REGISTER_ERROR = "Error al registrar";
 export const FORGOT_PASSWORD_ERROR = "Error al recuperar contraseña";
 export const PASSWORD_DONT_MATCH = "Las contraseñas no coinciden";

@@ -65,7 +65,7 @@ function InputText(props: Props) {
     return (
         <>
             <div style={styles.container}>
-                <input id="text"
+                <input
                     placeholder={props.hint}
                     type={props.type}
                     onMouseEnter={() => onSpeak(props.hint)}
