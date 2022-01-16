@@ -10,7 +10,7 @@ import Title from '../components/Title'
 import { toastManager } from '../libs/toastManager';
 import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
 import { authorize } from '../services/user.service';
-import { setUpToken } from '../libs/tokenInterceptor';
+import { checkToken, setUpToken } from '../libs/tokenInterceptor';
 
 const style = {
     container: {
@@ -39,6 +39,9 @@ function LoginPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if(checkToken()) {
+            navigate("/earlearning");
+        }
         return () => { }
     })
 
