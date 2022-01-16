@@ -21,7 +21,7 @@ export const text = {
         fontWeight: "500",
     },
     subtitle: {
-        fontSize: "40px",
+        fontSize: "35px",
         lineHeight: "59px",
         fontStyle: "normal",
         fontWeight: "450",
