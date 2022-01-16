@@ -84,6 +84,12 @@ export const formatDate = (date: Date) => {
     return moment(date).format("YYYY/MM/DD");
 }
 
+export const formatTime = (time: number) => {
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+    return `${hours < 10 ? "0" + hours : hours}h${minutes < 10 ? "0" + minutes : minutes}min`;
+}
+
 export const checkPassword = (password: string) => {
     return (password.length >= passwordLength);
 }

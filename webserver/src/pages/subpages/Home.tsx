@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
+import CourseCard from '../../components/CourseCard';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
 import { HOME_NAME, SUBSECTION_HOME_1_NAME, SUBSECTION_HOME_2_NAME, SUBSECTION_HOME_3_NAME, VOICE_ES } from '../../libs/utils'
@@ -64,39 +65,31 @@ function Home() {
         speak({ text: text, voice: VOICE_ES });
     }
 
+    const courseCard = (data: Course[]) => {
+        return data.map((course: Course, index: any) => {
+            return (
+                <div key={index}>
+                    <CourseCard course={course} />
+                </div>
+            )
+        });
+    }
+
     return (
         <>
             <div style={styles.container}>
                 <Title title={HOME_NAME} />
                 <Subtitle text={SUBSECTION_HOME_1_NAME} />
                 {
-                    newCourses.map((course: Course, index: any) => {
-                        return (
-                            <div key={index}>
-                                <div onMouseEnter={() => onSpeak(course.name)} onMouseLeave={() => cancel()}>{course.name}</div>
-                            </div>
-                        )
-                    })
+                    courseCard(newCourses)
                 }
                 <Subtitle text={SUBSECTION_HOME_2_NAME} />
                 {
-                    topCourses.map((course: Course, index: any) => {
-                        return (
-                            <div key={index}>
-                                <div onMouseEnter={() => onSpeak(course.name)} onMouseLeave={() => cancel()}>{course.name}</div>
-                            </div>
-                        )
-                    })
+                    courseCard(topCourses)
                 }
                 <Subtitle text={SUBSECTION_HOME_3_NAME} />
                 {
-                    recommendedCourses.map((course: Course, index: any) => {
-                        return (
-                            <div key={index}>
-                                <div onMouseEnter={() => onSpeak(course.name)} onMouseLeave={() => cancel()}>{course.name}</div>
-                            </div>
-                        )
-                    })
+                    courseCard(recommendedCourses)
                 }
             </div>
         </>
