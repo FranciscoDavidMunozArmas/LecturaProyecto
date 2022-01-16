@@ -10,6 +10,7 @@ import { toastManager } from '../libs/toastManager';
 import { checkPassword, EMAIL_INPUT_HELP, LOGIN, PASSWORD_CONFIRM_INPUT_HELP, PASSWORD_DONT_MATCH, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, REGISTER_ERROR, VOICE_ES } from '../libs/utils';
 import { createStudent } from '../services/student.service';
 import { studentConverter } from '../models/Student';
+import { checkToken } from '../libs/tokenInterceptor';
 
 const style = {
     container: {
@@ -42,6 +43,9 @@ function RegisterPage() {
     const { speak, cancel } = useSpeechSynthesis();
 
     useEffect(() => {
+        if(checkToken()) {
+            navigate("/earlearning");
+        }
         return () => { }
     });
 
