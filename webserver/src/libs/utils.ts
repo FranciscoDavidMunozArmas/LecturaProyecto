@@ -33,6 +33,9 @@ export const FORGOT_PASSWORD_ERROR = "Error al recuperar contraseña";
 export const PASSWORD_DONT_MATCH = "Las contraseñas no coinciden";
 export const PASSWORD_LENGTH_ERROR = `La contraseña debe tener al menos ${passwordLength} caracteres`;
 export const SIGN_OUT_ERROR = "Error al cerrar sesión";
+export const GETTING_DATA_ERROR = "Error al obtener datos";
+
+export const MORE_NAME = "Ver más...";
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;
