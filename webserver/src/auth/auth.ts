@@ -27,3 +27,16 @@ export const authUser = async (username: string, password: string) => {
         return false;
     }
 }
+
+export const signOut = async () => {
+    try {
+        await auth.signOut();
+        return true;
+    } catch (error: any) {
+        console.log({
+            errorCode: error.code,
+            errorMessage: error.message
+        });
+        return false;
+    }
+}

@@ -1,7 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSpeechSynthesis } from "react-speech-kit";
-import { VOICE_EN, VOICE_ES } from '../libs/utils';
+import { signOut } from '../auth/auth';
+import { toastManager } from '../libs/toastManager';
+import { removeToken } from '../libs/tokenInterceptor';
+import { SIGN_OUT_ERROR, VOICE_EN, VOICE_ES } from '../libs/utils';
 
 const styles = {
     container: {
@@ -60,8 +63,7 @@ interface Props {
         children?: [{
             text: string,
         }]
-    }],
-    signout?: () => void
+    }]
 }
 
 function Menubar(props: Props) {
@@ -95,6 +97,17 @@ function Menubar(props: Props) {
         speak({ text: text, voice: VOICE_ES });
     }
 
+    const onSignOut = async () => {
+        const response = await signOut();
+        if(response) {
+            removeToken();
+            window.location.reload();
+        } else {
+            toastManager.error(SIGN_OUT_ERROR);
+            onSpeak(SIGN_OUT_ERROR);
+        }
+    }
+
     return (
         <>
             <div style={styles.container}>
@@ -104,7 +117,7 @@ function Menubar(props: Props) {
                 {mainPath()}
 
                 <div style={styles.signOutContainer}>
-                    <a style={styles.signOut} onMouseEnter={() => onSpeak("CERRAR SESION")} onMouseLeave={() => cancel()}>CERRAR SESION</a>
+                    <a style={styles.signOut} onClick={onSignOut} onMouseEnter={() => onSpeak("CERRAR SESION")} onMouseLeave={() => cancel()}>CERRAR SESION</a>
                 </div>
             </div>
         </>
