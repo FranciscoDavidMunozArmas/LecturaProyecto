@@ -104,13 +104,13 @@ function Home() {
                     {
                         courseCard(newCourses.slice(0, newCoursesLength))
                     }
-                    <div style={styles.moreContainer}>
+                    <div style={styles.moreContainer}
+                        onMouseEnter={() => { onSpeak(MORE_NAME) }}
+                        onMouseLeave={() => { cancel() }}>
                         {
                             newCourses.length > newCoursesLength &&
                             <a style={styles.moreButton}
                                 onClick={() => { setnewCoursesLength(newCoursesLength + 5) }}
-                                onMouseEnter={() => { onSpeak(MORE_NAME) }}
-                                onMouseLeave={() => { cancel() }}
                             >{MORE_NAME}</a>
                         }
                     </div>
@@ -120,13 +120,13 @@ function Home() {
                     {
                         courseCard(topCourses.slice(0, topCoursesLength))
                     }
-                    <div style={styles.moreContainer}>
+                    <div style={styles.moreContainer}
+                        onMouseEnter={() => { onSpeak(MORE_NAME) }}
+                        onMouseLeave={() => { cancel() }}>
                         {
                             topCourses.length > topCoursesLength &&
                             <a style={styles.moreButton}
                                 onClick={() => { settopCoursesLength(topCoursesLength + 5) }}
-                                onMouseEnter={() => { onSpeak(MORE_NAME) }}
-                                onMouseLeave={() => { cancel() }}
                             >{MORE_NAME}</a>
                         }
                     </div>
@@ -136,13 +136,13 @@ function Home() {
                     {
                         courseCard(recommendedCourses.slice(0, recommendedCoursesLength))
                     }
-                    <div style={styles.moreContainer}>
+                    <div style={styles.moreContainer}
+                        onMouseEnter={() => { onSpeak(MORE_NAME) }}
+                        onMouseLeave={() => { cancel() }}>
                         {
                             recommendedCourses.length > recommendedCoursesLength &&
                             <a style={styles.moreButton}
                                 onClick={() => { setrecommendedCoursesLength(recommendedCoursesLength + 5) }}
-                                onMouseEnter={() => { onSpeak(MORE_NAME) }}
-                                onMouseLeave={() => { cancel() }}
                             >{MORE_NAME}</a>
                         }
                     </div>

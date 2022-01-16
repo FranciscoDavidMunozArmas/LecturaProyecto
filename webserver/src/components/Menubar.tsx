@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { signOut } from '../auth/auth';
 import { toastManager } from '../libs/toastManager';
@@ -69,6 +69,7 @@ interface Props {
 function Menubar(props: Props) {
 
     const { speak, cancel } = useSpeechSynthesis();
+    const navigate = useNavigate();
 
     const mainPath = () => {
         return props.children?.map((element: any, key: any) => {
@@ -101,7 +102,7 @@ function Menubar(props: Props) {
         const response = await signOut();
         if(response) {
             removeToken();
-            window.location.reload();
+            navigate("/");
         } else {
             toastManager.error(SIGN_OUT_ERROR);
             onSpeak(SIGN_OUT_ERROR);
