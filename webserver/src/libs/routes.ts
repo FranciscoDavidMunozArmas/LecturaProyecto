@@ -6,21 +6,21 @@ export const routes: any = {
             text: "HOME",
             path: PATH_HOME,
             children: [
-                { text: "NEW COURSES" },
-                { text: "TOP COURSES" },
-                { text: "RECOMMENDED" },
+                { text: "NUEVOS CURSOS" },
+                { text: "MEJORES CURSOS" },
+                { text: "RECOMENDADOS" },
             ]
         },
         {
-            text: "MY COURSES",
+            text: "MIS CURSOS",
             path: PATH_MY_COURSES,
             children: [
-                { text: "COMPLETED" },
-                { text: "NOT COMPLETED" }
+                { text: "COMPLETADOS" },
+                { text: "NO COMPLETADOS" }
             ]
         },
         {
-            text: "CERTIFICATES",
+            text: "CERTIFICADOS",
             path: PATH_CERTIFICATES,
         }
     ],

@@ -13,12 +13,9 @@ import RegisterPage from './pages/RegisterPage';
 import Appmain from './pages/Appmain';
 
 const styles = {
-  maxHeight: "100vh",
-  minHeight: "100vh",
+  height: "100vh",
   width: "100%",
   display: "flex",
-  padding: "0rem",
-  margin: "0rem",
   justifyContent: "center",
   overflowY: "hidden" as const,
   overflowX: "hidden" as const
@@ -37,7 +34,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/earlearning/*" element={<Appmain />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*"  element={<Navigate to="/login" />} />
           </Routes>
         </BrowserRouter>
       </Paper>
