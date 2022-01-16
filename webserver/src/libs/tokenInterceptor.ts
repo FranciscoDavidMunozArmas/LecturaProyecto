@@ -3,6 +3,7 @@ import Cookies from "cookies-ts";
 import jwt from 'jsonwebtoken';
 
 export const setUpToken = (token: any, storage?: boolean) => {
+    removeToken();
     if (!storage) {
         const cookies = new Cookies();
         const exipireDate = new Date();
