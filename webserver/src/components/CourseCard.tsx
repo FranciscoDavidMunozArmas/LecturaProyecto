@@ -1,6 +1,7 @@
 import React from 'react'
+import { useSpeechSynthesis } from "react-speech-kit";
 import { BORDER_RADIOUS } from '../libs/styles'
-import { formatTime } from '../libs/utils'
+import { formatTime, VOICE_ES } from '../libs/utils'
 import { Course } from '../models/Course'
 
 const styles = {
@@ -14,10 +15,11 @@ const styles = {
     card: {
         width: '100%',
         maxWidth: '750px',
-        height: '380px',
+        height: '300px',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
         borderRadius: BORDER_RADIOUS,
         margin: '10px 20px',
+        cursor: 'pointer',
     },
     cardHeader: {
         display: 'flex',
@@ -50,10 +52,13 @@ const styles = {
 }
 
 interface Props {
-    course: Course
+    course: Course,
+    onClick?: (course: Course) => void
 }
 
 function CourseCard(props: Props) {
+
+    const { speak, cancel } = useSpeechSynthesis();
 
     const showDescription = (text: string) => {
         if (text.length > 64) {
@@ -62,10 +67,18 @@ function CourseCard(props: Props) {
         return text;
     }
 
+    const handleClick = () => {
+        props.onClick?.(props.course);
+    }
+
+    const onSpeak = (text: string) => {
+        speak({ text: text, voice: VOICE_ES });
+    }
+
     return (
         <>
             <div style={styles.container}>
-                <div style={styles.card}>
+                <div style={styles.card} onClick={handleClick} onMouseEnter={() => onSpeak(props.course.name)} onMouseLeave={() => cancel()}>
                     <div style={styles.cardHeader}>
                         <h1 style={styles.cardTitle}>{props.course.name}</h1>
                         <p style={styles.cardParagraph}>Tiempo: {formatTime(props.course.duration)}</p>
