@@ -64,11 +64,8 @@ function LoginPage() {
             const token = await authorize(response);
             if(token.data) {
                 setUpToken(token.data);
+                navigate("/earlearning");
             }
-            // if(token) {
-            //     setUpToken(token);
-            //     navigate("/earlearning");
-            // }
         } else {
             onSpeak(LOGIN_ERROR);
             toastManager.error(LOGIN_ERROR);
