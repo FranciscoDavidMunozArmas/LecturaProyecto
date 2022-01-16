@@ -12,8 +12,9 @@ export const getStudents = async () => {
         });
 }
 
-export const createStudent = async (student: Student) => {
-    return await axios.post(`${URI}/students`, studentConverter.toJSON(student),
+export const createStudent = async (uid: string, student: Student) => {
+    const data = studentConverter.toJSON(student);
+    return await axios.post(`${URI}/students`, {login: uid, ...data},
         {
             headers: {
                 Authorization: getAuthorizationToken()

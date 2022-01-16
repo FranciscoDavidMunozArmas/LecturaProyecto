@@ -5,7 +5,7 @@ export const createUser = async (username: string, password: string) => {
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, username, password);
-        return true;
+        return userCredential.user.uid;
     } catch (error: any) {
         console.log({
             errorCode: error.code,

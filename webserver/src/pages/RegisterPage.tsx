@@ -8,6 +8,8 @@ import LinkComponent from '../components/LinkComponent';
 import Title from '../components/Title';
 import { toastManager } from '../libs/toastManager';
 import { checkPassword, EMAIL_INPUT_HELP, LOGIN, PASSWORD_CONFIRM_INPUT_HELP, PASSWORD_DONT_MATCH, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, REGISTER_ERROR, VOICE_ES } from '../libs/utils';
+import { createStudent } from '../services/student.service';
+import { studentConverter } from '../models/Student';
 
 const style = {
     container: {
@@ -24,6 +26,8 @@ const style = {
 }
 
 interface User {
+    name: string,
+    surname: string,
     email: string,
     password: string,
     confirm: string,
@@ -34,7 +38,7 @@ function RegisterPage() {
 
     const navigate = useNavigate();
 
-    const [user, setuser] = useState<User>({ email: "", password: "", confirm: "" });
+    const [user, setuser] = useState<User>({ email: "", password: "", confirm: "", name: "", surname: "" });
     const { speak, cancel } = useSpeechSynthesis();
 
     useEffect(() => {
@@ -57,8 +61,14 @@ function RegisterPage() {
             onSpeak(PASSWORD_LENGTH_ERROR);
             return;
         }
+        if(user.name === "" || user.surname === "") {
+            toastManager.error("Introduce tu nombre y apellido");
+            onSpeak("Introduce tu nombre y apellido");
+            return;
+        }
         const response = await createUser(user.email, user.password);
         if(response) {
+            createStudent(response, studentConverter.fromJSON(user));
             navigate("/login");
         } else {
             toastManager.error(REGISTER_ERROR);
@@ -76,6 +86,8 @@ function RegisterPage() {
             <Title title={REGISTER} start={true} />
 
             <form style={style.form} onSubmit={onSubmit}>
+                <InputText hint='Nombre' type='text' name="name" help={"Introduce tu nombre"} onChange={onChange}/>
+                <InputText hint='Apellido' type='text' name="surname" help={"Introduce tu apellido"} onChange={onChange}/>
                 <InputText hint='Correo' type='email' name="email" help={EMAIL_INPUT_HELP} onChange={onChange}/>
                 <InputText hint='Contraseña' type='password' name="password" help={PASSWORD_INPUT_HELP} onChange={onChange}/>
                 <InputText hint='Confirmar Contraseña' type='password' name="confirm" help={PASSWORD_CONFIRM_INPUT_HELP} onChange={onChange}/>
