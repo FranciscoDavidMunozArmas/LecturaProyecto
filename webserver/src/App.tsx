@@ -30,7 +30,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/earlearning" element={<Appmain />} />
+            <Route path="/earlearning/*" element={<Appmain />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="*"  element={<Navigate to="/login" />} />
           </Routes>
