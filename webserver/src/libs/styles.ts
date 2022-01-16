@@ -20,6 +20,12 @@ export const text = {
         fontStyle: "normal",
         fontWeight: "500",
     },
+    subtitle: {
+        fontSize: "40px",
+        lineHeight: "59px",
+        fontStyle: "normal",
+        fontWeight: "450",
+    },
     link: {
         fontSize: "15px",
     }

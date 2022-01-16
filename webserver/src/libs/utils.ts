@@ -5,6 +5,15 @@ const extensionName = ".mp3";
 const passwordLength = 6;
 
 //Strings
+export const HOME_NAME= "INICIO";
+export const MY_COURSES_NAME= "MIS CURSOS";
+export const CERTIFICATES_NAME= "CERTIFICADOS";
+export const SUBSECTION_HOME_1_NAME= "NUEVOS CURSOS";
+export const SUBSECTION_HOME_2_NAME= "MEJORES CURSOS";
+export const SUBSECTION_HOME_3_NAME= "RECOMENDADOS";
+export const SUBSECTION_MY_COURSES_1_NAME= "COMPLETADOS";
+export const SUBSECTION_MY_COURSES_2_NAME= "NO COMPLETADOS";
+
 export const MAIL = "CORREO";
 export const PASSWORD = "CONTRASEÑA";
 export const LOGIN = "INGRESAR";
