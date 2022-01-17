@@ -7,6 +7,7 @@ import { BACK_NAME, formatTime } from '../../libs/utils';
 import BackButton from '../../components/BackButton';
 import Subtitle from '../../components/Subtitle';
 import ClassCard from '../../components/ClassCard';
+import SaveButton from '../../components/SaveButton';
 
 const styles = {
     container: {
@@ -46,6 +47,7 @@ function CoursePage() {
             <div style={styles.container}>
                 <BackButton />
                 <Title title={(course) ? course.name : "Course"} />
+                <SaveButton  />
                 {
                     (course) ?
                         course.content.topics.map((topic, topicIndex: any) => {
