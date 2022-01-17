@@ -39,7 +39,7 @@ function LoginPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(checkToken()) {
+        if (checkToken()) {
             navigate("/earlearning");
         }
         return () => { }
@@ -47,27 +47,32 @@ function LoginPage() {
 
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if(user.password === "") {
+        if (user.password === "") {
             onSpeak(UNFILL_PASSWORD_ERROR);
             toastManager.error(UNFILL_PASSWORD_ERROR);
             return;
         }
-        if(user.email === "") {
+        if (user.email === "") {
             onSpeak(UNFILL_MAIL_ERROR);
             toastManager.error(UNFILL_MAIL_ERROR);
             return;
         }
-        if(!checkPassword(user.password)) {
+        if (!checkPassword(user.password)) {
             onSpeak(PASSWORD_LENGTH_ERROR);
             toastManager.error(PASSWORD_LENGTH_ERROR);
             return;
         }
         const response = await authUser(user.email, user.password);
-        if(response) {
-            const token = await authorize(response);
-            if(token.data) {
-                setUpToken(token.data);
-                navigate("/earlearning");
+        if (response) {
+            try {
+                const token = await authorize(response);
+                if (token.data) {
+                    setUpToken(token.data);
+                    navigate("/earlearning");
+                }
+            } catch (error: any) {
+                onSpeak(LOGIN_ERROR);
+                toastManager.error(LOGIN_ERROR);
             }
         } else {
             onSpeak(LOGIN_ERROR);
@@ -90,8 +95,8 @@ function LoginPage() {
             <Title title={LOGIN} start={true} />
 
             <form style={style.form} onSubmit={onSubmit}>
-                <InputText hint='Correo' type='email' name="email" help={EMAIL_INPUT_HELP} onChange={onChange}/>
-                <InputText hint='Contraseña' type='password' name="password" help={PASSWORD_INPUT_HELP} onChange={onChange}/>
+                <InputText hint='Correo' type='email' name="email" help={EMAIL_INPUT_HELP} onChange={onChange} />
+                <InputText hint='Contraseña' type='password' name="password" help={PASSWORD_INPUT_HELP} onChange={onChange} />
                 <Button text={LOGIN} type="submit" />
             </form>
 

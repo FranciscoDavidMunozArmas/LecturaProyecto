@@ -1,5 +1,3 @@
-export default {};
-
 export const BORDER_RADIOUS = '10px';
 
 export const palette = {
@@ -30,10 +28,3 @@ export const text = {
         fontSize: "15px",
     }
 }
-
-// export const styles = {
-//     global: {
-//         fontFamily: 'Roboto, sans-serif',
-//         color: "#00000"
-//     }
-// }
