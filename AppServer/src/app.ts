@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import path from "path";
 
 import { CONSTANTS } from './lib/utils';
 
@@ -28,5 +29,8 @@ app.use(`${apiRoot}/students`, studentRouter);
 app.use(`${apiRoot}/teachers`, teacherRouter);
 app.use(`${apiRoot}/courses`, courseRouter);
 app.use(`${apiRoot}/certificates`, certificateRouter);
+
+//static
+app.use(`${apiRoot}/uploads/audios`, express.static(path.resolve('uploads/audios')));
 
 export default app;

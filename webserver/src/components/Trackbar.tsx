@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { clearInterval } from 'timers';
 import { palette } from '../libs/styles'
+import { AUDIO_URI, formatTime } from '../libs/utils';
 
 const styles = {
     container: {
@@ -7,12 +9,13 @@ const styles = {
         height: '3px',
         position: 'relative' as const,
         background: palette.track,
-        borderRadius: '10px',
+        borderRadius: '100%',
     },
     progress: {
         width: '1px',
         height: '3px',
         backgroundColor: palette.primary,
+        borderRadius: '100%',
         position: 'absolute' as const,
         top: '0',
         left: '0',
@@ -20,7 +23,13 @@ const styles = {
     },
 }
 
-function Trackbar() {
+interface Props {
+    audio: string,
+    autoPlay?: boolean,
+}
+
+function Trackbar(props: Props) {
+
     return (
         <div style={styles.container}>
             <div style={styles.progress}></div>

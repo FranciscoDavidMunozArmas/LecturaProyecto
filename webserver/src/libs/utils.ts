@@ -68,6 +68,7 @@ export const CONSTANTS = {
 };
 
 export const URI = `${CONSTANTS.API_URI}/${CONSTANTS.API_PREFIX}/${CONSTANTS.API_VERSION}`;
+export const AUDIO_URI = `${CONSTANTS.API_URI}/${CONSTANTS.API_PREFIX}/${CONSTANTS.API_VERSION}/uploads/audios/`;
 
 export const ROLES = ["student", "teacher", "admin"];
 

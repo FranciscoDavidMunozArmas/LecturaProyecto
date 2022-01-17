@@ -3,6 +3,7 @@ import { useSpeechSynthesis } from "react-speech-kit";
 import { BORDER_RADIOUS } from '../libs/styles'
 import { formatTime, VOICE_ES } from '../libs/utils';
 import { CourseClass } from '../models/CourseClass';
+import Trackbar from './Trackbar';
 
 const styles = {
     container: {
@@ -71,7 +72,7 @@ function ClassCard(props: Props) {
                         <p style={styles.cardParagraph}>Tiempo: {formatTime(0)}</p>
                     </div>
                     <div style={styles.cardBody}>
-                        <audio src={props.courseClass.file} controls></audio>
+                        <Trackbar audio={props.courseClass.file} />
                     </div>
                 </div>
             </div>
