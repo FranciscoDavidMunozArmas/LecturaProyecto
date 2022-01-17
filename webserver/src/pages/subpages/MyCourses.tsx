@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
-import { decodeToken, getToken } from '../../libs/tokenInterceptor'
 import { MY_COURSES_NAME, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME } from '../../libs/utils'
 
 const styles = {

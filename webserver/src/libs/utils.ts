@@ -36,6 +36,7 @@ export const SIGN_OUT_ERROR = "Error al cerrar sesión";
 export const GETTING_DATA_ERROR = "Error al obtener datos";
 
 export const MORE_NAME = "Ver más...";
+export const BACK_NAME = "Volver";
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;
