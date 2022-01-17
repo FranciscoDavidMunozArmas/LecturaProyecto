@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
 import CourseCard from '../../components/CourseCard';
+import MoreButton from '../../components/MoreButton';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
 import { toastManager } from '../../libs/toastManager';
@@ -93,7 +94,7 @@ function Home() {
         return data.map((course: Course, index: any) => {
             return (
                 <div key={index}>
-                    <CourseCard course={course} onClick={() => onClick(course)}/>
+                    <CourseCard course={course} onClick={() => onClick(course)} />
                 </div>
             )
         });
@@ -108,49 +109,30 @@ function Home() {
                     {
                         courseCard(newCourses.slice(0, newCoursesLength))
                     }
-                    <div style={styles.moreContainer}
-                        onMouseEnter={() => { onSpeak(MORE_NAME) }}
-                        onMouseLeave={() => { cancel() }}>
-                        {
-                            newCourses.length > newCoursesLength &&
-                            <a style={styles.moreButton}
-                                onClick={() => { setnewCoursesLength(newCoursesLength + 5) }}
-                            >{MORE_NAME}</a>
-                        }
-                    </div>
+                    {
+                        newCourses.length > topCoursesLength &&
+                        <MoreButton onClick={() => { setnewCoursesLength(newCoursesLength + 5) }} />
+                    }
                 </div>
                 <div>
                     <Subtitle text={SUBSECTION_HOME_2_NAME} />
                     {
                         courseCard(topCourses.slice(0, topCoursesLength))
                     }
-                    <div style={styles.moreContainer}
-                        onMouseEnter={() => { onSpeak(MORE_NAME) }}
-                        onMouseLeave={() => { cancel() }}>
-                        {
-                            topCourses.length > topCoursesLength &&
-                            <a style={styles.moreButton}
-                                onClick={() => { settopCoursesLength(topCoursesLength + 5) }}
-                            >{MORE_NAME}</a>
-                        }
-                    </div>
+                    {
+                        topCourses.length > topCoursesLength &&
+                        <MoreButton onClick={() => { settopCoursesLength(topCoursesLength + 5) }} />
+                    }
                 </div>
                 <div>
                     <Subtitle text={SUBSECTION_HOME_3_NAME} />
                     {
                         courseCard(recommendedCourses.slice(0, recommendedCoursesLength))
                     }
-                    <div style={styles.moreContainer}
-                        onMouseEnter={() => { onSpeak(MORE_NAME) }}
-                        onMouseLeave={() => { cancel() }}>
-                        {
-                            recommendedCourses.length > recommendedCoursesLength &&
-                            <a style={styles.moreButton}
-                                onClick={() => { setrecommendedCoursesLength(recommendedCoursesLength + 5) }}
-                            >{MORE_NAME}</a>
-                        }
-                    </div>
-
+                    {
+                        recommendedCourses.length > recommendedCoursesLength &&
+                        <MoreButton onClick={() => { setrecommendedCoursesLength(recommendedCoursesLength + 5) }} />
+                    }
                 </div>
             </div>
         </>
