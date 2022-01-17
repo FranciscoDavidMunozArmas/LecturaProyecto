@@ -71,6 +71,7 @@ function ClassCard(props: Props) {
                         <p style={styles.cardParagraph}>Tiempo: {formatTime(0)}</p>
                     </div>
                     <div style={styles.cardBody}>
+                        <audio src={props.courseClass.file} controls></audio>
                     </div>
                 </div>
             </div>

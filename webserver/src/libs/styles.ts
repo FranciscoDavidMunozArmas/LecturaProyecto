@@ -3,6 +3,7 @@ export const BORDER_RADIOUS = '10px';
 export const palette = {
     primary: '#000',
     secondary: '#FF0000',
+    track: '#F5F5F5',
     white: '#fff',
 }
 
