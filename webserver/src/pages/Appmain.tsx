@@ -6,7 +6,7 @@ import { palette } from '../libs/styles';
 import { checkToken } from '../libs/tokenInterceptor';
 import { PATH_CERTIFICATES, PATH_COURSE, PATH_HOME, PATH_MY_COURSES } from '../libs/utils';
 import Certificate from './subpages/Certificate';
-import Course from './subpages/Course';
+import CoursePage from './subpages/CoursePage';
 import Home from './subpages/Home';
 import MyCourses from './subpages/MyCourses';
 import PlayCourse from './subpages/PlayCourse';
@@ -54,7 +54,7 @@ function Appmain() {
                         <Route path={PATH_HOME} element={<Home />} />
                         <Route path={PATH_MY_COURSES} element={<MyCourses />} />
                         <Route path={PATH_CERTIFICATES} element={<Certificate />} />
-                        <Route path={PATH_COURSE} element={<Course />} />
+                        <Route path={PATH_COURSE} element={<CoursePage />} />
                         <Route path={`${PATH_COURSE}/playcourse`} element={<PlayCourse />} />
                         <Route path="*" element={<Navigate to={PATH_HOME} />} />
                     </Routes>
