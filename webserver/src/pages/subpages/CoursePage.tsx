@@ -3,8 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from '@material-ui/icons';
 import Title from '../../components/Title';
 import { Course } from '../../models/Course';
-import { BACK_NAME } from '../../libs/utils';
+import { BACK_NAME, formatTime } from '../../libs/utils';
 import BackButton from '../../components/BackButton';
+import Subtitle from '../../components/Subtitle';
 
 const styles = {
     container: {
@@ -13,17 +14,18 @@ const styles = {
         flexDirection: 'column' as const,
         overflowY: 'auto' as const,
     },
-    backContainer: {
+    topicHeader: {
         width: '100%',
         display: 'flex',
-        justifyContent: 'end',
-    },
-    backButton: {
-        display: 'flex',
-        fontSize: '1rem',
-        fontStyle: 'italic',
-        margin: '10px 15px',
+        flexDirection: 'row' as const,
+        justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: '10px',
+    },
+    topicTime: {
+        width: 'auto',
+        fontSize: '1rem',
+        fontStyle: "italic",
     },
 }
 
@@ -43,6 +45,29 @@ function CoursePage() {
             <div style={styles.container}>
                 <BackButton />
                 <Title title={(course) ? course.name : "Course"} />
+                {
+                    (course) ?
+                        course.content.topics.map((topic, topicIndex: any) => {
+                            return (
+                                <div key={topicIndex}>
+                                    <div style={styles.topicHeader}>
+                                        <Subtitle text={topic.name} />
+                                        <p style={styles.topicTime}>Tiempo: {formatTime(topic.duration)}</p>
+                                    </div>
+                                    {
+                                        topic.classes.map((courseClass, index: any) => {
+                                            return (
+                                                <div key={index}>
+                                                    {courseClass.name}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )
+                        })
+                        : null
+                }
             </div>
         </>
     )
