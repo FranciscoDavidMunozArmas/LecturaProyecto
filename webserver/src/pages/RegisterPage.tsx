@@ -7,7 +7,7 @@ import InputText from '../components/InputText';
 import LinkComponent from '../components/LinkComponent';
 import Title from '../components/Title';
 import { toastManager } from '../libs/toastManager';
-import { checkPassword, EMAIL_INPUT_HELP, LOGIN, PASSWORD_CONFIRM_INPUT_HELP, PASSWORD_DONT_MATCH, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, REGISTER_ERROR, VOICE_ES } from '../libs/utils';
+import { checkPassword, EMAIL_INPUT_HELP, LOGIN, PASSWORD_CONFIRM_INPUT_HELP, PASSWORD_DONT_MATCH, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, PATH_LOGIN, REGISTER, REGISTER_ERROR, VOICE_ES } from '../libs/utils';
 import { createStudent } from '../services/student.service';
 import { studentConverter } from '../models/Student';
 import { checkToken } from '../libs/tokenInterceptor';
@@ -98,7 +98,7 @@ function RegisterPage() {
                 <Button text={REGISTER} type="submit" />
             </form>
 
-            <LinkComponent text="INICIAR SESION" path='/login'/>
+            <LinkComponent text="INICIAR SESION" path={PATH_LOGIN}/>
             {/* <LinkComponent text={FORGOT_PASSWORD} /> */}
         </div>
     )

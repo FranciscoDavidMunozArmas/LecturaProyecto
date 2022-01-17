@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
 import CourseCard from '../../components/CourseCard';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
 import { toastManager } from '../../libs/toastManager';
-import { GETTING_DATA_ERROR, HOME_NAME, MORE_NAME, SUBSECTION_HOME_1_NAME, SUBSECTION_HOME_2_NAME, SUBSECTION_HOME_3_NAME, VOICE_ES } from '../../libs/utils'
+import { GETTING_DATA_ERROR, HOME_NAME, MORE_NAME, PATH_COURSE, PATH_EARLEANING, SUBSECTION_HOME_1_NAME, SUBSECTION_HOME_2_NAME, SUBSECTION_HOME_3_NAME, VOICE_ES } from '../../libs/utils'
 import { Course, courseConverter } from '../../models/Course'
 
 import * as CourseService from '../../services/course.service';
@@ -37,6 +38,8 @@ function Home() {
     const [topCoursesLength, settopCoursesLength] = useState<number>(5);
     const [recommendedCoursesLength, setrecommendedCoursesLength] = useState<number>(5);
     const { speak, cancel } = useSpeechSynthesis();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getNewCourses();
@@ -75,7 +78,7 @@ function Home() {
             const data = response.data.map(courseConverter.fromJSON);
             setrecommendedCourses(data);
         } catch (error: any) {
-            console.log({ errorCode: error.code, errorMessage: error.message });
+            //console.log({ errorCode: error.code, errorMessage: error.message });
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);
         }
@@ -85,11 +88,16 @@ function Home() {
         speak({ text: text, voice: VOICE_ES });
     }
 
+    const onClick = (course: Course) => {
+        console.log(`/${PATH_COURSE}`);
+        navigate(`${PATH_EARLEANING}/${PATH_COURSE}`, { state: { course: course } });
+    }
+
     const courseCard = (data: Course[]) => {
         return data.map((course: Course, index: any) => {
             return (
                 <div key={index}>
-                    <CourseCard course={course} />
+                    <CourseCard course={course} onClick={() => onClick(course)} />
                 </div>
             )
         });

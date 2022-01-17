@@ -55,7 +55,7 @@ function Appmain() {
                         <Route path={PATH_MY_COURSES} element={<MyCourses />} />
                         <Route path={PATH_CERTIFICATES} element={<Certificate />} />
                         <Route path={PATH_COURSE} element={<Course />} />
-                        <Route path={`${PATH_COURSE}/:course`} element={<PlayCourse />} />
+                        <Route path={`${PATH_COURSE}/playcourse`} element={<PlayCourse />} />
                         <Route path="*" element={<Navigate to={PATH_HOME} />} />
                     </Routes>
                 </div>

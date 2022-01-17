@@ -8,7 +8,7 @@ import InputText from '../components/InputText'
 import LinkComponent from '../components/LinkComponent'
 import Title from '../components/Title'
 import { toastManager } from '../libs/toastManager';
-import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
+import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, PATH_REGISTER, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
 import { authorize } from '../services/user.service';
 import { checkToken, setUpToken } from '../libs/tokenInterceptor';
 
@@ -100,7 +100,7 @@ function LoginPage() {
                 <Button text={LOGIN} type="submit" />
             </form>
 
-            <LinkComponent text={REGISTER} path='/register' />
+            <LinkComponent text={REGISTER} path={PATH_REGISTER} />
             {/* <LinkComponent text={FORGOT_PASSWORD} /> */}
         </div>
     )

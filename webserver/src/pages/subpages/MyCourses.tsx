@@ -26,8 +26,6 @@ const styles = {
 function MyCourses() {
 
     useEffect(() => {
-        const data: any = decodeToken(getToken());
-        console.log(data.data);
         return () => {}
     }, [])
 
