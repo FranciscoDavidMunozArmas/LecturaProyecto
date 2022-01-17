@@ -155,3 +155,12 @@ export const deleteCourseClass = async (course: Course, topic: Topic, courseClas
             }
         });
 }
+
+export const getCoursesMany = async (ids: string[]) => {
+    return await axios.post(`${URI}/courses/many`, { ids: ids},
+        {
+            headers: {
+                Authorization: getAuthorizationToken()
+            }
+        });
+}

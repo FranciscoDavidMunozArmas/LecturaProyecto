@@ -347,3 +347,26 @@ export const completeCourse = async (req: Request, res: Response) => {
         });
     };
 }
+
+export const getCoursesMany = async (req: Request, res: Response) => {
+    try {
+        const { ids } = req.body;
+        const data = ids.map(async (id: string) => {
+            const data = await getDoc(documentReference(id));
+            if (data.data()) {
+                const course = courseConverter.fromJSON(data.data());
+                return course;
+            }
+        });
+        if (data.length > 0) {
+            //const courses = data.map(course => courseConverter.fromJSON(course.data()));
+            return res.status(200).json(data);
+        }
+        return res.status(404).json({ message: 'Courses not found' });
+    } catch (error: any) {
+        return res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    };
+}

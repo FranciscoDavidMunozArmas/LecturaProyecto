@@ -7,14 +7,17 @@ import * as ScoreController from '../controllers/score.controller';
 const router = Router();
 
 router.route("/")
-// .post(authUser, authTeacher, CourseController.createCourse)
+    // .post(authUser, authTeacher, CourseController.createCourse)
     .get(authUser, CourseController.getCourses)
     .post(authUser, authAdmin, CourseController.createCourse)
     .delete(authUser, authAdmin, CourseController.deleteCourses);
 
+router.route("/many")
+    .get(authUser, CourseController.getCoursesMany);
+
 router.route("/course/:id")
-// .put(authUser, authTeacher, CourseController.updateCourse)
-// .delete(authUser, authTeacher, CourseController.deleteCourse)
+    // .put(authUser, authTeacher, CourseController.updateCourse)
+    // .delete(authUser, authTeacher, CourseController.deleteCourse)
     .get(authUser, CourseController.getCourse)
     .put(authUser, authAdmin, CourseController.updateCourse)
     .delete(authUser, authAdmin, CourseController.deleteCourse);
