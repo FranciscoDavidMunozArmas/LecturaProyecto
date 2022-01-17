@@ -73,7 +73,7 @@ function RegisterPage() {
         const response = await createUser(user.email, user.password);
         if(response) {
             createStudent(response, studentConverter.fromJSON(user));
-            navigate("/login");
+            navigate(PATH_LOGIN);
         } else {
             toastManager.error(REGISTER_ERROR);
             onSpeak(REGISTER_ERROR);

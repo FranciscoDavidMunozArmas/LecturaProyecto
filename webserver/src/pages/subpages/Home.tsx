@@ -89,7 +89,7 @@ function Home() {
     }
 
     const onClick = (course: Course) => {
-        console.log(`/${PATH_COURSE}`);
+        console.log(`${PATH_EARLEANING}/${PATH_COURSE}`);
         navigate(`${PATH_EARLEANING}/${PATH_COURSE}`, { state: { course: course } });
     }
 
