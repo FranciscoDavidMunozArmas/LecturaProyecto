@@ -1,7 +1,8 @@
-import { ChevronLeft } from '@material-ui/icons';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { BACK_NAME } from '../libs/utils';
+import { useSpeechSynthesis } from 'react-speech-kit';
+import { ChevronLeft } from '@material-ui/icons';
+import { BACK_NAME, VOICE_ES } from '../libs/utils';
 
 const styles = {
     backContainer: {
@@ -22,12 +23,18 @@ function BackButton() {
 
     const navigate = useNavigate();
 
+    const { speak, cancel } = useSpeechSynthesis();
+
     const onBack = () => {
         navigate(-1);
     }
 
+    const onSpeak = (text: string) => {
+        speak({ text: text, voice: VOICE_ES });
+    }
+
     return (
-        <div style={styles.backContainer}>
+        <div style={styles.backContainer} onMouseEnter={() => onSpeak(BACK_NAME)} onMouseLeave={() => cancel()}>
             <a style={styles.backButton} onClick={() => onBack()}><ChevronLeft /> {BACK_NAME}</a>
         </div>
     )
