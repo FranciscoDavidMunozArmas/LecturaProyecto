@@ -6,6 +6,7 @@ import { Course } from '../../models/Course';
 import { BACK_NAME, formatTime } from '../../libs/utils';
 import BackButton from '../../components/BackButton';
 import Subtitle from '../../components/Subtitle';
+import ClassCard from '../../components/ClassCard';
 
 const styles = {
     container: {
@@ -58,7 +59,7 @@ function CoursePage() {
                                         topic.classes.map((courseClass, index: any) => {
                                             return (
                                                 <div key={index}>
-                                                    {courseClass.name}
+                                                    <ClassCard courseClass={courseClass} />
                                                 </div>
                                             )
                                         })

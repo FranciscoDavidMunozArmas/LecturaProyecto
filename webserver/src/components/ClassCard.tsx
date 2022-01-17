@@ -15,7 +15,7 @@ const styles = {
     card: {
         width: '100%',
         maxWidth: '750px',
-        height: '200px',
+        height: 'auto',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
         borderRadius: BORDER_RADIOUS,
         margin: '10px 20px',
