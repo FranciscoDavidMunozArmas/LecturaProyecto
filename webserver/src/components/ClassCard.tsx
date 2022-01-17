@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { BORDER_RADIOUS } from '../libs/styles'
-import { formatTime, VOICE_ES } from '../libs/utils'
-import { Course } from '../models/Course'
+import { formatTime, VOICE_ES } from '../libs/utils';
+import { CourseClass } from '../models/CourseClass';
 
 const styles = {
     container: {
@@ -15,7 +15,7 @@ const styles = {
     card: {
         width: '100%',
         maxWidth: '750px',
-        height: '300px',
+        height: '200px',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
         borderRadius: BORDER_RADIOUS,
         margin: '10px 20px',
@@ -36,55 +36,41 @@ const styles = {
         padding: '10px 20px',
     },
     cardTitle: {
-        fontSize: '2rem',
-        fontWeight: 'bold',
-    },
-    cardSubtitle: {
         fontSize: '1.5rem',
         fontWeight: 'bold',
-        fontStyle: "italic",
     },
     cardParagraph: {
-        fontSize: '1.2rem',
+        fontSize: '1rem',
         fontStyle: "italic",
     },
 }
 
 interface Props {
-    course: Course,
-    onClick?: (course: Course) => void
+    courseClass: CourseClass,
 }
 
-function CourseCard(props: Props) {
+function ClassCard(props: Props) {
 
     const { speak, cancel } = useSpeechSynthesis();
-
-    const showDescription = (text: string) => {
-        if (text.length > 64) {
-            return text.slice(0, text.length * 0.8) + "...";
-        }
-        return text;
-    }
-
-    const handleClick = () => {
-        props.onClick?.(props.course);
-    }
 
     const onSpeak = (text: string) => {
         speak({ text: text, voice: VOICE_ES });
     }
 
+    const handleClick = () => {
+
+    }
+
     return (
         <>
             <div style={styles.container}>
-                <div style={styles.card} onClick={handleClick} onMouseEnter={() => onSpeak(props.course.name)} onMouseLeave={() => cancel()}>
+                <div style={styles.card} onClick={handleClick} onMouseEnter={() => onSpeak(props.courseClass.name)} onMouseLeave={() => cancel()}>
                     <div style={styles.cardHeader}>
-                        <h1 style={styles.cardTitle}>{props.course.name}</h1>
-                        <p style={styles.cardParagraph}>Tiempo: {formatTime(props.course.duration)}</p>
+                        <h1 style={styles.cardTitle}>{props.courseClass.name}</h1>
+                        {/* <p style={styles.cardParagraph}>Tiempo: {formatTime(props.courseClass.file)}</p> */}
+                        <p style={styles.cardParagraph}>Tiempo: {formatTime(0)}</p>
                     </div>
                     <div style={styles.cardBody}>
-                        <h2 style={styles.cardSubtitle}>Descripcion</h2>
-                        <p style={styles.cardParagraph}>{showDescription(props.course.content.description)}</p>
                     </div>
                 </div>
             </div>
@@ -92,4 +78,4 @@ function CourseCard(props: Props) {
     )
 }
 
-export default CourseCard
+export default ClassCard
