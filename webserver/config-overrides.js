@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+
 module.exports = function override(config, env) {
     config.resolve.fallback = {
         url: require.resolve('url'),
@@ -20,6 +22,6 @@ module.exports = function override(config, env) {
             Buffer: ['buffer', 'Buffer'],
         }),
     );
-
+    config.resolve.plugins = config.resolve.plugins.filter(plugin => !(plugin instanceof ModuleScopePlugin));
     return config;
 }
