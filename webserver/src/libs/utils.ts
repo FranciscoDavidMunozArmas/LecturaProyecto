@@ -53,6 +53,7 @@ export const PATH_HOME = "home";
 export const PATH_MY_COURSES = "mycourses";
 export const PATH_COURSE = "course";
 export const PATH_CERTIFICATES = "certificates";
+export const PATH_PLAYCOURSE = "playcourse";
 //Constants
 export const CONSTANTS = {
     API_URI: process.env.REACT_APP_API_URI || process.env.API_URI,

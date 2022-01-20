@@ -48,6 +48,7 @@ const styles = {
 
 interface Props {
     courseClass: CourseClass,
+    onClick?: () => void
 }
 
 function ClassCard(props: Props) {
@@ -59,7 +60,7 @@ function ClassCard(props: Props) {
     }
 
     const handleClick = () => {
-
+        props.onClick?.();
     }
 
     return (

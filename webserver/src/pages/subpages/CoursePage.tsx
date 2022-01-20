@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from '@material-ui/icons';
 import Title from '../../components/Title';
 import { Course } from '../../models/Course';
-import { BACK_NAME, formatTime } from '../../libs/utils';
+import { BACK_NAME, formatTime, PATH_PLAYCOURSE } from '../../libs/utils';
 import BackButton from '../../components/BackButton';
 import Subtitle from '../../components/Subtitle';
 import ClassCard from '../../components/ClassCard';
 import SaveButton from '../../components/SaveButton';
+import { CourseClass } from '../../models/CourseClass';
 
 const styles = {
     container: {
@@ -36,11 +37,16 @@ function CoursePage() {
     const [course, setcourse] = useState<Course>();
 
     const location: any = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setcourse(location.state.course);
         return () => { }
     }, []);
+
+    const onClassClick = (audios: CourseClass[], index: number) => {
+        navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audios, index: index } });
+    }
 
     return (
         <>
@@ -61,7 +67,7 @@ function CoursePage() {
                                         topic.classes.map((courseClass, index: any) => {
                                             return (
                                                 <div key={index}>
-                                                    <ClassCard courseClass={courseClass} />
+                                                    <ClassCard courseClass={courseClass} onClick={() => onClassClick(topic.classes, index)} />
                                                 </div>
                                             )
                                         })
