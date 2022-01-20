@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import Player from '../../components/Player';
+import { CourseClass } from '../../models/CourseClass';
 
 const styles = {
     container: {
@@ -12,6 +14,18 @@ const styles = {
 }
 
 function PlayCourse() {
+
+    const [current, setcurrent] = useState<any>();
+    const [audios, setaudios] = useState<CourseClass[]>([]);
+    const location: any = useLocation();
+
+    useEffect(() => {
+        setaudios(location.state.audios);
+        setcurrent(audios[location.state.index]);
+        return () => { };
+    }, []);
+
+
     return (
         <div style={styles.container}>
             <Player />
