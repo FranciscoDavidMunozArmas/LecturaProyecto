@@ -39,6 +39,10 @@ export const AUDIO_ERROR = "Error al cargar el audio";
 export const MORE_NAME = "Ver más...";
 export const BACK_NAME = "Volver";
 export const SAVE_NAME = "Guardar";
+export const PREVIOURS_NAME = "Anterior";
+export const NEXT_NAME = "Siguiente";
+export const PLAY_NAME = "Reproducir";
+export const PAUSE_NAME = "Pausar";
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;

@@ -1,6 +1,8 @@
-import { ArrowBackIos, ArrowBackIosTwoTone, ArrowForward, ArrowForwardIos, ArrowForwardIosTwoTone, ChevronLeft, Pause, PlayArrow } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
+import { useSpeechSynthesis } from 'react-speech-kit';
+import { ArrowBackIos, ArrowBackIosTwoTone, ArrowForward, ArrowForwardIos, ArrowForwardIosTwoTone, ChevronLeft, Pause, PlayArrow } from '@material-ui/icons';
 import { palette } from '../libs/styles';
+import { NEXT_NAME, PAUSE_NAME, PLAY_NAME, PREVIOURS_NAME, VOICE_ES } from '../libs/utils';
 
 const styles = {
   container: {
@@ -40,6 +42,8 @@ function PlayerControls(props: Props) {
 
   const [playState, setplayState] = useState<boolean>(true);
 
+  const { speak, cancel } = useSpeechSynthesis();
+
   const handlePlay = () => {
     setplayState(!playState);
     playState ? props.onPause() : props.onPlay();
@@ -53,6 +57,10 @@ function PlayerControls(props: Props) {
     props.onPrevious();
   }
 
+  const onSpeak = (text: string) => {
+    speak({ text, voice: VOICE_ES });
+  }
+
   useEffect(() => {
     setplayState(!!props.status);
     return () => { };
@@ -61,13 +69,13 @@ function PlayerControls(props: Props) {
 
   return (<>
     <div style={styles.container}>
-      <button style={styles.button} onClick={handlePrevious}><ArrowBackIosTwoTone /></button>
+      <button style={styles.button} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>
       {
         (!playState)
-          ? <button style={styles.button} onClick={handlePlay} ><PlayArrow /></button>
-          : <button style={styles.button} onClick={handlePlay}><Pause /></button>
+          ? <button style={styles.button} onClick={handlePlay} onMouseEnter={() => onSpeak(PLAY_NAME)} onMouseDown={() => cancel()}><PlayArrow /></button>
+          : <button style={styles.button} onClick={handlePlay} onMouseEnter={() => onSpeak(PAUSE_NAME)} onMouseDown={() => cancel()}><Pause /></button>
       }
-      <button style={styles.button} onClick={handleNext}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>
+      <button style={styles.button} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>
     </div>
   </>);
 }
