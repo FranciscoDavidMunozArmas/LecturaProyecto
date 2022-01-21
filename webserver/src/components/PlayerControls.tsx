@@ -64,7 +64,7 @@ function PlayerControls(props: Props) {
   useEffect(() => {
     setplayState(!!props.status);
     return () => { };
-  }, []);
+  }, [props.status]);
 
 
   return (<>

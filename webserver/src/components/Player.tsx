@@ -126,6 +126,7 @@ function Player(props: Props) {
     useEffect(() => {
         if (isPlaying) {
             audioRef.current.play();
+            startTimer();
         } else {
             audioRef.current.pause();
         }
