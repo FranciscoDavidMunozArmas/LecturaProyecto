@@ -85,3 +85,27 @@ input[type=range].trackbar {
     height: 5px;
     border-radius: 10px;
 }
+
+input[type=range].trackbar::-webkit-slider-runnable-track,
+input[type=range].trackbar::-moz-slider-runnable-track,
+input[type=range].trackbar::-ms-slider-runnable-track,
+input[type=range].trackbar::-o-slider-runnable-track {
+    height: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type=range].trackbar::-webkit-slider-thumb,
+input[type=range].trackbar::-moz-slider-thumb,
+input[type=range].trackbar::-ms-slider-thumb,
+input[type=range].trackbar::-o-slider-thumb {
+    border: none;
+    transition: all 0.3s ease;
+}
+
+input[type=range].trackbar::-webkit-slider-thumb:hover,
+input[type=range].trackbar::-moz-slider-thumb:hover,
+input[type=range].trackbar::-ms-slider-thumb:hover,
+input[type=range].trackbar::-o-slider-thumb:hover {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}

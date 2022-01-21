@@ -5,14 +5,14 @@ const extensionName = ".mp3";
 const passwordLength = 6;
 
 //Strings
-export const HOME_NAME= "INICIO";
-export const MY_COURSES_NAME= "MIS CURSOS";
-export const CERTIFICATES_NAME= "CERTIFICADOS";
-export const SUBSECTION_HOME_1_NAME= "NUEVOS CURSOS";
-export const SUBSECTION_HOME_2_NAME= "MEJORES CURSOS";
-export const SUBSECTION_HOME_3_NAME= "RECOMENDADOS";
-export const SUBSECTION_MY_COURSES_1_NAME= "COMPLETADOS";
-export const SUBSECTION_MY_COURSES_2_NAME= "NO COMPLETADOS";
+export const HOME_NAME = "INICIO";
+export const MY_COURSES_NAME = "MIS CURSOS";
+export const CERTIFICATES_NAME = "CERTIFICADOS";
+export const SUBSECTION_HOME_1_NAME = "NUEVOS CURSOS";
+export const SUBSECTION_HOME_2_NAME = "MEJORES CURSOS";
+export const SUBSECTION_HOME_3_NAME = "RECOMENDADOS";
+export const SUBSECTION_MY_COURSES_1_NAME = "COMPLETADOS";
+export const SUBSECTION_MY_COURSES_2_NAME = "NO COMPLETADOS";
 
 export const MAIL = "CORREO";
 export const PASSWORD = "CONTRASEÑA";
@@ -97,9 +97,16 @@ export const formatDate = (date: Date) => {
 }
 
 export const formatTime = (time: number) => {
-    const hours = Math.floor(time / 60);
-    const minutes = time % 60;
+    const hours = Math.trunc(Math.floor(time / 60));
+    const minutes = Math.trunc(time % 60);
     return `${hours < 10 ? "0" + hours : hours}h${minutes < 10 ? "0" + minutes : minutes}min`;
+}
+
+export const formatMinutes = (time: number) => {
+    const seconds = Math.trunc(time % 60);
+    const minutes = Math.trunc(time / 60);
+
+    return `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
 }
 
 export const checkPassword = (password: string) => {
