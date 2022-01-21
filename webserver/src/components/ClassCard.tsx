@@ -73,7 +73,7 @@ function ClassCard(props: Props) {
                         <p style={styles.cardParagraph}>Tiempo: {formatTime(0)}</p>
                     </div>
                     <div style={styles.cardBody}>
-                        <Trackbar audio={props.courseClass.file} />
+                        {/* <Trackbar /> */}
                     </div>
                 </div>
             </div>

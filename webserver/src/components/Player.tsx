@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSpeechSynthesis } from 'react-speech-kit';
+import { palette } from '../libs/styles';
 import { toastManager } from '../libs/toastManager';
 import { AUDIO_ERROR, AUDIO_URI, VOICE_ES } from '../libs/utils';
 import PlayerControls from './PlayerControls';
 import PlayerDetails from './PlayerDetails';
+import Trackbar from './Trackbar';
 
 const styles = {
     container: {
@@ -35,11 +37,19 @@ interface Props {
 
 function Player(props: Props) {
 
-    const audioRef = useRef(new Audio());
-
     const [isPlaying, setisPlaying] = useState<boolean>(true);
+    const [trackProgress, settrackProgress] = useState<number>(0);
 
     const { speak, cancel } = useSpeechSynthesis();
+
+    const audioRef = useRef(new Audio(props.audio));
+    const intervalRef = useRef<NodeJS.Timeout>(0 as any);
+    const isReady = useRef<boolean>(false);
+    const { duration } = audioRef.current;
+    const currentPercentage = duration
+        ? `${(trackProgress) / duration * 100}%`
+        : '0%';
+    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, ${palette.trackBackgroundDone}), color-stop(${currentPercentage}, ${palette.trackBackgroundLeft}))`;
 
     const onNext = () => {
         audioRef.current.pause();
@@ -59,6 +69,32 @@ function Player(props: Props) {
         setisPlaying(true);
     }
 
+    const startTimer = () => {
+        clearInterval(intervalRef.current);
+        
+        intervalRef.current = setInterval(() => {
+            if(audioRef.current.ended) {
+                onNext();
+            } else {
+                settrackProgress(audioRef.current.currentTime);
+            }
+        }, 1000);
+    }
+
+    const onScrub = (value: number) => {
+        clearInterval(intervalRef.current);
+        audioRef.current.currentTime = value;
+        settrackProgress(value);
+    }
+
+
+    const onScrubEnd = () => {
+        if(!isPlaying) {
+            setisPlaying(true);
+        }
+        startTimer();
+    }
+
     const handleError = () => {
         audioRef.current.pause();
         toastManager.error(AUDIO_ERROR);
@@ -70,8 +106,19 @@ function Player(props: Props) {
     }
 
     useEffect(() => {
+        audioRef.current.pause();
+        
         audioRef.current = new Audio(props.audio);
-        setisPlaying(true);
+        settrackProgress(audioRef.current.currentTime);
+        
+        if(isReady.current) {
+            audioRef.current.play();
+            setisPlaying(true);
+            startTimer();
+        } else {
+            isReady.current = true;
+        }
+
         return () => { };
     }, [props.audio]);
 
@@ -89,8 +136,14 @@ function Player(props: Props) {
         <div style={styles.container}>
             <div style={styles.innerContainer}>
                 <PlayerDetails />
+                <Trackbar 
+                value={trackProgress}
+                duration={audioRef.current.duration}
+                onChange={onScrub}
+                onScrubEnd={onScrubEnd}
+                styles={{ background: trackStyling }} />
                 <PlayerControls status={isPlaying} onNext={onNext} onPause={onPause} onPlay={onPlay} onPrevious={onPrevious} />
-                <audio ref={audioRef} onError={handleError}/>
+                <audio ref={audioRef} onError={handleError} />
             </div>
         </div>
     </>);
