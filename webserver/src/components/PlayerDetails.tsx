@@ -5,23 +5,35 @@ import { BORDER_RADIOUS, palette } from '../libs/styles';
 
 const styles = {
     container: {
-        width: "100%"
+        width: "100%",
+        display: 'flex',
+        justifyContent: 'center' as const,
+        alignItems: 'center' as const,
     },
-    icon: {
-        width: '100px',
-        height: '100px',
+    iconContainer: {
+        width: '250px',
+        height: '250px',
+        display: 'flex',
+        justifyContent: 'center' as const,
+        alignItems: 'center' as const,
         borderRadius: BORDER_RADIOUS,
         backgroundColor: palette.primary,
-        color: palette.white
+        color: palette.white,
+    },
+    icon: {
+        width: '150px',
+        height: '150px'
     }
 }
 
 function PlayerDetails() {
-  return (<>
-  <div style={styles.container}>
-      <MusicNote />
-  </div>
-  </>);
+    return (<>
+        <div style={styles.container}>
+            <div style={styles.iconContainer}>
+                <MusicNote style={styles.icon} />
+            </div>
+        </div>
+    </>);
 }
 
 export default PlayerDetails;

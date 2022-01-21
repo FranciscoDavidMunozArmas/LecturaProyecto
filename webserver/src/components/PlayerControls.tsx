@@ -1,5 +1,5 @@
 import { ArrowBackIos, ArrowBackIosTwoTone, ArrowForward, ArrowForwardIos, ArrowForwardIosTwoTone, ChevronLeft, Pause, PlayArrow } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { palette } from '../libs/styles';
 
 const styles = {
@@ -29,6 +29,7 @@ const styles = {
 }
 
 interface Props {
+  status: boolean;
   onPlay: () => void;
   onPause: () => void;
   onNext: () => void;
@@ -52,6 +53,12 @@ function PlayerControls(props: Props) {
     props.onPrevious();
   }
 
+  useEffect(() => {
+    setplayState(!!props.status);
+    return () => { };
+  }, []);
+
+
   return (<>
     <div style={styles.container}>
       <button style={styles.button} onClick={handlePrevious}><ArrowBackIosTwoTone /></button>
@@ -60,7 +67,7 @@ function PlayerControls(props: Props) {
           ? <button style={styles.button} onClick={handlePlay} ><PlayArrow /></button>
           : <button style={styles.button} onClick={handlePlay}><Pause /></button>
       }
-      <button style={styles.button} onClick={handleNext}><ArrowForwardIosTwoTone style={{margin: 0}}/></button>
+      <button style={styles.button} onClick={handleNext}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>
     </div>
   </>);
 }

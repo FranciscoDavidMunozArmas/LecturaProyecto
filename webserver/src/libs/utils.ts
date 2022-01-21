@@ -34,6 +34,7 @@ export const PASSWORD_DONT_MATCH = "Las contraseñas no coinciden";
 export const PASSWORD_LENGTH_ERROR = `La contraseña debe tener al menos ${passwordLength} caracteres`;
 export const SIGN_OUT_ERROR = "Error al cerrar sesión";
 export const GETTING_DATA_ERROR = "Error al obtener datos";
+export const AUDIO_ERROR = "Error al cargar el audio";
 
 export const MORE_NAME = "Ver más...";
 export const BACK_NAME = "Volver";
