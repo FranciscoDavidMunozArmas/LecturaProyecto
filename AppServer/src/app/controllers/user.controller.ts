@@ -13,7 +13,7 @@ export const authorization = async (req: Request, res: Response) => {
         const { login } = req.body;
         const docQuery = query(collectionReference, where("login", "==", login));
         const querySnapshot = await getDocs(docQuery);
-        if(querySnapshot.docs[0]) {
+        if (querySnapshot.docs[0]) {
             const user = userConverter.fromJSON(querySnapshot.docs[0].data());
             return res.status(200).json(tokenize({ token: user.login, role: user.role, data: user.user }));
         }
@@ -78,7 +78,7 @@ export const deleteUser = async (id: string) => {
     try {
         const docQuery = query(collectionReference, where("login", "==", id));
         const data = await getDocs(docQuery);
-        if(data.docs[0].data()) {
+        if (data.docs[0].data()) {
             await deleteDoc(data.docs[0].ref);
         }
     } catch (error: any) {

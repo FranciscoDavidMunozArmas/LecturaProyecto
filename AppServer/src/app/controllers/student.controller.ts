@@ -56,7 +56,7 @@ export const deleteStudents = async (req: Request, res: Response) => {
             documents++;
             deleteDoc(doc.ref);
         });
-        return res.status(200).json({documents});
+        return res.status(200).json({ documents });
     } catch (error: any) {
         return res.status(500).json({
             message: 'Internal server error'
@@ -79,7 +79,14 @@ export const getStudent = async (req: Request, res: Response) => {
             message: "Student not found"
         });
     } catch (error: any) {
+        console.log({
+            errorCode: error.code,
+            errorMessage: error.message,
+            message: 'Internal server error'
+        });
         return res.status(500).json({
+            errorCode: error.code,
+            errorMessage: error.message,
             message: 'Internal server error'
         });
     }

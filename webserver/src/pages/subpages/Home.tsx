@@ -6,10 +6,13 @@ import MoreButton from '../../components/MoreButton';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
 import { toastManager } from '../../libs/toastManager';
+import { decodeToken, getToken } from '../../libs/tokenInterceptor';
 import { GETTING_DATA_ERROR, HOME_NAME, MORE_NAME, PATH_CERTIFICATES, PATH_COURSE, PATH_EARLEANING, SUBSECTION_HOME_1_NAME, SUBSECTION_HOME_2_NAME, SUBSECTION_HOME_3_NAME, VOICE_ES } from '../../libs/utils'
 import { Course, courseConverter } from '../../models/Course'
+import { Student } from '../../models/Student';
 
 import * as CourseService from '../../services/course.service';
+import { getStudent } from '../../services/student.service';
 
 const styles = {
     container: {
@@ -38,6 +41,7 @@ function Home() {
     const [newCoursesLength, setnewCoursesLength] = useState<number>(5);
     const [topCoursesLength, settopCoursesLength] = useState<number>(5);
     const [recommendedCoursesLength, setrecommendedCoursesLength] = useState<number>(5);
+    const [student, setstudent] = useState<Student>();
     const { speak, cancel } = useSpeechSynthesis();
 
     const navigate = useNavigate();
@@ -46,6 +50,7 @@ function Home() {
         getNewCourses();
         getTopCourses();
         getRecommendedCourses();
+        getUserContent();
         return () => { }
     }, [])
 
@@ -82,12 +87,24 @@ function Home() {
         }
     }
 
+    const getUserContent = async () => {
+        try {
+            const token: any = decodeToken(getToken());
+            const auxiliar = await getStudent(token.token);
+            setstudent(auxiliar.data);
+        } catch (error: any) {
+            toastManager.error(GETTING_DATA_ERROR);
+            onSpeak(GETTING_DATA_ERROR);
+        }
+    }
+
     const onSpeak = (text: string) => {
         speak({ text: text, voice: VOICE_ES });
     }
 
     const onClick = (course: Course) => {
-        navigate(`../${PATH_COURSE}`, { state: { course: course } });
+        const saved = !!student?.courses.find(c => c === course.id);
+        navigate(`../${PATH_COURSE}`, { state: { course: course, saved: saved, student: student } });
     }
 
     const courseCard = (data: Course[]) => {

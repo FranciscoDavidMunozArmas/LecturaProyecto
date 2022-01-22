@@ -36,13 +36,17 @@ export const SIGN_OUT_ERROR = "Error al cerrar sesión";
 export const GETTING_DATA_ERROR = "Error al obtener datos";
 export const AUDIO_ERROR = "Error al cargar el audio";
 
+export const ENTERING_COURSE_ERROR = "Primero debe inscribirse en el curso";
+
 export const MORE_NAME = "Ver más...";
 export const BACK_NAME = "Volver";
-export const SAVE_NAME = "Guardar";
+export const SAVE_NAME = "Inscribirse";
+export const SAVED_NAME = "Inscrito";
 export const PREVIOURS_NAME = "Anterior";
 export const NEXT_NAME = "Siguiente";
 export const PLAY_NAME = "Reproducir";
 export const PAUSE_NAME = "Pausar";
+export const REQUIERMENTS_NAME = "Requerisitos previos";
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;

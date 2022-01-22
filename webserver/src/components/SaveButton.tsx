@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { Bookmark, BookmarkBorder } from '@material-ui/icons';
-import { SAVE_NAME, VOICE_ES } from '../libs/utils';
+import { SAVED_NAME, SAVE_NAME, VOICE_ES } from '../libs/utils';
 
 const styles = {
     container: {
@@ -25,7 +25,7 @@ const styles = {
 }
 
 interface Props {
-    status?: boolean,
+    status: boolean,
     onChange?: (value: boolean) => void;
 }
 
@@ -46,17 +46,22 @@ function SaveButton(props: Props) {
     useEffect(() => {
         setchecked(!!props.status);
         return () => { }
-    }, [])
+    }, [props.status])
 
     return (
-        <div style={styles.container} onMouseEnter={() => onSpeak(SAVE_NAME)} onMouseLeave={()=> cancel()}>
+        <div style={styles.container} onMouseEnter={() => (checked) ? onSpeak(SAVED_NAME) : onSpeak(SAVE_NAME)} onMouseLeave={() => cancel()}>
             <div style={styles.buttonContainer} onClick={onClick}>
                 {
                     (checked) ?
                         <Bookmark /> :
                         <BookmarkBorder />
                 }
-                <p style={styles.button}>{SAVE_NAME}</p>
+                {
+                    (checked)
+                        ? <p style={styles.button}>{SAVED_NAME}</p>
+                        : <p style={styles.button}>{SAVE_NAME}</p>
+
+                }
             </div>
         </div>
     )
