@@ -4,15 +4,25 @@ import LoadingSpinner from './LoadingSpinner';
 const styles = {
     container: {
         width: '100%',
-        heigth: '100vh',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#fff',
         zIndex: 9999,
+        position: 'fixed' as const,
+        transition: 'opacity 0.3s ease-in-out',
     }
 }
 
-function LoadingContainer() {
+interface Props {
+    show?: boolean,
+}
+
+function LoadingContainer(props: Props) {
+
     return (<>
-        <div style={styles.container}>
+        <div className={!!props.show ? '' : 'gone'} style={styles.container}>
             <LoadingSpinner />
         </div>
     </>);

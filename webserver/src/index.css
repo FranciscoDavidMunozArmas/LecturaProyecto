@@ -112,6 +112,11 @@ input[type=range].trackbar::-o-slider-thumb:hover {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
+.gone {
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
 .loading-item {
     animation: pulse 1s alternate infinite ease-in;
     -o-animation: pulse 1s alternate infinite ease-in;

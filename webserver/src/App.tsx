@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { styles } from './libs/styles';
 import {
   BrowserRouter,
@@ -11,6 +11,7 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Appmain from './pages/Appmain';
+import LoadingContainer from './components/LoadingContainer';
 
 const styles = {
   height: "100vh",
@@ -22,6 +23,7 @@ const styles = {
 }
 
 function App() {
+
   return (
     <>
       <Paper
@@ -34,7 +36,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/earlearning/*" element={<Appmain />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="*"  element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </BrowserRouter>
       </Paper>
