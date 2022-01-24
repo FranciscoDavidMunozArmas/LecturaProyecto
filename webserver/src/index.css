@@ -1,4 +1,6 @@
 :root {
+    --primary-color: rgb(0, 0, 0);
+    --secondary-color: #FF0000;
     --trackbar-color: #636363;
 }
 
@@ -108,4 +110,124 @@ input[type=range].trackbar::-moz-slider-thumb:hover,
 input[type=range].trackbar::-ms-slider-thumb:hover,
 input[type=range].trackbar::-o-slider-thumb:hover {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.loading-item {
+    animation: pulse 1s alternate infinite ease-in;
+    -o-animation: pulse 1s alternate infinite ease-in;
+    -ms-animation: pulse 1s alternate infinite ease-in;
+    -moz-animation: pulse 1s alternate infinite ease-in;
+    -webkit-animation: pulse 1s alternate infinite ease-in;
+}
+
+.spin {
+    animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    -ms-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -webkit-animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.pulse {
+    animation: pulse 1s alternate infinite ease-in;
+    -o-animation: pulse 1s alternate infinite ease-in;
+    -ms-animation: pulse 1s alternate infinite ease-in;
+    -moz-animation: pulse 1s alternate infinite ease-in;
+    -webkit-animation: pulse 1s alternate infinite ease-in;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1.25);
+    }
+}
+
+.change-color {
+    animation: change-color 1s infinite ease-in;
+    -o-animation: change-color 1s infinite ease-in;
+    -ms-animation: change-color 1s infinite ease-in;
+    -moz-animation: change-color 1s infinite ease-in;
+    -webkit-animation: change-color 1s infinite ease-in;
+}
+
+.first {
+    -webkit-animation-delay: 0.1s;
+    -moz-animation-delay: 0.1s;
+    -o-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+
+.second {
+    -webkit-animation-delay: 0.2s;
+    -moz-animation-delay: 0.2s;
+    -o-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.third {
+    -webkit-animation-delay: 0.3s;
+    -moz-animation-delay: 0.3s;
+    -o-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+.fourth {
+    -webkit-animation-delay: 0.4s;
+    -moz-animation-delay: 0.4s;
+    -o-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.fifth {
+    -webkit-animation-delay: 0.5s;
+    -moz-animation-delay: 0.5s;
+    -o-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+
+.sixth {
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+    -o-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.seventh {
+    -webkit-animation-delay: 0.7s;
+    -moz-animation-delay: 0.7s;
+    -o-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+}
+
+.eigth {
+    -webkit-animation-delay: 0.8s;
+    -moz-animation-delay: 0.8s;
+    -o-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+
+.ninth {
+    -webkit-animation-delay: 0.9s;
+    -moz-animation-delay: 0.9s;
+    -o-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+}
+
+.tenth {
+    -webkit-animation-delay: 1s;
+    -moz-animation-delay: 1s;
+    -o-animation-delay: 1s;
+    animation-delay: 1s;
 }
