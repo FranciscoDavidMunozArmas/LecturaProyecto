@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import BackButton from '../../components/BackButton';
 import Player from '../../components/Player';
@@ -33,23 +33,28 @@ function PlayCourse() {
 
     const [current, setcurrent] = useState<number>(0);
     const [audios, setaudios] = useState<CourseClass[]>([]);
+    const [stop, setstop] = useState<boolean>(false);
 
     const location: any = useLocation();
+    const navigate = useNavigate();
 
     const { speak, cancel } = useSpeechSynthesis();
 
     const onNext = () => {
-        setcurrent(current + 1);
-        if (audios.length - 1 <= current) {
+        if (current < audios.length - 1) {
+            setcurrent(current + 1);
+        } else {
             setcurrent(0);
         }
     }
 
     const onPrevious = () => {
-        setcurrent(current - 1);
-        if (current <= 0) {
-            setcurrent(0);
+        if (0 < current) {
+            setcurrent(current - 1);
+        } else {
+            setcurrent(audios.length - 1);
         }
+        console.log(`${current} -> ${audios.length - 1}`);
     }
 
     const getData = () => {
@@ -60,6 +65,10 @@ function PlayCourse() {
         speak({ text, voice: VOICE_ES });
     }
 
+    const onEnd = () => {
+        navigate('..');
+    }
+
     useEffect(() => {
         setaudios(getData());
         setcurrent(location.state.index);
@@ -68,8 +77,12 @@ function PlayCourse() {
 
     return (
         <div style={styles.container}>
-            <BackButton />
-            <Player audio={`${`${AUDIO_URI}${getData()[current].file}`}`} onNext={onNext} onPrevious={onPrevious} />
+            <BackButton onClick={() => setstop(true)} />
+            <Player 
+                audio={`${`${AUDIO_URI}${getData()[current].file}`}`}
+                onNext={onNext}
+                onPrevious={onPrevious}
+                stop={stop} />
             <div style={styles.classNameContainer}>
                 <h1 style={styles.className} onMouseEnter={() => onSpeak(getData()[current].name)} onMouseLeave={() => cancel()}>{getData()[current].name}</h1>
             </div>

@@ -31,8 +31,10 @@ const styles = {
 
 interface Props {
     audio: string,
+    stop?: boolean,
     onNext?: () => void,
-    onPrevious?: () => void
+    onPrevious?: () => void,
+    onEnd?: () => void,
 }
 
 function Player(props: Props) {
@@ -58,7 +60,7 @@ function Player(props: Props) {
 
     const onPrevious = () => {
         audioRef.current.pause();
-        props.onNext?.();
+        props.onPrevious?.();
     }
 
     const onPause = () => {
@@ -67,6 +69,13 @@ function Player(props: Props) {
 
     const onPlay = () => {
         setisPlaying(true);
+    }
+
+    const onStop = () => {
+        setisPlaying(false);
+        settrackProgress(0);
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
     }
 
     const startTimer = () => {
@@ -132,6 +141,12 @@ function Player(props: Props) {
         }
         return () => { };
     }, [isPlaying]);
+
+    useEffect(() => {
+        if(props.stop) {
+            onStop();
+        }
+    }, [props.stop]);
 
     return (<>
         <div style={styles.container}>

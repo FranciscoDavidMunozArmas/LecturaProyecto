@@ -19,13 +19,18 @@ const styles = {
     },
 }
 
-function BackButton() {
+interface Props {
+    onClick?: () => void;
+}
+
+function BackButton(props: Props) {
 
     const navigate = useNavigate();
 
     const { speak, cancel } = useSpeechSynthesis();
 
     const onBack = () => {
+        props.onClick?.();        
         navigate(-1);
     }
 
