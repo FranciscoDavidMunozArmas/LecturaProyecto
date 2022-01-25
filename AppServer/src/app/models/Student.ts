@@ -1,9 +1,9 @@
 class CourseData {
     courseID: string;
-    completed: number;
+    completed: string[];
     status: boolean;
 
-    constructor(courseID: string, completed: number, status: boolean) {
+    constructor(courseID: string, completed: string[], status: boolean) {
         this.courseID = courseID;
         this.completed = completed;
         this.status = status;

@@ -12,9 +12,8 @@ export class Course {
     score: Score[];
     objectives: string[];
     content: Content;
-    completed: number;
 
-    constructor(id: string, name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content, completed: number) {
+    constructor(id: string, name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content) {
         this.id = (id) ? id : "";
         this.name = name;
         this.teacher = teacher;
@@ -22,7 +21,6 @@ export class Course {
         this.score = score;
         this.objectives = (objectives) ? objectives : [];
         this.content = content;
-        this.completed = (completed) ? completed : 0;
         this.duration = (this.content.topics.length !== 0) ?
             this.content.topics
                 .map(topic => topic.duration)
@@ -43,7 +41,6 @@ export const courseConverter = {
             score: course.score.map(scoreConverter.toJSON),
             objectives: course.objectives,
             content: contentConverter.toJSON(course.content),
-            completed: course.completed
         }
     },
     fromJSON: function (snapshot: any): Course {
@@ -55,7 +52,6 @@ export const courseConverter = {
             (snapshot.score) ? snapshot.score.map(scoreConverter.fromJSON) : [],
             snapshot.objectives,
             (snapshot.content) ? contentConverter.fromJSON(snapshot.content) : new Content([""], "", []),
-            snapshot.completed
         );
     }
 }
