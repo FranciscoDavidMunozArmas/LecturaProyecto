@@ -1,7 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useSpeechSynthesis } from "react-speech-kit";
+import CourseCard from '../../components/CourseCard';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
-import { MY_COURSES_NAME, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME } from '../../libs/utils'
+import { toastManager } from '../../libs/toastManager';
+import { decodeToken, getToken } from '../../libs/tokenInterceptor'
+import { GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
+import { Course, courseConverter } from '../../models/Course';
+import { CourseClass } from '../../models/CourseClass';
+import { Student, studentConverter } from '../../models/Student'
+import { getCoursesMany } from '../../services/course.service';
+import { getStudent } from '../../services/student.service'
 
 const styles = {
     container: {
@@ -24,16 +34,98 @@ const styles = {
 
 function MyCourses() {
 
+    const [user, setuser] = useState<Student>();
+    const [completedCourses, setcompletedCourses] = useState<Course[]>([]);
+    const [nonCompletedCourses, setnonCompletedCourses] = useState<Course[]>([]);
+
+    const navigate = useNavigate();
+    const { speak, cancel } = useSpeechSynthesis();
+
     useEffect(() => {
-        return () => {}
-    }, [])
+        getUser();
+        return () => { }
+    }, []);
+
+    const getUser = async () => {
+        try {
+            const token: any = decodeToken(getToken());
+            const student = await getStudent(token.token);
+            setuser(studentConverter.fromJSON(student.data));
+            getCourses(studentConverter.fromJSON(student.data));
+        } catch (error: any) {
+            toastManager.error(GETTING_DATA_ERROR);
+            onSpeak(GETTING_DATA_ERROR);
+        }
+    }
+
+    const getCourses = async (student: any) => {
+        if (!student) {
+            toastManager.error(GETTING_DATA_ERROR);
+            onSpeak(GETTING_DATA_ERROR);
+            return;
+        }
+        try {
+            const data = student.courses.map((course: any) => {
+                return course.courseID;
+            });
+            const coursesData = await getCoursesMany(data);
+            classifyCourses(student, coursesData.data.map(courseConverter.fromJSON));
+        } catch (error: any) {
+            toastManager.error(GETTING_DATA_ERROR);
+            onSpeak(GETTING_DATA_ERROR);
+        }
+    }
+
+    const classifyCourses = (student: Student, courses: Course[]) => {
+        const completedCourses: Course[] = [];
+        const nonCompletedCourses: Course[] = [];
+        courses.forEach((course: Course) => {
+            let courseLength: number = 0;
+            course.content.topics.forEach(topic => {
+                courseLength += topic.classes.length;
+            });
+            const data = student.courses.find((courseData) => courseData.courseID === course.id);
+            if(courseLength === data?.completed.length) {
+                completedCourses.push(course);
+            } else {
+                nonCompletedCourses.push(course);
+            }
+        });
+        setcompletedCourses(completedCourses);
+        setnonCompletedCourses(nonCompletedCourses);
+    }
+
+    const onClick = (course: Course) => {
+        const saved = !!user?.courses.find(c => c.courseID === course.id);
+        navigate(`../${PATH_COURSE}`, { state: { course: course, saved: saved, student: user } });
+    }
+
+    const courseCard = (data: Course[]) => {
+        return data.map((course: Course, index: any) => {
+            return (
+                <div key={index}>
+                    <CourseCard course={course} onClick={() => onClick(course)} />
+                </div>
+            )
+        });
+    }
+
+    const onSpeak = (text: string) => {
+        speak({ text: text, voice: VOICE_ES });
+    }
 
     return (
         <div style={styles.container}>
             <Title title={MY_COURSES_NAME} />
             <div>
                 <Subtitle text={SUBSECTION_MY_COURSES_1_NAME} />
+                {
+                    courseCard(completedCourses)
+                }
                 <Subtitle text={SUBSECTION_MY_COURSES_2_NAME} />
+                {
+                    courseCard(nonCompletedCourses)
+                }
             </div>
         </div>
     )

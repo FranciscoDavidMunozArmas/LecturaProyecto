@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { v4 } from "uuid";
 import { db } from "../../config/firebase.config";
 import { unlinkFile } from "../../lib/files";
 import { CONSTANTS } from "../../lib/utils";
-import { courseConverter } from "../models/Course";
+import { Course, courseConverter } from "../models/Course";
 import { courseClassConverter } from "../models/CourseClass";
 import { topicConverter } from "../models/Topic";
 
@@ -328,38 +328,13 @@ export const deleteCourseClass = async (req: Request, res: Response) => {
     };
 }
 
-export const completeCourse = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const { completeLevel } = req.body;
-        const data = await getDoc(documentReference(id));
-        if (data.data()) {
-            const course = courseConverter.fromJSON(data.data());
-            course.completed = completeLevel/course.content.topics.length * 100;
-            await updateDoc(documentReference(id), courseConverter.toJSON(course));
-            return res.status(200).json({ message: 'Course Completed' });
-        }
-        return res.status(404).json({ message: 'Course not found' });
-    } catch (error: any) {
-        return res.status(500).json({
-            message: 'Internal Server Error',
-            error: error.message
-        });
-    };
-}
-
 export const getCoursesMany = async (req: Request, res: Response) => {
     try {
         const { ids } = req.body;
-        const data = ids.map(async (id: string) => {
-            const data = await getDoc(documentReference(id));
-            if (data.data()) {
-                const course = courseConverter.fromJSON(data.data());
-                return course;
-            }
-        });
-        if (data.length > 0) {
-            //const courses = data.map(course => courseConverter.fromJSON(course.data()));
+        const dataQuery = query(collectionReference, where('id', 'in', ids));
+        const dataDocs = await getDocs(dataQuery);
+        const data: Course[] = dataDocs.docs.map(doc => courseConverter.fromJSON(doc.data()));
+        if (data.length >= 0) {
             return res.status(200).json(data);
         }
         return res.status(404).json({ message: 'Courses not found' });

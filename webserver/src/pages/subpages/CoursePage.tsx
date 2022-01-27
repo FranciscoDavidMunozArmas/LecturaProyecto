@@ -60,13 +60,17 @@ function CoursePage() {
 
     const onSaveClick = async (value: boolean) => {
         if(value && student && course) {
-            student.courses.push(course.id);
+            student.courses.push({
+                courseID: course.id,
+                completed: [],
+                status: false
+            });
             const token: any = decodeToken(getToken());
             const studentId = token.token;
             updateStudent(studentId, student);
             setsaved(true);
         } else if(!value && student && course) {
-            student.courses = student.courses.filter(c => c !== course.id);
+            student.courses = student.courses.filter(c => c.courseID !== course.id);
             const token: any = decodeToken(getToken());
             const studentId = token.token;
             updateStudent(studentId, student);
@@ -83,7 +87,7 @@ function CoursePage() {
         setsaved(location.state.saved);
         setstudent(location.state.student);
         if(!saved && student && course) {
-            setsaved(!!student.courses.includes(course.id));
+            setsaved(!!student.courses.find(c => c.courseID === course.id));
         }
         return () => { }
     }, []);

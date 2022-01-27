@@ -103,7 +103,7 @@ function Home() {
     }
 
     const onClick = (course: Course) => {
-        const saved = !!student?.courses.find(c => c === course.id);
+        const saved = !!student?.courses.find(c => c.courseID === course.id);
         navigate(`../${PATH_COURSE}`, { state: { course: course, saved: saved, student: student } });
     }
 

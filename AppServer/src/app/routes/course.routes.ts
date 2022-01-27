@@ -13,7 +13,7 @@ router.route("/")
     .delete(authUser, authAdmin, CourseController.deleteCourses);
 
 router.route("/many")
-    .get(authUser, CourseController.getCoursesMany);
+    .post(authUser, CourseController.getCoursesMany);
 
 router.route("/course/:id")
     // .put(authUser, authTeacher, CourseController.updateCourse)
@@ -21,10 +21,6 @@ router.route("/course/:id")
     .get(authUser, CourseController.getCourse)
     .put(authUser, authAdmin, CourseController.updateCourse)
     .delete(authUser, authAdmin, CourseController.deleteCourse);
-
-router.route("/course/:id/complete")
-    // .post(authUser, authStudent, CourseController.completeCourse);
-    .post(authUser, authAdmin, CourseController.completeCourse);
 
 router.route("/course/:courseId/score")
     .post(authUser, ScoreController.setScore)
