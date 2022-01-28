@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
 import CourseCard from '../../components/CourseCard';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
 import { StudentContext } from '../../context/StudentContext';
@@ -39,6 +40,8 @@ function MyCourses() {
     const [completedCourses, setcompletedCourses] = useState<Course[]>([]);
     const [nonCompletedCourses, setnonCompletedCourses] = useState<Course[]>([]);
 
+    const [loading, setloading] = useState<boolean>(false);
+
     const student = useContext(StudentContext);
 
     const navigate = useNavigate();
@@ -59,9 +62,11 @@ function MyCourses() {
     }
 
     const getCourses = async (student: any) => {
+        setloading(true);
         if (!student) {
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);
+            setloading(false);
             return;
         }
         try {
@@ -74,6 +79,7 @@ function MyCourses() {
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);
         }
+        setloading(false);
     }
 
     const classifyCourses = (student: Student, courses: Course[]) => {
@@ -136,12 +142,25 @@ function MyCourses() {
             <div>
                 <Subtitle text={SUBSECTION_MY_COURSES_1_NAME} />
                 {
-                    courseCard(completedCourses)
+                    loading ?
+                        <LoadingSpinner /> :
+                        <>
+                            {
+                                courseCard(completedCourses)
+                            }
+                        </>
                 }
                 <Subtitle text={SUBSECTION_MY_COURSES_2_NAME} />
                 {
-                    courseCard(nonCompletedCourses)
+                    loading ?
+                        <LoadingSpinner /> :
+                        <>
+                            {
+                                courseCard(nonCompletedCourses)
+                            }
+                        </>
                 }
+
             </div>
         </div>
     )

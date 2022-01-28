@@ -118,19 +118,19 @@ input[type=range].trackbar::-o-slider-thumb:hover {
 }
 
 .loading-item {
-    animation: pulse 1s alternate infinite ease-in;
-    -o-animation: pulse 1s alternate infinite ease-in;
-    -ms-animation: pulse 1s alternate infinite ease-in;
-    -moz-animation: pulse 1s alternate infinite ease-in;
-    -webkit-animation: pulse 1s alternate infinite ease-in;
+    animation: pulse 0.5s alternate infinite ease-in;
+    -o-animation: pulse 0.5s alternate infinite ease-in;
+    -ms-animation: pulse 0.5s alternate infinite ease-in;
+    -moz-animation: pulse 0.5s alternate infinite ease-in;
+    -webkit-animation: pulse 0.5s alternate infinite ease-in;
 }
 
 .spin {
-    animation: spin 2s infinite linear;
-    -o-animation: spin 2s infinite linear;
-    -ms-animation: spin 2s infinite linear;
-    -moz-animation: spin 2s infinite linear;
-    -webkit-animation: spin 2s infinite linear;
+    animation: spin 1s infinite linear;
+    -o-animation: spin 1s infinite linear;
+    -ms-animation: spin 1s infinite linear;
+    -moz-animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
 }
 
 @keyframes spin {

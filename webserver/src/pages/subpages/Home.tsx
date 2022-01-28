@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
 import CourseCard from '../../components/CourseCard';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import MoreButton from '../../components/MoreButton';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
@@ -43,6 +44,10 @@ function Home() {
     const [topCoursesLength, settopCoursesLength] = useState<number>(5);
     const [recommendedCoursesLength, setrecommendedCoursesLength] = useState<number>(5);
 
+    const [loadingNewCourses, setloadingNewCourses] = useState<boolean>(false);
+    const [loadingTopCourses, setloadingTopCourses] = useState<boolean>(false);
+    const [loadingRecommendedCourses, setloadingRecommendedCourses] = useState<boolean>(false);
+
     const { speak, cancel } = useSpeechSynthesis();
     const student = useContext(StudentContext);
 
@@ -56,6 +61,7 @@ function Home() {
     }, [])
 
     const getNewCourses = async () => {
+        setloadingNewCourses(true);
         try {
             const response = await CourseService.getCourses();
             const data = response.data.map(courseConverter.fromJSON);
@@ -64,9 +70,11 @@ function Home() {
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);
         }
+        setloadingNewCourses(false);
     }
 
     const getTopCourses = async () => {
+        setloadingTopCourses(true);
         try {
             const response = await CourseService.getCourses();
             const data = response.data.map(courseConverter.fromJSON);
@@ -75,9 +83,11 @@ function Home() {
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);
         }
+        setloadingTopCourses(false);
     }
 
     const getRecommendedCourses = async () => {
+        setloadingRecommendedCourses(true);
         try {
             const response = await CourseService.getCourses();
             const data = response.data.map(courseConverter.fromJSON);
@@ -86,6 +96,7 @@ function Home() {
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);
         }
+        setloadingRecommendedCourses(false);
     }
 
     const onSpeak = (text: string) => {
@@ -114,31 +125,51 @@ function Home() {
                 <div>
                     <Subtitle text={SUBSECTION_HOME_1_NAME} />
                     {
-                        courseCard(newCourses.slice(0, newCoursesLength))
-                    }
-                    {
-                        newCourses.length > topCoursesLength &&
-                        <MoreButton onClick={() => { setnewCoursesLength(newCoursesLength + 5) }} />
+                        loadingNewCourses ?
+                            <LoadingSpinner />
+                            :
+                            <>
+                                {
+                                    courseCard(newCourses.slice(0, newCoursesLength))
+                                }
+                                {
+                                    newCourses.length > topCoursesLength &&
+                                    <MoreButton onClick={() => { setnewCoursesLength(newCoursesLength + 5) }} />
+                                }
+                            </>
                     }
                 </div>
                 <div>
                     <Subtitle text={SUBSECTION_HOME_2_NAME} />
                     {
-                        courseCard(topCourses.slice(0, topCoursesLength))
-                    }
-                    {
-                        topCourses.length > topCoursesLength &&
-                        <MoreButton onClick={() => { settopCoursesLength(topCoursesLength + 5) }} />
+                        loadingTopCourses ?
+                            <LoadingSpinner />
+                            :
+                            <>
+                                {
+                                    courseCard(topCourses.slice(0, topCoursesLength))
+                                }
+                                {
+                                    topCourses.length > topCoursesLength &&
+                                    <MoreButton onClick={() => { settopCoursesLength(topCoursesLength + 5) }} />
+                                }
+                            </>
                     }
                 </div>
                 <div>
                     <Subtitle text={SUBSECTION_HOME_3_NAME} />
                     {
-                        courseCard(recommendedCourses.slice(0, recommendedCoursesLength))
-                    }
-                    {
-                        recommendedCourses.length > recommendedCoursesLength &&
-                        <MoreButton onClick={() => { setrecommendedCoursesLength(recommendedCoursesLength + 5) }} />
+                        loadingRecommendedCourses ?
+                            <LoadingSpinner /> :
+                            <>
+                                {
+                                    courseCard(recommendedCourses.slice(0, recommendedCoursesLength))
+                                }
+                                {
+                                    recommendedCourses.length > recommendedCoursesLength &&
+                                    <MoreButton onClick={() => { setrecommendedCoursesLength(recommendedCoursesLength + 5) }} />
+                                }
+                            </>
                     }
                 </div>
             </div>
