@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { useSpeechSynthesis } from 'react-speech-kit';
 import Menubar from '../components/Menubar';
+import { StudentContext, StudentProvider } from '../context/StudentContext';
 import { routes } from '../libs/routes';
 import { palette } from '../libs/styles';
-import { checkToken } from '../libs/tokenInterceptor';
-import { PATH_CERTIFICATES, PATH_COURSE, PATH_HOME, PATH_MY_COURSES, PATH_PLAYCOURSE } from '../libs/utils';
+import { toastManager } from '../libs/toastManager';
+import { checkToken, decodeToken, getToken } from '../libs/tokenInterceptor';
+import { GETTING_DATA_ERROR, PATH_CERTIFICATES, PATH_COURSE, PATH_HOME, PATH_MY_COURSES, PATH_PLAYCOURSE, VOICE_ES } from '../libs/utils';
+import { Student, studentConverter } from '../models/Student';
+import { getStudent } from '../services/student.service';
 import Certificate from './subpages/Certificate';
 import CoursePage from './subpages/CoursePage';
 import Home from './subpages/Home';
@@ -34,34 +39,57 @@ const styles = {
 
 function Appmain() {
 
+    const [currentStudent, setcurrentStudent] = useState<Student>();
+
     const navigate = useNavigate();
+    const { speak, cancel } = useSpeechSynthesis();
+
+    const getData = async () => {
+        const token: any = decodeToken(getToken());
+        try {
+            const data = await getStudent(token.token);
+            setcurrentStudent(studentConverter.fromJSON(data.data));
+        } catch (error: any) {
+            toastManager.error(GETTING_DATA_ERROR);
+            onSpeak(GETTING_DATA_ERROR);
+        }
+    }
+
+    const onSpeak = (text: string) => {
+        speak({ text, voice: VOICE_ES, rate: 1.2 });
+    }
 
     useEffect(() => {
         if (!checkToken()) {
             navigate("/login");
+            return;
         }
+        getData();
         return () => { }
-    }, [])
+    }, []);
 
     return (
         <>
-            <div style={styles.container}>
-                <div style={styles.menuContainer}>
-                    <Menubar children={routes.children}/>
+            <StudentProvider student={currentStudent}>
+                <div style={styles.container}>
+                    <div style={styles.menuContainer}>
+                        <Menubar children={routes.children} />
+                    </div>
+                    <div style={styles.contentContainer}>
+                        <Routes>
+                            <Route path={PATH_HOME} element={<Home />} />
+                            <Route path={PATH_MY_COURSES} element={<MyCourses />} />
+                            <Route path={PATH_CERTIFICATES} element={<Certificate />} />
+                            <Route path={PATH_COURSE} element={<CoursePage />} />
+                            <Route path={`${PATH_COURSE}/${PATH_PLAYCOURSE}`} element={<PlayCourse />} />
+                            <Route path="/*" element={<Navigate to={PATH_HOME} />} />
+                        </Routes>
+                    </div>
                 </div>
-                <div style={styles.contentContainer}>
-                    <Routes>
-                        <Route path={PATH_HOME} element={<Home />} />
-                        <Route path={PATH_MY_COURSES} element={<MyCourses />} />
-                        <Route path={PATH_CERTIFICATES} element={<Certificate />} />
-                        <Route path={PATH_COURSE} element={<CoursePage />} />
-                        <Route path={`${PATH_COURSE}/${PATH_PLAYCOURSE}`} element={<PlayCourse />} />
-                        <Route path="/*" element={<Navigate to={PATH_HOME} />} />
-                    </Routes>
-                </div>
-            </div>
+            </StudentProvider>
         </>
     )
 }
+
 
 export default Appmain

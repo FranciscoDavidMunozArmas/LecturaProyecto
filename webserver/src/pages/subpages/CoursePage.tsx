@@ -43,14 +43,14 @@ function CoursePage() {
 
     const [course, setcourse] = useState<Course>();
     const [saved, setsaved] = useState<boolean>(false);
-    const [student, setstudent] = useState<Student>();
+    const [user, setuser] = useState<Student>();
 
     const location: any = useLocation();
     const navigate = useNavigate();
     const { speak, cancel } = useSpeechSynthesis();
 
     const onClassClick = (audios: CourseClass[], index: number) => {
-        if(saved) {
+        if (saved) {
             navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audios, index: index } });
         } else {
             toastManager.message(ENTERING_COURSE_ERROR);
@@ -59,21 +59,21 @@ function CoursePage() {
     }
 
     const onSaveClick = async (value: boolean) => {
-        if(value && student && course) {
-            student.courses.push({
+        if (value && user && course) {
+            user.courses.push({
                 courseID: course.id,
                 completed: [],
                 status: false
             });
             const token: any = decodeToken(getToken());
             const studentId = token.token;
-            updateStudent(studentId, student);
+            updateStudent(studentId, user);
             setsaved(true);
-        } else if(!value && student && course) {
-            student.courses = student.courses.filter(c => c.courseID !== course.id);
+        } else if (!value && user && course) {
+            user.courses = user.courses.filter(c => c.courseID !== course.id);
             const token: any = decodeToken(getToken());
             const studentId = token.token;
-            updateStudent(studentId, student);
+            updateStudent(studentId, user);
             setsaved(false);
         }
     }
@@ -85,9 +85,9 @@ function CoursePage() {
     useEffect(() => {
         setcourse(location.state.course);
         setsaved(location.state.saved);
-        setstudent(location.state.student);
-        if(!saved && student && course) {
-            setsaved(!!student.courses.find(c => c.courseID === course.id));
+        setuser(location.state.student);
+        if (!saved && user && course) {
+            setsaved(!!user.courses.find(c => c.courseID === course.id));
         }
         return () => { }
     }, []);
@@ -102,7 +102,7 @@ function CoursePage() {
                 <Subtitle text={REQUIERMENTS_NAME} />
                 {
                     (course) ? course.content.requirements.map((objective, index) => {
-                        return <Paragraph key={index} text={objective} style={{ marginLeft: '2rem'}} />
+                        return <Paragraph key={index} text={objective} style={{ marginLeft: '2rem' }} />
                     }) : null
                 }
                 <SaveButton onChange={onSaveClick} status={saved} />

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
 import CourseCard from '../../components/CourseCard';
 import Subtitle from '../../components/Subtitle'
 import Title from '../../components/Title'
+import { StudentContext } from '../../context/StudentContext';
 import { toastManager } from '../../libs/toastManager';
 import { decodeToken, getToken } from '../../libs/tokenInterceptor'
 import { GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
@@ -38,6 +39,8 @@ function MyCourses() {
     const [completedCourses, setcompletedCourses] = useState<Course[]>([]);
     const [nonCompletedCourses, setnonCompletedCourses] = useState<Course[]>([]);
 
+    const student = useContext(StudentContext);
+
     const navigate = useNavigate();
     const { speak, cancel } = useSpeechSynthesis();
 
@@ -48,10 +51,7 @@ function MyCourses() {
 
     const getUser = async () => {
         try {
-            const token: any = decodeToken(getToken());
-            const student = await getStudent(token.token);
-            setuser(studentConverter.fromJSON(student.data));
-            getCourses(studentConverter.fromJSON(student.data));
+            getCourses(student);
         } catch (error: any) {
             toastManager.error(GETTING_DATA_ERROR);
             onSpeak(GETTING_DATA_ERROR);

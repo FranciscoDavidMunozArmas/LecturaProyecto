@@ -4,7 +4,9 @@ import { useSpeechSynthesis } from 'react-speech-kit';
 import BackButton from '../../components/BackButton';
 import Player from '../../components/Player';
 import { text } from '../../libs/styles';
-import { AUDIO_URI, VOICE_ES } from '../../libs/utils';
+import { toastManager } from '../../libs/toastManager';
+import { decodeToken, getToken } from '../../libs/tokenInterceptor';
+import { AUDIO_URI, GETTING_DATA_ERROR, VOICE_ES } from '../../libs/utils';
 import { CourseClass, courseClassConverter } from '../../models/CourseClass';
 
 const styles = {
@@ -42,6 +44,7 @@ function PlayCourse() {
 
     const onNext = () => {
         if (current < audios.length - 1) {
+            completeCourse(current);
             setcurrent(current + 1);
         } else {
             setcurrent(0);
@@ -54,7 +57,16 @@ function PlayCourse() {
         } else {
             setcurrent(audios.length - 1);
         }
-        console.log(`${current} -> ${audios.length - 1}`);
+    }
+
+    const completeCourse = (index: number) => {
+        const token = decodeToken(getToken());
+        try {
+            
+        } catch (error: any) {
+            toastManager.error(GETTING_DATA_ERROR);
+            onSpeak(GETTING_DATA_ERROR);
+        }
     }
 
     const getData = () => {
@@ -63,10 +75,6 @@ function PlayCourse() {
 
     const onSpeak = (text: string) => {
         speak({ text, voice: VOICE_ES });
-    }
-
-    const onEnd = () => {
-        navigate('..');
     }
 
     useEffect(() => {
