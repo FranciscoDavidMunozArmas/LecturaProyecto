@@ -47,6 +47,9 @@ export const NEXT_NAME = "Siguiente";
 export const PLAY_NAME = "Reproducir";
 export const PAUSE_NAME = "Pausar";
 export const REQUIERMENTS_NAME = "Requerisitos previos";
+export const CERTIFICATE_NAME = "Certificado";
+export const GENERATE_CERTIFICATE_NAME = "Generar certificado";
+export const CERTIFICATE_DOWNLOAD_ERROR = "Error al descargar certificado";
 //Keys
 export const ENTER_KEY = 13;
 export const TAB_KEY = 9;

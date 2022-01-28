@@ -47,7 +47,7 @@ function MyCourses() {
     useEffect(() => {
         getUser();
         return () => { }
-    }, []);
+    }, [student]);
 
     const getUser = async () => {
         try {

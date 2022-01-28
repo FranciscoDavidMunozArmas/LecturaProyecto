@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 import { BORDER_RADIOUS } from '../libs/styles'
-import { formatTime, VOICE_ES } from '../libs/utils'
+import { formatTime, GENERATE_CERTIFICATE_NAME, VOICE_ES } from '../libs/utils'
 import { Course } from '../models/Course'
 
 const styles = {
@@ -15,11 +15,11 @@ const styles = {
     card: {
         width: '100%',
         maxWidth: '750px',
-        height: '300px',
-        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+        height: 'auto',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.1)',
         borderRadius: BORDER_RADIOUS,
-        margin: '10px 20px',
         cursor: 'pointer',
+        margin: '2rem 1rem',
     },
     cardHeader: {
         display: 'flex',
@@ -48,6 +48,12 @@ const styles = {
         fontSize: '1.2rem',
         fontStyle: "italic",
     },
+    certificate: {
+        padding: '10px 0',
+        display: 'flex',
+        justifyContent: 'center',
+        cursor: 'pointer',
+    }
 }
 
 interface Props {
@@ -81,13 +87,21 @@ function CourseCard(props: Props) {
                 <div style={styles.card} onClick={handleClick} onMouseEnter={() => onSpeak(props.course.name)} onMouseLeave={() => cancel()}>
                     <div style={styles.cardHeader}>
                         <h1 style={styles.cardTitle}>{props.course.name}</h1>
-                        {(props.completed) ? <p style={styles.cardParagraph}>{ props.completed } %</p> : null}
+                        {(props.completed) ? <p style={styles.cardParagraph}>{props.completed} %</p> : null}
                         <p style={styles.cardParagraph}>Tiempo: {formatTime(props.course.duration)}</p>
                     </div>
                     <div style={styles.cardBody}>
                         <h2 style={styles.cardSubtitle}>Descripcion</h2>
                         <p style={styles.cardParagraph}>{showDescription(props.course.content.description)}</p>
                     </div>
+                    {
+                        props.completed === 100 ?
+                            (<div style={styles.certificate}
+                                onMouseEnter={() => onSpeak(GENERATE_CERTIFICATE_NAME)}
+                                onMouseLeave={() => cancel()}>
+                                <h1 style={styles.cardSubtitle}>{GENERATE_CERTIFICATE_NAME}</h1>
+                            </div>) : null
+                    }
                 </div>
             </div>
         </>
