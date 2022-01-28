@@ -52,6 +52,7 @@ const styles = {
 
 interface Props {
     course: Course,
+    completed?: number,
     onClick?: (course: Course) => void
 }
 
@@ -80,6 +81,7 @@ function CourseCard(props: Props) {
                 <div style={styles.card} onClick={handleClick} onMouseEnter={() => onSpeak(props.course.name)} onMouseLeave={() => cancel()}>
                     <div style={styles.cardHeader}>
                         <h1 style={styles.cardTitle}>{props.course.name}</h1>
+                        {(props.completed) ? <p style={styles.cardParagraph}>{ props.completed } %</p> : null}
                         <p style={styles.cardParagraph}>Tiempo: {formatTime(props.course.duration)}</p>
                     </div>
                     <div style={styles.cardBody}>

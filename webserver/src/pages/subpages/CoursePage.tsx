@@ -51,7 +51,7 @@ function CoursePage() {
 
     const onClassClick = (audios: CourseClass[], index: number) => {
         if (saved) {
-            navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audios, index: index } });
+            navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audios, index: index, courseID: course?.id } });
         } else {
             toastManager.message(ENTERING_COURSE_ERROR);
             onSpeak(ENTERING_COURSE_ERROR);

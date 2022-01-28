@@ -85,7 +85,7 @@ function MyCourses() {
                 courseLength += topic.classes.length;
             });
             const data = student.courses.find((courseData) => courseData.courseID === course.id);
-            if(courseLength === data?.completed.length) {
+            if (courseLength === data?.completed.length) {
                 completedCourses.push(course);
             } else {
                 nonCompletedCourses.push(course);
@@ -96,18 +96,34 @@ function MyCourses() {
     }
 
     const onClick = (course: Course) => {
-        const saved = !!user?.courses.find(c => c.courseID === course.id);
-        navigate(`../${PATH_COURSE}`, { state: { course: course, saved: saved, student: user } });
+        navigate(`../${PATH_COURSE}`, { state: { course: course, saved: true, student: user } });
     }
 
     const courseCard = (data: Course[]) => {
         return data.map((course: Course, index: any) => {
             return (
                 <div key={index}>
-                    <CourseCard course={course} onClick={() => onClick(course)} />
+                    <CourseCard course={course} onClick={() => onClick(course)} completed={completedPercentage(course)} />
                 </div>
             )
         });
+    }
+
+    const completedPercentage = (course: Course) => {
+        let classLength = 0;
+        let completedLength = 1;
+        course.content.topics.forEach(topic => {
+            classLength += topic.classes.length;
+        });
+        if (classLength === 0) {
+            classLength = 1;
+        }
+        const courseData = student?.courses.find((courseData) => courseData.courseID === course.id);
+        if (courseData) {
+            completedLength = (courseData.completed.length === 0) ? 1 : courseData.completed.length;
+        }
+        const percentage = completedLength / classLength;
+        return percentage * 100;
     }
 
     const onSpeak = (text: string) => {

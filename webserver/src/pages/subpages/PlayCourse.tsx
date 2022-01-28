@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import BackButton from '../../components/BackButton';
 import Player from '../../components/Player';
+import { StudentContext } from '../../context/StudentContext';
 import { text } from '../../libs/styles';
 import { toastManager } from '../../libs/toastManager';
 import { decodeToken, getToken } from '../../libs/tokenInterceptor';
 import { AUDIO_URI, GETTING_DATA_ERROR, VOICE_ES } from '../../libs/utils';
 import { CourseClass, courseClassConverter } from '../../models/CourseClass';
+import { Student } from '../../models/Student';
+import { updateStudent } from '../../services/student.service';
 
 const styles = {
     container: {
@@ -35,16 +38,18 @@ function PlayCourse() {
 
     const [current, setcurrent] = useState<number>(0);
     const [audios, setaudios] = useState<CourseClass[]>([]);
+    const [courseID, setcourseID] = useState<String>();
     const [stop, setstop] = useState<boolean>(false);
 
     const location: any = useLocation();
     const navigate = useNavigate();
+    const student = useContext(StudentContext);
 
     const { speak, cancel } = useSpeechSynthesis();
 
     const onNext = () => {
+        completeCourse(current);
         if (current < audios.length - 1) {
-            completeCourse(current);
             setcurrent(current + 1);
         } else {
             setcurrent(0);
@@ -59,13 +64,15 @@ function PlayCourse() {
         }
     }
 
-    const completeCourse = (index: number) => {
-        const token = decodeToken(getToken());
-        try {
-            
-        } catch (error: any) {
-            toastManager.error(GETTING_DATA_ERROR);
-            onSpeak(GETTING_DATA_ERROR);
+    const completeCourse = async (index: number) => {
+        const token: any = decodeToken(getToken());
+        const course = student?.courses.find(c => c.courseID === courseID);
+        if (course) {
+            const completed = course.completed.find(data => data === audios[index].id);
+            if (!completed) {
+                student?.courses.find(c => c.courseID === courseID)?.completed.push(audios[index].id);
+                await updateStudent(token.token, student as Student);
+            }
         }
     }
 
@@ -80,13 +87,14 @@ function PlayCourse() {
     useEffect(() => {
         setaudios(getData());
         setcurrent(location.state.index);
+        setcourseID(location.state.courseID);
         return () => { };
     }, []);
 
     return (
         <div style={styles.container}>
             <BackButton onClick={() => setstop(true)} />
-            <Player 
+            <Player
                 audio={`${`${AUDIO_URI}${getData()[current].file}`}`}
                 onNext={onNext}
                 onPrevious={onPrevious}
