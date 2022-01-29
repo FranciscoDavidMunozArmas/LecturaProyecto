@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
 import { ChevronLeft } from '@material-ui/icons';
@@ -16,6 +16,7 @@ import { getStudent, updateStudent } from '../../services/student.service';
 import { Student } from '../../models/Student';
 import { toastManager } from '../../libs/toastManager';
 import Paragraph from '../../components/Paragraph';
+import { StudentContext } from '../../context/StudentContext';
 
 const styles = {
     container: {
@@ -43,10 +44,10 @@ function CoursePage() {
 
     const [course, setcourse] = useState<Course>();
     const [saved, setsaved] = useState<boolean>(false);
-    const [user, setuser] = useState<Student>();
 
     const location: any = useLocation();
     const navigate = useNavigate();
+    const student = useContext(StudentContext);
     const { speak, cancel } = useSpeechSynthesis();
 
     const onClassClick = (audios: CourseClass[], index: number) => {
@@ -59,21 +60,21 @@ function CoursePage() {
     }
 
     const onSaveClick = async (value: boolean) => {
-        if (value && user && course) {
-            user.courses.push({
+        if (value && student && course) {
+            student.courses.push({
                 courseID: course.id,
                 completed: [],
                 status: false
             });
             const token: any = decodeToken(getToken());
             const studentId = token.token;
-            updateStudent(studentId, user);
+            updateStudent(studentId, student);
             setsaved(true);
-        } else if (!value && user && course) {
-            user.courses = user.courses.filter(c => c.courseID !== course.id);
+        } else if (!value && student && course) {
+            student.courses = student.courses.filter(c => c.courseID !== course.id);
             const token: any = decodeToken(getToken());
             const studentId = token.token;
-            updateStudent(studentId, user);
+            updateStudent(studentId, student);
             setsaved(false);
         }
     }
@@ -85,9 +86,8 @@ function CoursePage() {
     useEffect(() => {
         setcourse(location.state.course);
         setsaved(location.state.saved);
-        setuser(location.state.student);
-        if (!saved && user && course) {
-            setsaved(!!user.courses.find(c => c.courseID === course.id));
+        if (!saved && student && course) {
+            setsaved(!!student.courses.find(c => c.courseID === course.id));
         }
         return () => { }
     }, []);

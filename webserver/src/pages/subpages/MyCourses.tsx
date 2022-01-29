@@ -8,7 +8,7 @@ import Title from '../../components/Title'
 import { StudentContext } from '../../context/StudentContext';
 import { toastManager } from '../../libs/toastManager';
 import { decodeToken, getToken } from '../../libs/tokenInterceptor'
-import { GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SEND_DATA_ERROR, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
+import { GENERATE_CERTIFICATE_SUCCESS, GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SEND_DATA_ERROR, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
 import { certificateConverter } from '../../models/Certificate';
 import { Course, courseConverter } from '../../models/Course';
 import { CourseClass } from '../../models/CourseClass';
@@ -16,7 +16,6 @@ import { Student, studentConverter } from '../../models/Student'
 import { createCertificate } from '../../services/certificate.service';
 import { getCoursesMany } from '../../services/course.service';
 import { getStudent, updateStudent } from '../../services/student.service'
-import Certificate from './Certificate';
 
 const styles = {
     container: {
@@ -137,12 +136,12 @@ function MyCourses() {
 
     const onGenerateCertificate = (course: Course) => {
         if (student) {
-            if (student.certifications.includes(course.id)){
+            if (student.certifications.includes(course.id)) {
                 toastManager.message(`${course.name} certificado ya generado`);
                 onSpeak(`${course.name} certificado ya generado`);
             } else {
                 generateCertificate(course);
-            }   
+            }
         }
     }
 
@@ -154,6 +153,8 @@ function MyCourses() {
                 student.certifications.push(course.id);
                 await createCertificate(course.id);
                 await updateStudent(token.token, student);
+                toastManager.success(GENERATE_CERTIFICATE_SUCCESS);
+                onSpeak(GENERATE_CERTIFICATE_SUCCESS);
             }
         } catch (error: any) {
             toastManager.error(SEND_DATA_ERROR);

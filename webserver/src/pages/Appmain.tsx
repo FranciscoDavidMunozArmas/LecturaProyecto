@@ -10,7 +10,7 @@ import { checkToken, decodeToken, getToken } from '../libs/tokenInterceptor';
 import { GETTING_DATA_ERROR, PATH_CERTIFICATES, PATH_COURSE, PATH_HOME, PATH_MY_COURSES, PATH_PLAYCOURSE, VOICE_ES } from '../libs/utils';
 import { Student, studentConverter } from '../models/Student';
 import { getStudent } from '../services/student.service';
-import Certificate from './subpages/Certificate';
+import CertificatePage from './subpages/CertificatePage';
 import CoursePage from './subpages/CoursePage';
 import Home from './subpages/Home';
 import MyCourses from './subpages/MyCourses';
@@ -79,7 +79,7 @@ function Appmain() {
                         <Routes>
                             <Route path={PATH_HOME} element={<Home />} />
                             <Route path={PATH_MY_COURSES} element={<MyCourses />} />
-                            <Route path={PATH_CERTIFICATES} element={<Certificate />} />
+                            <Route path={PATH_CERTIFICATES} element={<CertificatePage />} />
                             <Route path={PATH_COURSE} element={<CoursePage />} />
                             <Route path={`${PATH_COURSE}/${PATH_PLAYCOURSE}`} element={<PlayCourse />} />
                             <Route path="/*" element={<Navigate to={PATH_HOME} />} />

@@ -13,4 +13,7 @@ router.route("/certificate/:id")
 .get(authUser, Controller.getCertificate)
 .delete(authUser, authAdmin, Controller.deleteCertificate);
 
+router.route("/user/:id")
+.get(authUser, Controller.getCertificatesByUser);
+
 export default router;

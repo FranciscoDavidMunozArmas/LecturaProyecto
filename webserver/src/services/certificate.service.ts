@@ -46,3 +46,12 @@ export const deleteCertificate = async (id: any) => {
             }
         });
 }   
+
+export const getCertificatesByUser = async (userID: any) => {
+    return await axios.get(`${URI}/certificates/user/${userID}`,
+        {
+            headers: {
+                Authorization: getAuthorizationToken()
+            }
+        });
+}   
