@@ -11,8 +11,8 @@ export const getCertificates = async () => {
         });
 }
 
-export const createCertificate = async (course: any) => {
-    return await axios.post(`${URI}/certificates`, course,
+export const createCertificate = async (courseID: any) => {
+    return await axios.post(`${URI}/certificates`, { course: courseID },
         {
             headers: {
                 Authorization: getAuthorizationToken()

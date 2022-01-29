@@ -8,12 +8,15 @@ import Title from '../../components/Title'
 import { StudentContext } from '../../context/StudentContext';
 import { toastManager } from '../../libs/toastManager';
 import { decodeToken, getToken } from '../../libs/tokenInterceptor'
-import { GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
+import { GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SEND_DATA_ERROR, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
+import { certificateConverter } from '../../models/Certificate';
 import { Course, courseConverter } from '../../models/Course';
 import { CourseClass } from '../../models/CourseClass';
 import { Student, studentConverter } from '../../models/Student'
+import { createCertificate } from '../../services/certificate.service';
 import { getCoursesMany } from '../../services/course.service';
-import { getStudent } from '../../services/student.service'
+import { getStudent, updateStudent } from '../../services/student.service'
+import Certificate from './Certificate';
 
 const styles = {
     container: {
@@ -109,7 +112,7 @@ function MyCourses() {
         return data.map((course: Course, index: any) => {
             return (
                 <div key={index}>
-                    <CourseCard course={course} onClick={() => onClick(course)} completed={completedPercentage(course)} />
+                    <CourseCard course={course} onClick={() => onClick(course)} completed={completedPercentage(course)} onCertificate={onGenerateCertificate} />
                 </div>
             )
         });
@@ -130,6 +133,32 @@ function MyCourses() {
         }
         const percentage = completedLength / classLength;
         return percentage * 100;
+    }
+
+    const onGenerateCertificate = (course: Course) => {
+        if (student) {
+            if (student.certifications.includes(course.id)){
+                toastManager.message(`${course.name} certificado ya generado`);
+                onSpeak(`${course.name} certificado ya generado`);
+            } else {
+                generateCertificate(course);
+            }   
+        }
+    }
+
+
+    const generateCertificate = async (course: Course) => {
+        const token: any = decodeToken(getToken());
+        try {
+            if (student) {
+                student.certifications.push(course.id);
+                await createCertificate(course.id);
+                await updateStudent(token.token, student);
+            }
+        } catch (error: any) {
+            toastManager.error(SEND_DATA_ERROR);
+            onSpeak(SEND_DATA_ERROR);
+        }
     }
 
     const onSpeak = (text: string) => {

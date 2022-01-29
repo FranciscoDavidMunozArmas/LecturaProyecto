@@ -59,7 +59,8 @@ const styles = {
 interface Props {
     course: Course,
     completed?: number,
-    onClick?: (course: Course) => void
+    onClick?: (course: Course) => void,
+    onCertificate?: (course: Course) => void,
 }
 
 function CourseCard(props: Props) {
@@ -84,19 +85,24 @@ function CourseCard(props: Props) {
     return (
         <>
             <div style={styles.container}>
-                <div style={styles.card} onClick={handleClick} onMouseEnter={() => onSpeak(props.course.name)} onMouseLeave={() => cancel()}>
-                    <div style={styles.cardHeader}>
-                        <h1 style={styles.cardTitle}>{props.course.name}</h1>
-                        {(props.completed) ? <p style={styles.cardParagraph}>{props.completed} %</p> : null}
-                        <p style={styles.cardParagraph}>Tiempo: {formatTime(props.course.duration)}</p>
-                    </div>
-                    <div style={styles.cardBody}>
-                        <h2 style={styles.cardSubtitle}>Descripcion</h2>
-                        <p style={styles.cardParagraph}>{showDescription(props.course.content.description)}</p>
+                <div style={styles.card}>
+                    <div onClick={handleClick} 
+                    onMouseEnter={() => onSpeak((!props.completed) ? props.course.name : `${props.course.name} completo al ${props.completed}%`)} 
+                    onMouseLeave={() => cancel()}>
+                        <div style={styles.cardHeader}>
+                            <h1 style={styles.cardTitle}>{props.course.name}</h1>
+                            {(props.completed) ? <p style={styles.cardParagraph}>{props.completed} %</p> : null}
+                            <p style={styles.cardParagraph}>Tiempo: {formatTime(props.course.duration)}</p>
+                        </div>
+                        <div style={styles.cardBody}>
+                            <h2 style={styles.cardSubtitle}>Descripcion</h2>
+                            <p style={styles.cardParagraph}>{showDescription(props.course.content.description)}</p>
+                        </div>
                     </div>
                     {
                         props.completed === 100 ?
                             (<div style={styles.certificate}
+                                onClick={() => props.onCertificate?.(props.course)}
                                 onMouseEnter={() => onSpeak(GENERATE_CERTIFICATE_NAME)}
                                 onMouseLeave={() => cancel()}>
                                 <h1 style={styles.cardSubtitle}>{GENERATE_CERTIFICATE_NAME}</h1>
