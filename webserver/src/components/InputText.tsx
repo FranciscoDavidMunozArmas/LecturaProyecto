@@ -52,7 +52,7 @@ function InputText(props: Props) {
     }
 
     const handleKeyDown = (event: any) => {
-        if (event.keyCode === TAB_KEY) {
+        if (event.keyCode === TAB_KEY && props.type !== "password") {
             onSpeak(text);
         }
     }

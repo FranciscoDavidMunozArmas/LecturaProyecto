@@ -100,6 +100,7 @@ function LoginPage() {
 
     return (
         <>
+            <LoadingContainer show={loading} />
             <div style={style.container}>
 
                 <Title title={LOGIN} start={true} />
