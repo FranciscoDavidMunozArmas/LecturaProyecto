@@ -54,6 +54,7 @@ const styles = {
 
 interface Props {
     certificate: Certificate,
+    onClick?: () => void,
 }
 
 function CertificateCard(props: Props) {
@@ -69,7 +70,10 @@ function CertificateCard(props: Props) {
 
     return <>
         <div style={styles.container}>
-            <div style={styles.card} onMouseEnter={() => onSpeak(`${props.certificate.course.name} ${STATUS}`)} onMouseLeave={() => cancel()}>
+            <div style={styles.card} 
+            onClick={() => props.onClick?.()}
+            onMouseEnter={() => onSpeak(`${props.certificate.course.name} ${STATUS}`)} 
+            onMouseLeave={() => cancel()}>
                 <div style={styles.cardHeader}>
                     <h1 style={styles.cardTitle}>
                         {props.certificate.course.name}
