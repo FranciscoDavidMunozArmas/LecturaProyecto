@@ -1,9 +1,11 @@
 import { HelpRounded } from '@material-ui/icons';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import React from 'react';
 import { useSpeechSynthesis } from "react-speech-kit";
 import { BORDER_RADIOUS } from '../libs/styles';
 import { VOICE_ES } from '../libs/utils';
 import { Certificate } from '../models/Certificate';
+import CertificatePDF from '../pdf/CertificatePDF';
 
 const styles = {
     container: {
@@ -14,13 +16,14 @@ const styles = {
         alignItems: 'center',
     },
     card: {
+        minWidth: '350px',
         width: '100%',
         maxWidth: '750px',
         height: 'auto',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
         borderRadius: BORDER_RADIOUS,
-        margin: '10px 20px',
         cursor: 'pointer',
+        textDecoration: 'none' as const
     },
     cardHeader: {
         display: 'flex',
@@ -53,8 +56,7 @@ const styles = {
 
 
 interface Props {
-    certificate: Certificate,
-    onClick?: () => void,
+    certificate: Certificate
 }
 
 function CertificateCard(props: Props) {
@@ -70,18 +72,27 @@ function CertificateCard(props: Props) {
 
     return <>
         <div style={styles.container}>
-            <div style={styles.card} 
-            onClick={() => props.onClick?.()}
-            onMouseEnter={() => onSpeak(`${props.certificate.course.name} ${STATUS}`)} 
-            onMouseLeave={() => cancel()}>
-                <div style={styles.cardHeader}>
-                    <h1 style={styles.cardTitle}>
-                        {props.certificate.course.name}
-                    </h1>
-                </div>
-                <div style={styles.cardBody}>
-                    <p style={styles.status}>{STATUS}</p>
-                </div>
+            <div style={{
+                minWidth: '350px',
+                width: '100%',
+                maxWidth: '750px',
+                margin: '10px 20px',
+            }}
+                onMouseEnter={() => onSpeak(`${props.certificate.course.name} ${STATUS}`)}
+                onMouseLeave={() => cancel()}>
+
+                <PDFDownloadLink style={{ textDecoration: 'none' as const }} document={<CertificatePDF />} fileName="sample.pdf">
+                    <div style={styles.card}>
+                        <div style={styles.cardHeader}>
+                            <h1 style={styles.cardTitle}>
+                                {props.certificate.course.name}
+                            </h1>
+                        </div>
+                        <div style={styles.cardBody}>
+                            <p style={styles.status}>{STATUS}</p>
+                        </div>
+                    </div>
+                </PDFDownloadLink>
             </div>
             <div className='icon' onMouseEnter={() => onSpeak(HELP)} onMouseLeave={() => cancel()}>
                 <HelpRounded style={styles.icon} />

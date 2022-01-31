@@ -1,4 +1,4 @@
-import ReactPDF from '@react-pdf/renderer';
+import ReactPDF, { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import React, { useContext, useEffect, useState } from 'react'
 import { useSpeechSynthesis } from 'react-speech-kit';
 import CertificateCard from '../../components/CertificateCard';
@@ -45,7 +45,7 @@ function CertificatePage() {
     }
 
     const onClick = (certificate: Certificate) => {
-        ReactPDF.renderToStream(<CertificatePDF />);
+        //ReactPDF.render(<CertificatePDF />, `${__dirname}/${certificate.course.name}.pdf`);
     }
 
     useEffect(() => {
@@ -62,8 +62,7 @@ function CertificatePage() {
                     certificates.map((certificate: Certificate, index: any) => (
                         <div key={index}>
                             <CertificateCard
-                                certificate={certificate}
-                                onClick={() => onClick(certificate)} />
+                                certificate={certificate} />
                         </div>
                     ))
                 }
