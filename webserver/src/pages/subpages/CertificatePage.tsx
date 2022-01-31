@@ -44,10 +44,6 @@ function CertificatePage() {
         speak({ text: text, voice: VOICE_ES });
     }
 
-    const onClick = (certificate: Certificate) => {
-        //ReactPDF.render(<CertificatePDF />, `${__dirname}/${certificate.course.name}.pdf`);
-    }
-
     useEffect(() => {
         getCertificates();
         return () => { };

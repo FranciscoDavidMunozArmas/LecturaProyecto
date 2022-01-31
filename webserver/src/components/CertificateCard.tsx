@@ -81,7 +81,7 @@ function CertificateCard(props: Props) {
                 onMouseEnter={() => onSpeak(`${props.certificate.course.name} ${STATUS}`)}
                 onMouseLeave={() => cancel()}>
 
-                <PDFDownloadLink style={{ textDecoration: 'none' as const }} document={<CertificatePDF />} fileName="sample.pdf">
+                <PDFDownloadLink style={{ textDecoration: 'none' as const }} document={<CertificatePDF certificate={props.certificate} />} fileName="sample.pdf">
                     <div style={styles.card}>
                         <div style={styles.cardHeader}>
                             <h1 style={styles.cardTitle}>
