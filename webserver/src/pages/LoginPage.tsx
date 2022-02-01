@@ -10,7 +10,7 @@ import Title from '../components/Title'
 import { toastManager } from '../libs/toastManager';
 import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, PATH_EARLEANING, PATH_REGISTER, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
 import { authorize } from '../services/user.service';
-import { checkToken, setUpToken } from '../libs/tokenInterceptor';
+import { checkToken, decodeToken, setUpToken } from '../libs/tokenInterceptor';
 import LoadingContainer from '../components/LoadingContainer';
 
 const style = {
@@ -75,6 +75,7 @@ function LoginPage() {
                 if (token.data) {
                     setloading(false);
                     setUpToken(token.data);
+                    console.log(decodeToken(token.data));
                     navigate(PATH_EARLEANING);
                 }
             } catch (error: any) {
