@@ -8,7 +8,7 @@ import InputText from '../components/InputText'
 import LinkComponent from '../components/LinkComponent'
 import Title from '../components/Title'
 import { toastManager } from '../libs/toastManager';
-import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, PATH_EARLEANING, PATH_REGISTER, REGISTER, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
+import { checkPassword, EMAIL_INPUT_HELP, FORGOT_PASSWORD, LOGIN, LOGIN_ERROR, PASSWORD_INPUT_HELP, PASSWORD_LENGTH_ERROR, PATH_EARLEANING, PATH_REGISTER, PATH_TEACHER, REGISTER, ROLES, TAB_KEY, UNFILL_MAIL_ERROR, UNFILL_PASSWORD_ERROR, VOICE_ES } from '../libs/utils'
 import { authorize } from '../services/user.service';
 import { checkToken, decodeToken, setUpToken } from '../libs/tokenInterceptor';
 import LoadingContainer from '../components/LoadingContainer';
@@ -72,11 +72,15 @@ function LoginPage() {
         if (response) {
             try {
                 const token = await authorize(response);
+                const decoded: any = decodeToken(token);
                 if (token.data) {
                     setloading(false);
                     setUpToken(token.data);
-                    console.log(decodeToken(token.data));
-                    navigate(PATH_EARLEANING);
+                    if(decoded.role === ROLES[0]){
+                        navigate(PATH_EARLEANING);
+                    }else if (decoded.role === ROLES[1]) {
+                        navigate(PATH_TEACHER);
+                    }
                 }
             } catch (error: any) {
                 setloading(false);

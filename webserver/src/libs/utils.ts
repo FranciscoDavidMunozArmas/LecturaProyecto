@@ -63,6 +63,7 @@ export const PATH_LOGIN = "/login";
 export const PATH_REGISTER = "/register";
 export const PATH_FORGOT_PASSWORD = "/forgot-password";
 export const PATH_EARLEANING = "/earleaning";
+export const PATH_TEACHER = "/teacher";
 export const PATH_HOME = "home";
 export const PATH_MY_COURSES = "mycourses";
 export const PATH_COURSE = "course";
