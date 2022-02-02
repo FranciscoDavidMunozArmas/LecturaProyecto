@@ -16,6 +16,7 @@ const styles = {
 }
 
 interface Props {
+    overrideText?: string,
     onClick?: () => void
 }
 
@@ -33,12 +34,12 @@ function MoreButton(props: Props) {
 
     return (
         <div style={styles.moreContainer}
-        onMouseEnter={() => { onSpeak(MORE_NAME) }}
+        onMouseEnter={() => { onSpeak((props.overrideText) ? props.overrideText : MORE_NAME) }}
         onMouseLeave={() => { cancel() }}>
         {
             <a style={styles.moreButton}
                 onClick={onClick}
-            >{MORE_NAME}</a>
+            >{(props.overrideText) ? props.overrideText : MORE_NAME}</a>
         }
     </div>
     )

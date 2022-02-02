@@ -33,6 +33,7 @@ const styles = {
 }
 
 interface Props {
+    value?: string,
     help?: string,
     name?: string,
     ref?: any,
@@ -61,6 +62,16 @@ function InputText(props: Props) {
         speak({ text: text, voice: VOICE_ES });
     }
 
+    useEffect(() => {
+        if (props.value) {
+            settext(props.value);
+        } else {
+            settext("");
+        }
+        return () => { };
+    }, [props.value]);
+
+
     return (
         <>
             <div style={styles.container}>
@@ -69,12 +80,12 @@ function InputText(props: Props) {
                     type={props.type}
                     onMouseEnter={() => onSpeak(props.hint)}
                     onMouseLeave={() => cancel()}
-                    onChange={handleChange} 
-                    onKeyDown={handleKeyDown} 
-                    style={styles.input} 
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    style={styles.input}
                     name={props.name}
                     value={text}
-                    ref={props.ref}/>
+                    ref={props.ref} />
                 <div className='icon' onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>
         </>

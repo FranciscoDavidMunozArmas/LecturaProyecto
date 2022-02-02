@@ -8,6 +8,7 @@ const passwordLength = 6;
 export const HOME_NAME = "INICIO";
 export const MY_COURSES_NAME = "MIS CURSOS";
 export const CERTIFICATES_NAME = "CERTIFICADOS";
+export const SUBSECTION_COURSES = "CURSOS";
 export const SUBSECTION_HOME_1_NAME = "NUEVOS CURSOS";
 export const SUBSECTION_HOME_2_NAME = "MEJORES CURSOS";
 export const SUBSECTION_HOME_3_NAME = "RECOMENDADOS";
@@ -19,6 +20,10 @@ export const PASSWORD = "CONTRASEÑA";
 export const LOGIN = "INGRESAR";
 export const REGISTER = "REGISTRARSE";
 export const FORGOT_PASSWORD = "¿OLVIDÓ SU CONTRASEÑA?";
+
+export const HINT_COURSE_NAME = "Nombre del curso";
+export const HINT_COURSE_DESCRIPTION = "Descripción del curso";
+export const HINT_COURSE_REQUIREMENT = "Requisito del curso";
 
 export const EMAIL_INPUT_HELP = "Ingrese su correo electrónico";
 export const PASSWORD_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
