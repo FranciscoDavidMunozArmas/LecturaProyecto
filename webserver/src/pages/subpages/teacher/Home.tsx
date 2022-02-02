@@ -17,6 +17,7 @@ import { getCoursesMany } from '../../../services/course.service';
 import { Backdrop, Box, Fade, Typography } from '@mui/material';
 import InputText from '../../../components/InputText';
 import CourseForm from '../../../components/CourseForm';
+import { BORDER_RADIOUS, palette } from '../../../libs/styles';
 
 const styles = {
   container: {
@@ -41,10 +42,11 @@ const styles = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
+    bgcolor: palette.white,
     border: 'none',
     boxShadow: 24,
-    p: 4,
+    padding: 4,
+    borderRadius: BORDER_RADIOUS,
   }
 }
 

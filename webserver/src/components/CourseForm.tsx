@@ -1,6 +1,7 @@
 import { Add, Remove } from '@material-ui/icons';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { HINT_COURSE_DESCRIPTION, HINT_COURSE_NAME, HINT_COURSE_REQUIREMENT, REQUIERMENTS_NAME } from '../libs/utils';
+import { Course } from '../models/Course';
 import InputText from './InputText';
 import Subtitle from './Subtitle';
 
@@ -14,10 +15,12 @@ const styles = {
 }
 
 interface Props {
+    course?: Course,
     onSubmit?: (course: any) => void;
 }
 
 function CourseForm(props: Props) {
+    const [course, setcourse] = useState<Course>();
     const [requirements, setrequirements] = useState<string[]>([""]);
 
     const onAddRequirement = () => {
@@ -32,13 +35,22 @@ function CourseForm(props: Props) {
         setrequirements(requirements.map((requirement, i) => (i === index) ? event.target.value : requirement));
     }
 
+    useEffect(() => {
+        if (props.course) {
+            setcourse(props.course);
+            setrequirements(props.course.content.requirements);
+        }
+        return () => { };
+    }, [props.course]);
+
+
     return (
         <div>
             <form style={styles.form}>
-                <InputText hint={HINT_COURSE_NAME} />
-                <InputText hint={HINT_COURSE_DESCRIPTION} />
+                <InputText hint={HINT_COURSE_NAME} value={(props.course) ? props.course.name : ""} />
+                <InputText hint={HINT_COURSE_DESCRIPTION} value={(props.course) ? props.course.content.description : ""} />
                 <Subtitle text={REQUIERMENTS_NAME} />
-                <div>
+                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
                     {
                         requirements.map((requirement, index) => {
                             return (
@@ -46,9 +58,9 @@ function CourseForm(props: Props) {
                                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
                                     key={index}>
                                     <InputText
-                                    hint={HINT_COURSE_REQUIREMENT} 
-                                    value={requirement}
-                                    onChange={(event) => onRequirementChange(event, index)} />
+                                        hint={HINT_COURSE_REQUIREMENT}
+                                        value={requirement}
+                                        onChange={(event) => onRequirementChange(event, index)} />
                                     {(requirements.length - 1 === index) ?
                                         <div className='icon'
                                             style={{ margin: '10px', cursor: 'pointer' }}
