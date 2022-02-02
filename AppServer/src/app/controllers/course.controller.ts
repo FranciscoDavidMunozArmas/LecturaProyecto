@@ -36,12 +36,12 @@ export const createCourse = async (req: Request, res: Response) => {
         if (data) {
             const docData = await addDoc(collectionReference, courseConverter.toJSON(data));
             data.id = docData.id;
-            console.log(data);
             await updateDoc(documentReference(data.id), courseConverter.toJSON(data));
-            return res.status(201).json({ message: 'Course Created' });
+            return res.status(201).json({ message: 'Course Created', id: docData.id });
         }
         return res.status(401).json({ message: 'Invalid Course' });
     } catch (error: any) {
+        console.log(error.message);
         return res.status(500).json({
             message: 'Internal Server Error',
             error: error.message

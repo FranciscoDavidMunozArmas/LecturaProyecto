@@ -38,6 +38,7 @@ interface Props {
     name?: string,
     ref?: any,
     type?: string | undefined,
+    required?: boolean,
     hint: string,
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void
 }
@@ -85,6 +86,7 @@ function InputText(props: Props) {
                     style={styles.input}
                     name={props.name}
                     value={text}
+                    required={props.required}
                     ref={props.ref} />
                 <div className='icon' onMouseEnter={() => onSpeak((props.help) ? props.help : "")} onMouseLeave={() => cancel()}><HelpRounded style={styles.icon} /></div>
             </div>

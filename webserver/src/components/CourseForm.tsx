@@ -1,12 +1,13 @@
 import { Add, Remove } from '@material-ui/icons';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { HINT_COURSE_DESCRIPTION, HINT_COURSE_NAME, HINT_COURSE_REQUIREMENT, REQUIERMENTS_NAME } from '../libs/utils';
-import { Course } from '../models/Course';
+import { Course, courseConverter } from '../models/Course';
 import InputText from './InputText';
 import Subtitle from './Subtitle';
 
 const styles = {
     form: {
+        width: '100%',
         display: 'flex',
         flexDirection: 'column' as const,
         alignItems: 'center' as const,
@@ -22,6 +23,7 @@ interface Props {
 function CourseForm(props: Props) {
     const [course, setcourse] = useState<Course>();
     const [requirements, setrequirements] = useState<string[]>([""]);
+    const [data, setdata] = useState<any>({});
 
     const onAddRequirement = () => {
         setrequirements([...requirements, ""]);
@@ -31,8 +33,25 @@ function CourseForm(props: Props) {
         setrequirements(requirements.filter((requirement, i) => i !== index));
     }
 
+    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setdata({ ...data, [event.target.name]: event.target.value });
+    }
+
     const onRequirementChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
         setrequirements(requirements.map((requirement, i) => (i === index) ? event.target.value : requirement));
+    }
+
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const content = {
+            description: data.description,
+            requirements: requirements.filter(requirement => requirement !== ""),
+        }
+        const course = {
+            name: data.name,
+            content
+        };
+        props.onSubmit?.(course);
     }
 
     useEffect(() => {
@@ -46,9 +65,18 @@ function CourseForm(props: Props) {
 
     return (
         <div>
-            <form style={styles.form}>
-                <InputText hint={HINT_COURSE_NAME} value={(props.course) ? props.course.name : ""} />
-                <InputText hint={HINT_COURSE_DESCRIPTION} value={(props.course) ? props.course.content.description : ""} />
+            <form style={styles.form} onSubmit={onSubmit}>
+                <InputText
+                    hint={HINT_COURSE_NAME}
+                    onChange={onChange}
+                    name="name"
+                    value={(props.course) ? props.course.name : ""}
+                    required={true} />
+                <InputText
+                    hint={HINT_COURSE_DESCRIPTION}
+                    onChange={onChange}
+                    name="description" value={(props.course) ? props.course.content.description : ""}
+                    required={true} />
                 <Subtitle text={REQUIERMENTS_NAME} />
                 <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
                     {
@@ -60,7 +88,8 @@ function CourseForm(props: Props) {
                                     <InputText
                                         hint={HINT_COURSE_REQUIREMENT}
                                         value={requirement}
-                                        onChange={(event) => onRequirementChange(event, index)} />
+                                        onChange={(event) => onRequirementChange(event, index)}
+                                        required={true} />
                                     {(requirements.length - 1 === index) ?
                                         <div className='icon'
                                             style={{ margin: '10px', cursor: 'pointer' }}
@@ -77,6 +106,9 @@ function CourseForm(props: Props) {
                             );
                         })
                     }
+                </div>
+                <div>
+                    <button type='submit'>Submit</button>
                 </div>
             </form>
         </div>

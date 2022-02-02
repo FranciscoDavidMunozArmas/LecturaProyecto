@@ -10,10 +10,10 @@ import Subtitle from '../../../components/Subtitle';
 import Title from '../../../components/Title';
 import { TeacherContext } from '../../../context/TeacherContext';
 import { toastManager } from '../../../libs/toastManager';
-import { GETTING_DATA_ERROR, HINT_COURSE_NAME, HINT_COURSE_REQUIREMENT, HOME_NAME, REQUIERMENTS_NAME, SUBSECTION_COURSES, SUBSECTION_HOME_1_NAME, VOICE_ES } from '../../../libs/utils';
-import { Course } from '../../../models/Course';
-import { Teacher } from '../../../models/Teacher';
-import { getCoursesMany } from '../../../services/course.service';
+import { GETTING_DATA_ERROR, HINT_COURSE_NAME, HINT_COURSE_REQUIREMENT, HOME_NAME, PATH_COURSE, REQUIERMENTS_NAME, SAVING_DATA_ERROR, SUBSECTION_COURSES, SUBSECTION_HOME_1_NAME, VOICE_ES } from '../../../libs/utils';
+import { Course, courseConverter } from '../../../models/Course';
+import { Teacher, teacherConverter } from '../../../models/Teacher';
+import { createCourse, getCoursesMany } from '../../../services/course.service';
 import { Backdrop, Box, Fade, Typography } from '@mui/material';
 import InputText from '../../../components/InputText';
 import CourseForm from '../../../components/CourseForm';
@@ -92,6 +92,21 @@ function Home() {
     }
   }
 
+  const onSubmit = async (course: any) => {
+    if (teacher) {
+      const newCourse = { ...course, teacher: teacherConverter.toJSON(teacher) };
+      try {
+        const courseData: Course = courseConverter.fromJSON(newCourse);
+        const data = await createCourse(courseData);
+        setmodalOpen(false);
+        navigate(`../${PATH_COURSE}`, { state: { course: data } });
+      } catch (error: any) {
+        toastManager.error(SAVING_DATA_ERROR);
+        onSpeak(SAVING_DATA_ERROR);
+      }
+    }
+  }
+
   useEffect(() => {
     setloadingCourses(true);
     if (teacher) {
@@ -132,7 +147,7 @@ function Home() {
         <Fade in={modalOpen}>
           <Box sx={styles.modalContainer}>
             <div style={{ position: 'relative', width: "100%", height: "100%" }}>
-              <CourseForm />
+              <CourseForm onSubmit={onSubmit} />
             </div>
           </Box>
         </Fade>

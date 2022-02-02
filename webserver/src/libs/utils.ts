@@ -40,6 +40,7 @@ export const PASSWORD_LENGTH_ERROR = `La contraseña debe tener al menos ${passw
 export const SIGN_OUT_ERROR = "Error al cerrar sesión";
 export const GETTING_DATA_ERROR = "Error al obtener datos";
 export const SEND_DATA_ERROR = "Error al enviar datos";
+export const SAVING_DATA_ERROR = "Error al guardar datos";
 export const AUDIO_ERROR = "Error al cargar el audio";
 
 export const ENTERING_COURSE_ERROR = "Primero debe inscribirse en el curso";

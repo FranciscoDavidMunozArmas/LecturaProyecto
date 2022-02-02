@@ -17,7 +17,7 @@ export class Course {
         this.id = (id) ? id : "";
         this.name = name;
         this.teacher = teacher;
-        this.language = language;
+        this.language = (language) ? language : "";
         this.score = score;
         this.objectives = (objectives) ? objectives : [];
         this.content = content;
