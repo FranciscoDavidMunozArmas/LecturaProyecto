@@ -1,3 +1,4 @@
+import { Delete, Edit } from '@material-ui/icons';
 import { Backdrop, Fade, Modal, Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,7 +11,7 @@ import Title from '../../../components/Title';
 import TopicField from '../../../components/TopicField';
 import TopicForm from '../../../components/TopicForm';
 import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
-import { EDIT_NAME, REQUIERMENTS_NAME } from '../../../libs/utils';
+import { DELETE_BUTTON_NAME, EDIT_BUTTON_NAME, REQUIERMENTS_NAME } from '../../../libs/utils';
 import { Course } from '../../../models/Course';
 
 const styles = {
@@ -33,9 +34,7 @@ const styles = {
     fontSize: '1rem',
     fontStyle: "italic",
   },
-  editButton: {
-    position: 'absolute' as const,
-    right: 0,
+  button: {
     fontSize: text.paragraph.fontSize
   },
   modalContainer: {
@@ -76,8 +75,11 @@ function CoursePage() {
     <>
       <div style={styles.container}>
         <BackButton />
-        <div style={{ position: 'relative' }}>
-          <a className='icon' style={styles.editButton} onClick={() => {setmodalOpen(true); setcourseModal(true)}}>{EDIT_NAME}</a>
+        <div>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+            <a className='icon' style={{ alignContent: 'center', ...styles.button }}>{DELETE_BUTTON_NAME} <Delete /></a>
+            <a className='icon' style={{ alignContent: 'center', ...styles.button }} onClick={() => { setmodalOpen(true); setcourseModal(true) }}> <Edit /> {EDIT_BUTTON_NAME}</a>
+          </div>
           <Title title={(course) ? course.name : "Course"} />
           <Paragraph text={(course) ? course.content.description : "Course"} />
           <Subtitle text={REQUIERMENTS_NAME} />
@@ -95,7 +97,7 @@ function CoursePage() {
               </>)
             })
           }
-          <AddComponent onClick={() => { setmodalOpen(true) }}/>
+          <AddComponent onClick={() => { setmodalOpen(true) }} />
         </div>
       </div>
       <Modal
@@ -109,7 +111,7 @@ function CoursePage() {
         <Fade in={modalOpen}>
           <Box sx={styles.modalContainer}>
             {
-              courseModal ? <CourseForm course={course}/> : <TopicForm />
+              courseModal ? <CourseForm course={course} /> : <TopicForm />
             }
           </Box>
         </Fade>

@@ -46,7 +46,8 @@ export const AUDIO_ERROR = "Error al cargar el audio";
 
 export const ENTERING_COURSE_ERROR = "Primero debe inscribirse en el curso";
 
-export const EDIT_NAME = "Editar";
+export const EDIT_BUTTON_NAME = "Eliminar";
+export const DELETE_BUTTON_NAME = "Editar";
 export const MORE_NAME = "Ver más...";
 export const BACK_NAME = "Volver";
 export const SAVE_NAME = "Inscribirse";
