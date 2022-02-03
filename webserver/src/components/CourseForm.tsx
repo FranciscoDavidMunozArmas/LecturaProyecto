@@ -1,6 +1,7 @@
 import { Add, Remove } from '@material-ui/icons';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { HINT_COURSE_DESCRIPTION, HINT_COURSE_NAME, HINT_COURSE_REQUIREMENT, REQUIERMENTS_NAME } from '../libs/utils';
+import { BORDER_RADIOUS, palette, text } from '../libs/styles';
+import { CERTIFICATE_NAME, HINT_COURSE_DESCRIPTION, HINT_COURSE_NAME, HINT_COURSE_REQUIREMENT, REQUIERMENTS_NAME, SAVE_NAME } from '../libs/utils';
 import { Course, courseConverter } from '../models/Course';
 import InputText from './InputText';
 import Subtitle from './Subtitle';
@@ -13,6 +14,14 @@ const styles = {
         alignItems: 'center' as const,
         justifyContent: 'center' as const,
     },
+    submitButton: {
+        margin : '10px',
+        padding: '10px',
+        border: 'none',
+        borderRadius: BORDER_RADIOUS,
+        backgroundColor: palette.white,
+        fontSize: text.subtitle.fontSize,
+    }
 }
 
 interface Props {
@@ -108,7 +117,7 @@ function CourseForm(props: Props) {
                     }
                 </div>
                 <div>
-                    <button type='submit'>Submit</button>
+                    <button type='submit' className='icon' style={styles.submitButton}>{SAVE_NAME}</button>
                 </div>
             </form>
         </div>

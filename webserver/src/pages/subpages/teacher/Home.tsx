@@ -18,6 +18,8 @@ import { Backdrop, Box, Fade, Typography } from '@mui/material';
 import InputText from '../../../components/InputText';
 import CourseForm from '../../../components/CourseForm';
 import { BORDER_RADIOUS, palette } from '../../../libs/styles';
+import { updateTeacher } from '../../../services/teacher.service';
+import { decodeToken, getToken } from '../../../libs/tokenInterceptor';
 
 const styles = {
   container: {
@@ -64,7 +66,7 @@ function Home() {
     return data.map((course: Course, index: any) => {
       return (
         <div key={index}>
-          <CourseCard course={course} onClick={() => onClick(course)} />
+          <CourseCard course={course} onClick={() => changeView(course)} />
         </div>
       )
     });
@@ -74,18 +76,14 @@ function Home() {
     speak({ text: text, voice: VOICE_ES });
   }
 
-  const onClick = (course: Course) => {
-    // const saved = !!student?.courses.find(c => c.courseID === course.id);
-    // navigate(`../${PATH_COURSE}`, { state: { course: course, saved: saved, student: student } });
-  }
-
   const onCloseModal = () => {
     setmodalOpen(false);
   }
 
   const getData = async (teacher: Teacher) => {
     try {
-      setcourses(teacher.courses);
+      const courses = await getCoursesMany(teacher.courses);
+      setcourses(courses.data.map(courseConverter.fromJSON));
     } catch (error: any) {
       toastManager.error(GETTING_DATA_ERROR);
       onSpeak(GETTING_DATA_ERROR);
@@ -93,18 +91,26 @@ function Home() {
   }
 
   const onSubmit = async (course: any) => {
+    const token: any = decodeToken(getToken());
     if (teacher) {
       const newCourse = { ...course, teacher: teacherConverter.toJSON(teacher) };
       try {
         const courseData: Course = courseConverter.fromJSON(newCourse);
         const data = await createCourse(courseData);
+        teacher.courses.push(data.data.id);
+        await updateTeacher(token.token, teacher);
         setmodalOpen(false);
-        navigate(`../${PATH_COURSE}`, { state: { course: data } });
+        courseData.id = data.data.id;
+        changeView(courseData);
       } catch (error: any) {
         toastManager.error(SAVING_DATA_ERROR);
         onSpeak(SAVING_DATA_ERROR);
       }
     }
+  }
+
+  const changeView = (course: Course) => {
+    navigate(`../${PATH_COURSE}`, { state: { course: course } });
   }
 
   useEffect(() => {

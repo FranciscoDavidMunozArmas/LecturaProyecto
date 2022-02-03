@@ -331,13 +331,16 @@ export const deleteCourseClass = async (req: Request, res: Response) => {
 export const getCoursesMany = async (req: Request, res: Response) => {
     try {
         const { ids } = req.body;
+        if (ids.length < 1) {
+            return res.status(200).json([]);
+        }
         const dataQuery = query(collectionReference, where('id', 'in', ids));
         const dataDocs = await getDocs(dataQuery);
         const data: Course[] = dataDocs.docs.map(doc => courseConverter.fromJSON(doc.data()));
         if (data.length >= 0) {
             return res.status(200).json(data);
         }
-        return res.status(404).json({ message: 'Courses not found' });
+        return res.status(200).json({ message: 'Courses not found' });
     } catch (error: any) {
         return res.status(500).json({
             message: 'Internal Server Error',
