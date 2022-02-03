@@ -7,7 +7,7 @@ export class Topic {
     classes: CourseClass[];
 
     constructor(id: string, name: string, classes: CourseClass[]) {
-        this.id = id;
+        this.id = (id) ? id : "";
         this.name = name;
         this.classes = classes;
         // this.duration = (classes.length !== 0) ? classes.map(courseClass => courseClass.duration).reduce((a, b) => a + b) : 0;

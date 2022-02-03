@@ -24,6 +24,7 @@ export const FORGOT_PASSWORD = "¿OLVIDÓ SU CONTRASEÑA?";
 export const HINT_COURSE_NAME = "Nombre del curso";
 export const HINT_COURSE_DESCRIPTION = "Descripción del curso";
 export const HINT_COURSE_REQUIREMENT = "Requisito del curso";
+export const HINT_TOPIC_NAME = "Nombre del tema";
 
 export const EMAIL_INPUT_HELP = "Ingrese su correo electrónico";
 export const PASSWORD_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";
@@ -50,6 +51,7 @@ export const MORE_NAME = "Ver más...";
 export const BACK_NAME = "Volver";
 export const SAVE_NAME = "Inscribirse";
 export const SAVED_NAME = "Inscrito";
+export const SAVE_BUTTON_NAME = "Guardar";
 export const PREVIOURS_NAME = "Anterior";
 export const NEXT_NAME = "Siguiente";
 export const PLAY_NAME = "Reproducir";

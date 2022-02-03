@@ -15,23 +15,28 @@ const styles = {
         borderRadius: BORDER_RADIOUS,
     },
     borderBlack: {
-        border:  `1px dashed ${palette.primary}`,
+        border: `1px dashed ${palette.primary}`,
     },
     borderRed: {
         border: `1px dashed ${palette.secondary}`,
     }
 }
 
-function AddComponent() {
+interface Props {
+    onClick?: () => void
+}
+
+function AddComponent(props: Props) {
     const [borderStyle, setborderStyle] = useState<any>(styles.borderBlack);
 
-  return (
-      <div className='icon' style={{...borderStyle, ...styles.container}}
-      onMouseEnter={() => setborderStyle(styles.borderRed)}
-      onMouseLeave={() => setborderStyle(styles.borderBlack)}>
-        <Add />
-      </div>
-  );
+    return (
+        <div className='icon' style={{ ...borderStyle, ...styles.container }}
+            onClick={() => { props.onClick?.() }}
+            onMouseEnter={() => setborderStyle(styles.borderRed)}
+            onMouseLeave={() => setborderStyle(styles.borderBlack)}>
+            <Add />
+        </div>
+    );
 }
 
 export default AddComponent;

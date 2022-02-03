@@ -7,6 +7,8 @@ import CourseForm from '../../../components/CourseForm';
 import Paragraph from '../../../components/Paragraph';
 import Subtitle from '../../../components/Subtitle';
 import Title from '../../../components/Title';
+import TopicField from '../../../components/TopicField';
+import TopicForm from '../../../components/TopicForm';
 import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
 import { EDIT_NAME, REQUIERMENTS_NAME } from '../../../libs/utils';
 import { Course } from '../../../models/Course';
@@ -54,12 +56,14 @@ function CoursePage() {
 
   const [course, setcourse] = useState<Course>();
   const [modalOpen, setmodalOpen] = useState<boolean>(false);
+  const [courseModal, setcourseModal] = useState<boolean>(false);
 
   const location: any = useLocation();
   const navigate = useNavigate();
 
   const onCloseModal = () => {
     setmodalOpen(false);
+    setcourseModal(false);
   }
 
   useEffect(() => {
@@ -72,8 +76,8 @@ function CoursePage() {
     <>
       <div style={styles.container}>
         <BackButton />
-        <div  style={{ position: 'relative' }}>
-          <a className='icon' style={styles.editButton} onClick={() => setmodalOpen(true)}>{EDIT_NAME}</a>
+        <div style={{ position: 'relative' }}>
+          <a className='icon' style={styles.editButton} onClick={() => {setmodalOpen(true); setcourseModal(true)}}>{EDIT_NAME}</a>
           <Title title={(course) ? course.name : "Course"} />
           <Paragraph text={(course) ? course.content.description : "Course"} />
           <Subtitle text={REQUIERMENTS_NAME} />
@@ -83,8 +87,16 @@ function CoursePage() {
             }) : null
           }
         </div>
-
-        <AddComponent />
+        <div>
+          {
+            course && course.content.topics.map((topic, index) => {
+              return (<>
+                <TopicField key={index} topic={topic} />
+              </>)
+            })
+          }
+          <AddComponent onClick={() => { setmodalOpen(true) }}/>
+        </div>
       </div>
       <Modal
         open={modalOpen}
@@ -96,10 +108,11 @@ function CoursePage() {
         }}>
         <Fade in={modalOpen}>
           <Box sx={styles.modalContainer}>
-            <CourseForm course={course} />
+            {
+              courseModal ? <CourseForm course={course}/> : <TopicForm />
+            }
           </Box>
         </Fade>
-
       </Modal>
     </>
   );
