@@ -1,12 +1,13 @@
 import { Backdrop, Fade, Modal, Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import AddComponent from '../../../components/AddComponent';
 import BackButton from '../../../components/BackButton';
 import CourseForm from '../../../components/CourseForm';
 import Paragraph from '../../../components/Paragraph';
 import Subtitle from '../../../components/Subtitle';
 import Title from '../../../components/Title';
-import { BORDER_RADIOUS, palette } from '../../../libs/styles';
+import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
 import { EDIT_NAME, REQUIERMENTS_NAME } from '../../../libs/utils';
 import { Course } from '../../../models/Course';
 
@@ -29,6 +30,11 @@ const styles = {
     width: 'auto',
     fontSize: '1rem',
     fontStyle: "italic",
+  },
+  editButton: {
+    position: 'absolute' as const,
+    right: 0,
+    fontSize: text.paragraph.fontSize
   },
   modalContainer: {
     position: 'absolute',
@@ -66,8 +72,8 @@ function CoursePage() {
     <>
       <div style={styles.container}>
         <BackButton />
-        <div>
-          <a className='icon' onClick={() => setmodalOpen(true)}>{EDIT_NAME}</a>
+        <div  style={{ position: 'relative' }}>
+          <a className='icon' style={styles.editButton} onClick={() => setmodalOpen(true)}>{EDIT_NAME}</a>
           <Title title={(course) ? course.name : "Course"} />
           <Paragraph text={(course) ? course.content.description : "Course"} />
           <Subtitle text={REQUIERMENTS_NAME} />
@@ -77,6 +83,8 @@ function CoursePage() {
             }) : null
           }
         </div>
+
+        <AddComponent />
       </div>
       <Modal
         open={modalOpen}
