@@ -12,9 +12,10 @@ import TopicField from '../../../components/TopicField';
 import TopicForm from '../../../components/TopicForm';
 import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
 import { toastManager } from '../../../libs/toastManager';
-import { DELETE_BUTTON_NAME, EDIT_BUTTON_NAME, REQUIERMENTS_NAME, SEND_DATA_ERROR } from '../../../libs/utils';
+import { DELETE_BUTTON_NAME, EDIT_BUTTON_NAME, PATH_COURSE, PATH_PLAYCOURSE, REQUIERMENTS_NAME, SEND_DATA_ERROR } from '../../../libs/utils';
 import { Course, courseConverter } from '../../../models/Course';
-import { topicConverter } from '../../../models/Topic';
+import { CourseClass } from '../../../models/CourseClass';
+import { Topic, topicConverter } from '../../../models/Topic';
 import { createTopic, getCourse, updateCourse } from '../../../services/course.service';
 
 const styles = {
@@ -85,6 +86,10 @@ function CoursePage() {
     }
   }
 
+  const onChangeView = (topic: Topic, courseClass?: CourseClass) => {
+    navigate(`../${PATH_COURSE}/${PATH_PLAYCOURSE}`, { state: { topic: topic, courseClass: courseClass } });
+  }
+
   const onSubmitCourse = async (data: any) => {
     if (data && course) {
       const auxCourse = course;
@@ -153,7 +158,7 @@ function CoursePage() {
                         <div>{courseClass.name}</div>
                       })
                     }
-                    <AddComponent />
+                    <AddComponent onClick={() => onChangeView(topic)} />
                   </div>
                 </div>
               )
