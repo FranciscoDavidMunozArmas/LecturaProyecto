@@ -11,8 +11,11 @@ import Title from '../../../components/Title';
 import TopicField from '../../../components/TopicField';
 import TopicForm from '../../../components/TopicForm';
 import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
-import { DELETE_BUTTON_NAME, EDIT_BUTTON_NAME, REQUIERMENTS_NAME } from '../../../libs/utils';
-import { Course } from '../../../models/Course';
+import { toastManager } from '../../../libs/toastManager';
+import { DELETE_BUTTON_NAME, EDIT_BUTTON_NAME, REQUIERMENTS_NAME, SEND_DATA_ERROR } from '../../../libs/utils';
+import { Course, courseConverter } from '../../../models/Course';
+import { topicConverter } from '../../../models/Topic';
+import { createTopic, getCourse, updateCourse } from '../../../services/course.service';
 
 const styles = {
   container: {
@@ -36,6 +39,13 @@ const styles = {
   },
   button: {
     fontSize: text.paragraph.fontSize
+  },
+  centerContent: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '10px',
   },
   modalContainer: {
     position: 'absolute',
@@ -65,8 +75,50 @@ function CoursePage() {
     setcourseModal(false);
   }
 
+  const getData = async () => {
+    try {
+      const response = await getCourse(location.state.course.id);
+      setcourse(courseConverter.fromJSON(response.data));
+    } catch (error: any) {
+      console.log(error);
+      setcourse(location.state.course);
+    }
+  }
+
+  const onSubmitCourse = async (data: any) => {
+    if (data && course) {
+      const auxCourse = course;
+      auxCourse.name = data.name;
+      auxCourse.content.description = data.content.description;
+      auxCourse.content.requirements = data.content.requirements;
+
+      try {
+        await updateCourse(courseConverter.toJSON(auxCourse));
+        setcourse(auxCourse);
+      } catch (error: any) {
+        toastManager.error(SEND_DATA_ERROR);
+      }
+    }
+    console.log(course);
+    onCloseModal();
+  }
+
+  const onSubmitTopic = async (topic: any) => {
+    const auxTopic = topicConverter.fromJSON(topic);
+    try {
+      if (course) {
+        const data = await createTopic(course, auxTopic);
+        course.content.topics.push(topicConverter.fromJSON(data.data));
+      }
+    } catch (error) {
+      toastManager.error(SEND_DATA_ERROR);
+    }
+    onCloseModal();
+  }
+
   useEffect(() => {
-    setcourse(location.state.course);
+    setcourse(courseConverter.fromJSON(location.state.course));
+    getData();
     return () => { }
   }, []);
 
@@ -89,12 +141,22 @@ function CoursePage() {
             }) : null
           }
         </div>
-        <div>
+        <div style={styles.centerContent}>
           {
             course && course.content.topics.map((topic, index) => {
-              return (<>
-                <TopicField key={index} topic={topic} />
-              </>)
+              return (
+                <div key={index} style={{ width: '90%', ...styles.centerContent }}>
+                  <TopicField topic={topic} />
+                  <div key={index} style={{ width: '80%', ...styles.centerContent }}>
+                    {
+                      topic.classes.map((courseClass, index) => {
+                        <div>{courseClass.name}</div>
+                      })
+                    }
+                    <AddComponent />
+                  </div>
+                </div>
+              )
             })
           }
           <AddComponent onClick={() => { setmodalOpen(true) }} />
@@ -111,7 +173,7 @@ function CoursePage() {
         <Fade in={modalOpen}>
           <Box sx={styles.modalContainer}>
             {
-              courseModal ? <CourseForm course={course} /> : <TopicForm />
+              courseModal ? <CourseForm course={course} onSubmit={onSubmitCourse} /> : <TopicForm onSubmit={onSubmitTopic} />
             }
           </Box>
         </Fade>

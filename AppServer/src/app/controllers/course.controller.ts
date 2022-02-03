@@ -139,7 +139,7 @@ export const createTopic = async (req: Request, res: Response) => {
                 const course = courseConverter.fromJSON(docData.data());
                 course.content.topics.push(data);
                 await updateDoc(documentReference(courseId), courseConverter.toJSON(course));
-                return res.status(201).json({ message: 'Topic Created' });
+                return res.status(201).json(data);
             }
         }
         return res.status(401).json({ message: 'Invalid Topic' });

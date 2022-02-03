@@ -88,7 +88,7 @@ export const deleteScore = async (course: Course) => {
 }
 
 export const createTopic = async (course: Course, topic: Topic) => {
-    return await axios.post(`${URI}/courses/course/${course.id}/topics`, topicConverter.toJSON(topic),
+    return await axios.post(`${URI}/courses/course/${course.id}/content/topics`, topicConverter.toJSON(topic),
         {
             headers: {
                 Authorization: getAuthorizationToken()
@@ -97,7 +97,7 @@ export const createTopic = async (course: Course, topic: Topic) => {
 }
 
 export const updateTopic = async (course: Course, topic: Topic) => {
-    return await axios.put(`${URI}/courses/course/${course.id}/topics/topic/${topic.id}`, topicConverter.toJSON(topic),
+    return await axios.put(`${URI}/courses/course/${course.id}/content/topics/topic/${topic.id}`, topicConverter.toJSON(topic),
         {
             headers: {
                 Authorization: getAuthorizationToken()
@@ -106,7 +106,7 @@ export const updateTopic = async (course: Course, topic: Topic) => {
 }
 
 export const deleteTopic = async (course: Course, topic: Topic) => {
-    return await axios.delete(`${URI}/courses/course/${course.id}/topics/topic/${topic.id}`,
+    return await axios.delete(`${URI}/courses/course/${course.id}/content/topics/topic/${topic.id}`,
         {
             headers: {
                 Authorization: getAuthorizationToken()
@@ -118,7 +118,7 @@ export const addCourseClass = async (course: Course, topic: Topic, courseClass: 
     const form = new FormData();
     form.append("audio", audio);
     form.append("name", courseClass.name);
-    return await axios.post(`${URI}/courses/course/${course.id}/topics/topic/${topic.id}/class`, form,
+    return await axios.post(`${URI}/courses/course/${course.id}/content/topics/topic/${topic.id}/class`, form,
         {
             headers: {
                 Authorization: getAuthorizationToken()
@@ -127,7 +127,7 @@ export const addCourseClass = async (course: Course, topic: Topic, courseClass: 
 }
 
 export const deleteCourseClasses = async (course: Course, topic: Topic) => {
-    return await axios.delete(`${URI}/courses/course/${course.id}/topics/topic/${topic.id}/class`,
+    return await axios.delete(`${URI}/courses/course/${course.id}/content/topics/topic/${topic.id}/class`,
         {
             headers: {
                 Authorization: getAuthorizationToken()
@@ -139,7 +139,7 @@ export const updateCourseClass = async (course: Course, topic: Topic, courseClas
     const form = new FormData();
     form.append("audio", audio);
     form.append("name", courseClass.name);
-    return await axios.put(`${URI}/courses/course/${course.id}/topics/topic/${topic.id}/class/${courseClass.id}`, form,
+    return await axios.put(`${URI}/courses/course/${course.id}/content/topics/topic/${topic.id}/class/${courseClass.id}`, form,
         {
             headers: {
                 Authorization: getAuthorizationToken()
@@ -148,7 +148,7 @@ export const updateCourseClass = async (course: Course, topic: Topic, courseClas
 }
 
 export const deleteCourseClass = async (course: Course, topic: Topic, courseClass: CourseClass) => {
-    return await axios.delete(`${URI}/courses/course/${course.id}/topics/topic/${topic.id}/class/${courseClass.id}`,
+    return await axios.delete(`${URI}/courses/course/${course.id}/content/topics/topic/${topic.id}/class/${courseClass.id}`,
         {
             headers: {
                 Authorization: getAuthorizationToken()

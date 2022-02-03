@@ -30,7 +30,6 @@ interface Props {
 }
 
 function CourseForm(props: Props) {
-    const [course, setcourse] = useState<Course>();
     const [requirements, setrequirements] = useState<string[]>([""]);
     const [data, setdata] = useState<any>({});
 
@@ -65,7 +64,10 @@ function CourseForm(props: Props) {
 
     useEffect(() => {
         if (props.course) {
-            setcourse(props.course);
+            setdata({
+                name: props.course.name,
+                description: props.course.content.description,
+            });
             setrequirements(props.course.content.requirements);
         }
         return () => { };

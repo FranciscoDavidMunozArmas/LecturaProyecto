@@ -15,9 +15,9 @@ export class Course {
 
     constructor(id: string, name: string, teacher: Teacher, language: string, score: Score[], objectives: string[], content: Content) {
         this.id = (id) ? id : "";
-        this.name = name;
+        this.name = (name)  ? name : "";
         this.teacher = teacher;
-        this.language = language;
+        this.language = (language) ? language : "";
         this.score = score;
         this.objectives = (objectives) ? objectives : [];
         this.content = content;
