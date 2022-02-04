@@ -27,11 +27,20 @@ const styles = {
     margin: '0.5rem 1rem',
     padding: 0,
   },
+  buttonDisabled: {
+    opacity: '0.5',
+  },
+  buttonEnabled: {
+    opacity: '1',
+  }
 
 }
 
 interface Props {
   status: boolean;
+  enable?: boolean;
+  showPrevious?: boolean;
+  showNext?: boolean;
   onPlay: () => void;
   onPause: () => void;
   onNext: () => void;
@@ -41,6 +50,7 @@ interface Props {
 function PlayerControls(props: Props) {
 
   const [playState, setplayState] = useState<boolean>(true);
+  const [disable, setdisable] = useState<any>(styles.buttonEnabled);
 
   const { speak, cancel } = useSpeechSynthesis();
 
@@ -66,16 +76,20 @@ function PlayerControls(props: Props) {
     return () => { };
   }, [props.status]);
 
+  useEffect(() => {
+    setdisable(!props.enable ? styles.buttonEnabled : styles.buttonDisabled);
+    return () => { };
+  }, [props.enable]);
 
   return (<>
     <div style={styles.container}>
-      <button style={styles.button} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>
+      {!props.showPrevious && <button style={{ ...disable, ...styles.button }} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>}
       {
         (!playState)
-          ? <button style={styles.button} onClick={handlePlay} onMouseEnter={() => onSpeak(PLAY_NAME)} onMouseDown={() => cancel()}><PlayArrow /></button>
-          : <button style={styles.button} onClick={handlePlay} onMouseEnter={() => onSpeak(PAUSE_NAME)} onMouseDown={() => cancel()}><Pause /></button>
+          ? <button style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PLAY_NAME)} onMouseDown={() => cancel()}><PlayArrow /></button>
+          : <button style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PAUSE_NAME)} onMouseDown={() => cancel()}><Pause /></button>
       }
-      <button style={styles.button} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>
+      {!props.showNext && <button style={{ ...disable, ...styles.button }} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>}
     </div>
   </>);
 }
