@@ -25,6 +25,8 @@ export const HINT_COURSE_NAME = "Nombre del curso";
 export const HINT_COURSE_DESCRIPTION = "Descripción del curso";
 export const HINT_COURSE_REQUIREMENT = "Requisito del curso";
 export const HINT_TOPIC_NAME = "Nombre del tema";
+export const HINT_SELECT_AUDIO = "Seleccione un archivo de audio";
+export const HINT_CLASS_NAME = "Nombre de la clase";
 
 export const EMAIL_INPUT_HELP = "Ingrese su correo electrónico";
 export const PASSWORD_INPUT_HELP = "Baje el volumen del dispositivo e ingrese la contraseña";

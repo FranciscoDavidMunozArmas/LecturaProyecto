@@ -87,7 +87,7 @@ function CoursePage() {
   }
 
   const onChangeView = (topic: Topic, courseClass?: CourseClass) => {
-    navigate(`../${PATH_COURSE}/${PATH_PLAYCOURSE}`, { state: { topic: topic, courseClass: courseClass } });
+    navigate(`../${PATH_COURSE}/${PATH_PLAYCOURSE}`, { state: { course: course, topic: topic, courseClass: courseClass } });
   }
 
   const onSubmitCourse = async (data: any) => {
@@ -155,7 +155,7 @@ function CoursePage() {
                   <div key={index} style={{ width: '80%', ...styles.centerContent }}>
                     {
                       topic.classes.map((courseClass, index) => {
-                        <div>{courseClass.name}</div>
+                        return <div>{courseClass.name}</div>
                       })
                     }
                     <AddComponent onClick={() => onChangeView(topic)} />

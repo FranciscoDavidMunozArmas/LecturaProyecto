@@ -45,7 +45,7 @@ const styles = {
         height: '150px'
     },
     disable: {
-        display: 'none',
+        opacity: 0,
     }
 }
 
@@ -56,7 +56,7 @@ interface Props {
     type?: string | undefined,
     required?: boolean,
     hint: string,
-    onChange: (file: File) => void;
+    onChange?: (file: File) => void;
 }
 
 function InputFile(props: Props) {
@@ -68,7 +68,7 @@ function InputFile(props: Props) {
 
     const onChange = (event: HTMLInputElement) => {
         if (event.files && event.files[0]) {
-            props.onChange(event.files[0]);
+            props.onChange?.(event.files[0]);
         }
     };
 
@@ -85,16 +85,16 @@ function InputFile(props: Props) {
                 onMouseEnter={() => { setborderStyle(styles.borderRed); setbackgroundColor(styles.backgroundRed) }}
                 onMouseLeave={() => { setborderStyle(styles.borderBlack); setbackgroundColor(styles.backgroundBlack) }}
                 onClick={onClick}>
-                <div className='icon' style={{ ...backgroundColor, ...styles.iconContainer }}>
+                <div style={{ ...backgroundColor, ...styles.iconContainer }}>
                     <MusicNote style={styles.icon} />
                 </div>
-            </div>
-            <input type="file"
+                <input type="file"
                 name={(props.name) ? props.name : "file"}
                 onChange={() => onChange(inputFile.current as HTMLInputElement)}
                 ref={inputFile}
-                required={!!props.ref}
+                required={!!props.required}
                 style={styles.disable} />
+            </div>
         </>
     );
 }

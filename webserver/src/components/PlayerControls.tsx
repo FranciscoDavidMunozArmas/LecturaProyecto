@@ -9,7 +9,7 @@ const styles = {
     width: '100%',
     display: 'flex',
     flexDirection: 'row' as const,
-    justifyContent: 'space-between' as const,
+    justifyContent: 'space-around' as const,
     alignItems: 'center' as const,
     padding: '0.5rem',
     maxWidth: "300px"
@@ -39,12 +39,12 @@ const styles = {
 interface Props {
   status: boolean;
   enable?: boolean;
-  showPrevious?: boolean;
-  showNext?: boolean;
-  onPlay: () => void;
-  onPause: () => void;
-  onNext: () => void;
-  onPrevious: () => void;
+  noPrevious?: boolean;
+  noNext?: boolean;
+  onPlay?: () => void;
+  onPause?: () => void;
+  onNext?: () => void;
+  onPrevious?: () => void;
 }
 
 function PlayerControls(props: Props) {
@@ -56,15 +56,15 @@ function PlayerControls(props: Props) {
 
   const handlePlay = () => {
     setplayState(!playState);
-    playState ? props.onPause() : props.onPlay();
+    playState ? props.onPause?.() : props.onPlay?.();
   }
 
   const handleNext = () => {
-    props.onNext();
+    props.onNext?.();
   }
 
   const handlePrevious = () => {
-    props.onPrevious();
+    props.onPrevious?.();
   }
 
   const onSpeak = (text: string) => {
@@ -83,13 +83,13 @@ function PlayerControls(props: Props) {
 
   return (<>
     <div style={styles.container}>
-      {!props.showPrevious && <button style={{ ...disable, ...styles.button }} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>}
+      {!props.noPrevious && <button style={{ ...disable, ...styles.button }} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>}
       {
         (!playState)
           ? <button style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PLAY_NAME)} onMouseDown={() => cancel()}><PlayArrow /></button>
           : <button style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PAUSE_NAME)} onMouseDown={() => cancel()}><Pause /></button>
       }
-      {!props.showNext && <button style={{ ...disable, ...styles.button }} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>}
+      {!props.noNext && <button style={{ ...disable, ...styles.button }} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>}
     </div>
   </>);
 }
