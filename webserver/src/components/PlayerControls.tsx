@@ -83,13 +83,13 @@ function PlayerControls(props: Props) {
 
   return (<>
     <div style={styles.container}>
-      {!props.noPrevious && <button style={{ ...disable, ...styles.button }} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>}
+      {!props.noPrevious && <button type='button' style={{ ...disable, ...styles.button }} onClick={handlePrevious} onMouseEnter={() => onSpeak(PREVIOURS_NAME)} onMouseDown={() => cancel()}><ArrowBackIosTwoTone /></button>}
       {
         (!playState)
-          ? <button style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PLAY_NAME)} onMouseDown={() => cancel()}><PlayArrow /></button>
-          : <button style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PAUSE_NAME)} onMouseDown={() => cancel()}><Pause /></button>
+          ? <button type='button' style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PLAY_NAME)} onMouseDown={() => cancel()}><PlayArrow /></button>
+          : <button type='button' style={{ ...disable, ...styles.button }} onClick={handlePlay} onMouseEnter={() => onSpeak(PAUSE_NAME)} onMouseDown={() => cancel()}><Pause /></button>
       }
-      {!props.noNext && <button style={{ ...disable, ...styles.button }} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>}
+      {!props.noNext && <button type='button' style={{ ...disable, ...styles.button }} onClick={handleNext} onMouseEnter={() => onSpeak(NEXT_NAME)} onMouseDown={() => cancel()}><ArrowForwardIosTwoTone style={{ margin: 0 }} /></button>}
     </div>
   </>);
 }

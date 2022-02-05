@@ -17,7 +17,7 @@ import { DELETE_BUTTON_NAME, EDIT_BUTTON_NAME, PATH_COURSE, PATH_PLAYCOURSE, REQ
 import { Course, courseConverter } from '../../../models/Course';
 import { CourseClass } from '../../../models/CourseClass';
 import { Topic, topicConverter } from '../../../models/Topic';
-import { createTopic, getCourse, updateCourse } from '../../../services/course.service';
+import { createTopic, getCourse, updateCourse, updateTopic } from '../../../services/course.service';
 
 const styles = {
   container: {
@@ -68,6 +68,7 @@ function CoursePage() {
   const [course, setcourse] = useState<Course>();
   const [modalOpen, setmodalOpen] = useState<boolean>(false);
   const [courseModal, setcourseModal] = useState<boolean>(false);
+  const [selectedTopic, setselectedTopic] = useState<Topic>();
 
   const location: any = useLocation();
   const navigate = useNavigate();
@@ -105,18 +106,26 @@ function CoursePage() {
         toastManager.error(SEND_DATA_ERROR);
       }
     }
-    console.log(course);
     onCloseModal();
   }
 
   const onSubmitTopic = async (topic: any) => {
     const auxTopic = topicConverter.fromJSON(topic);
+    console.log(auxTopic);
     try {
       if (course) {
-        const data = await createTopic(course, auxTopic);
-        course.content.topics.push(topicConverter.fromJSON(data.data));
+        const auxCourse = course;
+        await updateTopic(course, auxTopic);
+        auxCourse.content.topics = auxCourse.content.topics.map((t: Topic) => {
+          return t.id === auxTopic.id ? auxTopic : t;
+        });
+        setcourse(auxCourse);
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.log({
+        errorCode: error.code,
+        errorMessage: error.message,
+      });
       toastManager.error(SEND_DATA_ERROR);
     }
     onCloseModal();
@@ -152,13 +161,17 @@ function CoursePage() {
             course && course.content.topics.map((topic, index) => {
               return (
                 <div key={index} style={{ width: '90%', ...styles.centerContent }}>
-                  <TopicField topic={topic} />
+                  <TopicField
+                    onEdit={() => { setselectedTopic(topic); setmodalOpen(true); setcourseModal(false) }}
+                    topic={topic} />
                   <div key={index} style={{ width: '80%', ...styles.centerContent }}>
                     {
                       topic.classes.map((courseClass, index) => {
                         return (
                           <div key={index} style={{ width: '80%', ...styles.centerContent }}>
-                            <ClassField classCourse={courseClass} />
+                            <ClassField
+                              onEdit={() => onChangeView(topic, courseClass)}
+                              classCourse={courseClass} />
                           </div>
                         )
                       })
@@ -183,7 +196,7 @@ function CoursePage() {
         <Fade in={modalOpen}>
           <Box sx={styles.modalContainer}>
             {
-              courseModal ? <CourseForm course={course} onSubmit={onSubmitCourse} /> : <TopicForm onSubmit={onSubmitTopic} />
+              courseModal ? <CourseForm course={course} onSubmit={onSubmitCourse} /> : <TopicForm topic={selectedTopic} onSubmit={onSubmitTopic} />
             }
           </Box>
         </Fade>

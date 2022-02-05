@@ -37,10 +37,15 @@ function TopicForm(props: Props) {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const topic = {
-      name: data.name
+    if(props.topic) {
+      props.topic.name = data.name;
+      props.onSubmit?.(props.topic);
+    } else {
+      const topic = {
+        name: data.name
+      }
+      props.onSubmit?.(topic);
     }
-    props.onSubmit?.(topic);
 }
 
 
