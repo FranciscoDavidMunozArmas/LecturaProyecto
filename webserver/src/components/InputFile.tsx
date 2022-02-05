@@ -93,7 +93,8 @@ function InputFile(props: Props) {
                 onChange={() => onChange(inputFile.current as HTMLInputElement)}
                 ref={inputFile}
                 required={!!props.required}
-                style={styles.disable} />
+                style={styles.disable}
+                value={props.value} />
             </div>
         </>
     );

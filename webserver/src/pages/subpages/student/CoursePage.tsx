@@ -47,9 +47,18 @@ function CoursePage() {
     const student = useContext(StudentContext);
     const { speak, cancel } = useSpeechSynthesis();
 
-    const onClassClick = (audios: CourseClass[], index: number) => {
+    const onClassClick = (audios: CourseClass[], position: number) => {
         if (saved) {
-            navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audios, index: index, courseID: course?.id } });
+            let audioFiles: CourseClass[] = [];
+            course?.content.topics.forEach((topic: any) => {
+                audioFiles = audioFiles.concat(topic.classes);
+            });
+            const index = audioFiles.findIndex((audio: CourseClass, index: any) => {
+                if (audio.id === audios[position].id) {
+                    return index;
+                }
+            });
+            navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audioFiles, index: index, courseID: course?.id } });
         } else {
             toastManager.message(ENTERING_COURSE_ERROR);
             onSpeak(ENTERING_COURSE_ERROR);
@@ -88,7 +97,6 @@ function CoursePage() {
         }
         return () => { }
     }, []);
-
 
     return (
         <>

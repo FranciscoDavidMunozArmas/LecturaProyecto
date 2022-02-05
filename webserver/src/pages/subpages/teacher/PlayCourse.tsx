@@ -134,7 +134,8 @@ function PlayCourse() {
           onChange={onNameChange} />
         <InputFile hint={HINT_SELECT_AUDIO}
           onChange={onFileChange}
-          required={true} />
+          required={true}
+          value={audioRef.current.src} />
         <h1 style={styles.hintText}>{audioName}</h1>
         <PlayerControls
           status={playState}
