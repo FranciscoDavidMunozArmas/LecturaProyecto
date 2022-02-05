@@ -143,7 +143,6 @@ function MyCourses() {
         }
     }
 
-
     const generateCertificate = async (course: Course) => {
         const token: any = decodeToken(getToken());
         try {

@@ -5,10 +5,13 @@ import BackButton from '../../../components/BackButton';
 import Player from '../../../components/Player';
 import { StudentContext } from '../../../context/StudentContext';
 import { text } from '../../../libs/styles';
+import { toastManager } from '../../../libs/toastManager';
 import { decodeToken, getToken } from '../../../libs/tokenInterceptor';
-import { AUDIO_URI, VOICE_ES } from '../../../libs/utils';
+import { AUDIO_URI, GENERATE_CERTIFICATE_SUCCESS, SEND_DATA_ERROR, VOICE_ES } from '../../../libs/utils';
+import { Course } from '../../../models/Course';
 import { CourseClass, courseClassConverter } from '../../../models/CourseClass';
 import { Student } from '../../../models/Student';
+import { createCertificate } from '../../../services/certificate.service';
 import { updateStudent } from '../../../services/student.service';
 
 const styles = {
@@ -37,10 +40,11 @@ function PlayCourse() {
 
     const [current, setcurrent] = useState<number>(0);
     const [audios, setaudios] = useState<CourseClass[]>([]);
-    const [courseID, setcourseID] = useState<String>();
+    const [courseID, setcourseID] = useState<string>();
     const [stop, setstop] = useState<boolean>(false);
 
     const location: any = useLocation();
+    const navigate = useNavigate();
     const student = useContext(StudentContext);
 
     const { speak, cancel } = useSpeechSynthesis();
@@ -50,6 +54,8 @@ function PlayCourse() {
         if (current < audios.length - 1) {
             setcurrent(current + 1);
         } else {
+            navigate(-1);
+            setstop(true);
             setcurrent(0);
         }
     }
@@ -71,6 +77,36 @@ function PlayCourse() {
                 student?.courses.find(c => c.courseID === courseID)?.completed.push(audios[index].id);
                 await updateStudent(token.token, student as Student);
             }
+            if (courseID && course.completed.length === audios.length) {
+                onGenerateCertificate(courseID);
+            }
+        }
+    }
+
+    const onGenerateCertificate = (courseID: string) => {
+        if (student) {
+            if (student.certifications.includes(courseID)) {
+                toastManager.message(`Certificado ya generado`);
+                onSpeak(`Certificado ya generado`);
+            } else {
+                generateCertificate(courseID);
+            }
+        }
+    }
+
+    const generateCertificate = async (courseID: string) => {
+        const token: any = decodeToken(getToken());
+        try {
+            if (student) {
+                student.certifications.push(courseID);
+                await createCertificate(courseID);
+                await updateStudent(token.token, student);
+                toastManager.success(GENERATE_CERTIFICATE_SUCCESS);
+                onSpeak(GENERATE_CERTIFICATE_SUCCESS);
+            }
+        } catch (error: any) {
+            toastManager.error(SEND_DATA_ERROR);
+            onSpeak(SEND_DATA_ERROR);
         }
     }
 
