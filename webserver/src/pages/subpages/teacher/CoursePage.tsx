@@ -18,7 +18,7 @@ import { DELETE_BUTTON_NAME, DELETE_DATA_ERROR, EDIT_BUTTON_NAME, PATH_COURSE, P
 import { Course, courseConverter } from '../../../models/Course';
 import { CourseClass } from '../../../models/CourseClass';
 import { Topic, topicConverter } from '../../../models/Topic';
-import { createTopic, deleteCourse, deleteCourseClass, deleteTopic, getCourse, updateCourse, updateTopic } from '../../../services/course.service';
+import { createTopic, deleteCourse, deleteCourseClass, deleteTopic, getCourse, updateCourse } from '../../../services/course.service';
 
 const styles = {
   container: {

@@ -2,7 +2,7 @@ import axios from "axios"
 import { getAuthorizationToken } from "../libs/tokenInterceptor";
 import { URI } from "../libs/utils"
 import { Course, courseConverter } from "../models/Course";
-import { CourseClass, courseClassConverter } from "../models/CourseClass";
+import { CourseClass } from "../models/CourseClass";
 import { Score, scoreConverter } from "../models/Score";
 import { Topic, topicConverter } from "../models/Topic";
 

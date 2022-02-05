@@ -10,11 +10,11 @@ import { checkToken, decodeToken, getToken } from '../libs/tokenInterceptor';
 import { GETTING_DATA_ERROR, PATH_CERTIFICATES, PATH_COURSE, PATH_HOME, PATH_MY_COURSES, PATH_PLAYCOURSE, VOICE_ES } from '../libs/utils';
 import { Student, studentConverter } from '../models/Student';
 import { getStudent } from '../services/student.service';
-import CertificatePage from './subpages/CertificatePage';
-import CoursePage from './subpages/CoursePage';
-import Home from './subpages/Home';
-import MyCourses from './subpages/MyCourses';
-import PlayCourse from './subpages/PlayCourse';
+import CertificatePage from './subpages/student/CertificatePage';
+import CoursePage from './subpages/student/CoursePage';
+import Home from './subpages/student/Home';
+import MyCourses from './subpages/student/MyCourses';
+import PlayCourse from './subpages/student/PlayCourse';
 
 const styles = {
     container: {
@@ -60,6 +60,7 @@ function Appmain() {
     }
 
     useEffect(() => {
+        console.log('Appmain');
         if (!checkToken()) {
             navigate("/login");
             return;

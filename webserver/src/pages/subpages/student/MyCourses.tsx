@@ -1,21 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
-import CourseCard from '../../components/CourseCard';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import Subtitle from '../../components/Subtitle'
-import Title from '../../components/Title'
-import { StudentContext } from '../../context/StudentContext';
-import { toastManager } from '../../libs/toastManager';
-import { decodeToken, getToken } from '../../libs/tokenInterceptor'
-import { GENERATE_CERTIFICATE_SUCCESS, GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SEND_DATA_ERROR, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../libs/utils'
-import { certificateConverter } from '../../models/Certificate';
-import { Course, courseConverter } from '../../models/Course';
-import { CourseClass } from '../../models/CourseClass';
-import { Student, studentConverter } from '../../models/Student'
-import { createCertificate } from '../../services/certificate.service';
-import { getCoursesMany } from '../../services/course.service';
-import { getStudent, updateStudent } from '../../services/student.service'
+import CourseCard from '../../../components/CourseCard';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import Subtitle from '../../../components/Subtitle'
+import Title from '../../../components/Title'
+import { StudentContext } from '../../../context/StudentContext';
+import { toastManager } from '../../../libs/toastManager';
+import { decodeToken, getToken } from '../../../libs/tokenInterceptor'
+import { GENERATE_CERTIFICATE_SUCCESS, GETTING_DATA_ERROR, MY_COURSES_NAME, PATH_COURSE, SEND_DATA_ERROR, SUBSECTION_MY_COURSES_1_NAME, SUBSECTION_MY_COURSES_2_NAME, VOICE_ES } from '../../../libs/utils'
+import { Course, courseConverter } from '../../../models/Course';
+import { Student } from '../../../models/Student'
+import { createCertificate } from '../../../services/certificate.service';
+import { getCoursesMany } from '../../../services/course.service';
+import { updateStudent } from '../../../services/student.service'
 
 const styles = {
     container: {

@@ -1,20 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
-import CourseCard from '../../components/CourseCard';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import MoreButton from '../../components/MoreButton';
-import Subtitle from '../../components/Subtitle'
-import Title from '../../components/Title'
-import { StudentContext } from '../../context/StudentContext';
-import { toastManager } from '../../libs/toastManager';
-import { decodeToken, getToken } from '../../libs/tokenInterceptor';
-import { GETTING_DATA_ERROR, HOME_NAME, MORE_NAME, PATH_CERTIFICATES, PATH_COURSE, PATH_EARLEANING, SUBSECTION_HOME_1_NAME, SUBSECTION_HOME_2_NAME, SUBSECTION_HOME_3_NAME, VOICE_ES } from '../../libs/utils'
-import { Course, courseConverter } from '../../models/Course'
-import { Student } from '../../models/Student';
+import CourseCard from '../../../components/CourseCard';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import MoreButton from '../../../components/MoreButton';
+import Subtitle from '../../../components/Subtitle'
+import Title from '../../../components/Title'
+import { StudentContext } from '../../../context/StudentContext';
+import { toastManager } from '../../../libs/toastManager';
+import { GETTING_DATA_ERROR, HOME_NAME, PATH_COURSE, SUBSECTION_HOME_1_NAME, SUBSECTION_HOME_2_NAME, SUBSECTION_HOME_3_NAME, VOICE_ES } from '../../../libs/utils'
+import { Course, courseConverter } from '../../../models/Course'
 
-import * as CourseService from '../../services/course.service';
-import { getStudent } from '../../services/student.service';
+import * as CourseService from '../../../services/course.service';
 
 const styles = {
     container: {

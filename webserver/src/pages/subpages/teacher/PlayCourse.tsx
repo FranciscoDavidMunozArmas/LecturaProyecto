@@ -1,17 +1,16 @@
-import React, { ChangeEvent, FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BackButton from '../../../components/BackButton';
 import InputFile from '../../../components/InputFile';
 import InputText from '../../../components/InputText';
 import PlayerControls from '../../../components/PlayerControls';
-import Trackbar from '../../../components/Trackbar';
 import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
 import { toastManager } from '../../../libs/toastManager';
-import { AUDIO_ERROR, AUDIO_URI, GETTING_DATA_ERROR, HINT_CLASS_NAME, HINT_SELECT_AUDIO, SAVE_BUTTON_NAME, SEND_DATA_ERROR } from '../../../libs/utils';
+import { AUDIO_ERROR, AUDIO_URI, HINT_CLASS_NAME, HINT_SELECT_AUDIO, SAVE_BUTTON_NAME, SEND_DATA_ERROR } from '../../../libs/utils';
 import { Course } from '../../../models/Course';
-import { CourseClass, courseClassConverter } from '../../../models/CourseClass';
+import { courseClassConverter } from '../../../models/CourseClass';
 import { Topic } from '../../../models/Topic';
-import { addCourseClass, deleteCourse, deleteCourseClass, deleteTopic } from '../../../services/course.service';
+import { addCourseClass } from '../../../services/course.service';
 
 const styles = {
   container: {
@@ -53,7 +52,6 @@ function PlayCourse() {
   const navigate = useNavigate();
 
   const audioRef = useRef<HTMLAudioElement>(new Audio());
-  const intervalRef = useRef<NodeJS.Timeout>(0 as any);
 
   const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setname(event.target.value);

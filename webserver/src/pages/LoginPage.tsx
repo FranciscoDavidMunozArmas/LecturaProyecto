@@ -43,9 +43,9 @@ function LoginPage() {
     useEffect(() => {
         if (checkToken()) {
             const token: any = decodeToken(getToken());
-            if(token.role === ROLES[0]){
+            if (token.role === ROLES[0]) {
                 navigate(PATH_EARLEANING);
-            }else if (token.role === ROLES[1]) {
+            } else if (token.role === ROLES[1]) {
                 navigate(PATH_TEACHER);
             }
         }
@@ -83,9 +83,9 @@ function LoginPage() {
                     setUpToken(token.data);
                     console.log(`${decoded.role} === ${ROLES[0]} => ${decoded.role === ROLES[0]}`);
                     console.log(`${decoded.role} === ${ROLES[1]} => ${decoded.role === ROLES[1]}`);
-                    if(decoded.role === ROLES[0]){
+                    if (decoded.role === ROLES[0]) {
                         navigate(PATH_EARLEANING);
-                    }else if (decoded.role === ROLES[1]) {
+                    } else if (decoded.role === ROLES[1]) {
                         navigate(PATH_TEACHER);
                     }
                 }

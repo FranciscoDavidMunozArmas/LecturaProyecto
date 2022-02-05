@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
-import BackButton from '../../components/BackButton';
-import Player from '../../components/Player';
-import { StudentContext } from '../../context/StudentContext';
-import { text } from '../../libs/styles';
-import { toastManager } from '../../libs/toastManager';
-import { decodeToken, getToken } from '../../libs/tokenInterceptor';
-import { AUDIO_URI, GETTING_DATA_ERROR, VOICE_ES } from '../../libs/utils';
-import { CourseClass, courseClassConverter } from '../../models/CourseClass';
-import { Student } from '../../models/Student';
-import { updateStudent } from '../../services/student.service';
+import BackButton from '../../../components/BackButton';
+import Player from '../../../components/Player';
+import { StudentContext } from '../../../context/StudentContext';
+import { text } from '../../../libs/styles';
+import { decodeToken, getToken } from '../../../libs/tokenInterceptor';
+import { AUDIO_URI, VOICE_ES } from '../../../libs/utils';
+import { CourseClass, courseClassConverter } from '../../../models/CourseClass';
+import { Student } from '../../../models/Student';
+import { updateStudent } from '../../../services/student.service';
 
 const styles = {
     container: {
@@ -42,7 +41,6 @@ function PlayCourse() {
     const [stop, setstop] = useState<boolean>(false);
 
     const location: any = useLocation();
-    const navigate = useNavigate();
     const student = useContext(StudentContext);
 
     const { speak, cancel } = useSpeechSynthesis();

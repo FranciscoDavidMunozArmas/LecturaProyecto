@@ -1,15 +1,14 @@
 import ReactPDF, { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import React, { useContext, useEffect, useState } from 'react'
 import { useSpeechSynthesis } from 'react-speech-kit';
-import CertificateCard from '../../components/CertificateCard';
-import Title from '../../components/Title';
-import { StudentContext } from '../../context/StudentContext';
-import { toastManager } from '../../libs/toastManager';
-import { decodeToken, getToken } from '../../libs/tokenInterceptor';
-import { CERTIFICATES_NAME, GETTING_DATA_ERROR, VOICE_ES } from '../../libs/utils';
-import { Certificate, certificateConverter } from '../../models/Certificate';
-import CertificatePDF from '../../pdf/CertificatePDF';
-import { getCertificatesByUser } from '../../services/certificate.service';
+import CertificateCard from '../../../components/CertificateCard';
+import Title from '../../../components/Title';
+import { StudentContext } from '../../../context/StudentContext';
+import { toastManager } from '../../../libs/toastManager';
+import { decodeToken, getToken } from '../../../libs/tokenInterceptor';
+import { CERTIFICATES_NAME, GETTING_DATA_ERROR, VOICE_ES } from '../../../libs/utils';
+import { Certificate, certificateConverter } from '../../../models/Certificate';
+import { getCertificatesByUser } from '../../../services/certificate.service';
 
 const styles = {
     container: {

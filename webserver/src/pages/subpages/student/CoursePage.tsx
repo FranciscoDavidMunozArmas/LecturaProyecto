@@ -1,22 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from "react-speech-kit";
-import { ChevronLeft } from '@material-ui/icons';
-import Title from '../../components/Title';
-import { Course } from '../../models/Course';
-import { BACK_NAME, ENTERING_COURSE_ERROR, formatTime, GETTING_DATA_ERROR, PATH_PLAYCOURSE, REQUIERMENTS_NAME, VOICE_ES } from '../../libs/utils';
-import BackButton from '../../components/BackButton';
-import Subtitle from '../../components/Subtitle';
-import ClassCard from '../../components/ClassCard';
-import SaveButton from '../../components/SaveButton';
-import { CourseClass } from '../../models/CourseClass';
-import { decodeToken, getToken } from '../../libs/tokenInterceptor';
-import { decode } from 'jsonwebtoken';
-import { getStudent, updateStudent } from '../../services/student.service';
-import { Student } from '../../models/Student';
-import { toastManager } from '../../libs/toastManager';
-import Paragraph from '../../components/Paragraph';
-import { StudentContext } from '../../context/StudentContext';
+import Title from '../../../components/Title';
+import { Course } from '../../../models/Course';
+import { ENTERING_COURSE_ERROR, formatTime, PATH_PLAYCOURSE, REQUIERMENTS_NAME, VOICE_ES } from '../../../libs/utils';
+import BackButton from '../../../components/BackButton';
+import Subtitle from '../../../components/Subtitle';
+import ClassCard from '../../../components/ClassCard';
+import SaveButton from '../../../components/SaveButton';
+import { CourseClass } from '../../../models/CourseClass';
+import { decodeToken, getToken } from '../../../libs/tokenInterceptor';
+import { updateStudent } from '../../../services/student.service';
+import { toastManager } from '../../../libs/toastManager';
+import Paragraph from '../../../components/Paragraph';
+import { StudentContext } from '../../../context/StudentContext';
 
 const styles = {
     container: {
