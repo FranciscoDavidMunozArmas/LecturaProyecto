@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddComponent from '../../../components/AddComponent';
 import BackButton from '../../../components/BackButton';
+import ClassField from '../../../components/ClassField';
 import CourseForm from '../../../components/CourseForm';
 import Paragraph from '../../../components/Paragraph';
 import Subtitle from '../../../components/Subtitle';
@@ -155,7 +156,11 @@ function CoursePage() {
                   <div key={index} style={{ width: '80%', ...styles.centerContent }}>
                     {
                       topic.classes.map((courseClass, index) => {
-                        return <div>{courseClass.name}</div>
+                        return (
+                          <div key={index} style={{ width: '80%', ...styles.centerContent }}>
+                            <ClassField classCourse={courseClass} />
+                          </div>
+                        )
                       })
                     }
                     <AddComponent onClick={() => onChangeView(topic)} />
