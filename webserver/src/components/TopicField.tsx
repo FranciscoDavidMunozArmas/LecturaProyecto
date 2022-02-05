@@ -52,7 +52,7 @@ function TopicField(props: Props) {
                 </div>
                 <div className="icon"
                     style={{ margin: '1rem' }}
-                    onClick={() => onEdit()}>
+                    onClick={() => onDelete()}>
                     <DeleteRounded />
                 </div>
             </div>

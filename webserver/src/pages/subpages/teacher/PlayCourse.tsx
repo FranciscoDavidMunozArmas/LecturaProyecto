@@ -9,9 +9,9 @@ import { BORDER_RADIOUS, palette, text } from '../../../libs/styles';
 import { toastManager } from '../../../libs/toastManager';
 import { AUDIO_ERROR, AUDIO_URI, GETTING_DATA_ERROR, HINT_CLASS_NAME, HINT_SELECT_AUDIO, SAVE_BUTTON_NAME, SEND_DATA_ERROR } from '../../../libs/utils';
 import { Course } from '../../../models/Course';
-import { courseClassConverter } from '../../../models/CourseClass';
+import { CourseClass, courseClassConverter } from '../../../models/CourseClass';
 import { Topic } from '../../../models/Topic';
-import { addCourseClass } from '../../../services/course.service';
+import { addCourseClass, deleteCourse, deleteCourseClass, deleteTopic } from '../../../services/course.service';
 
 const styles = {
   container: {
@@ -45,7 +45,6 @@ function PlayCourse() {
   const [audioName, setaudioName] = useState<string>(HINT_SELECT_AUDIO);
   const [playState, setplayState] = useState<boolean>(false);
   const [enable, setenable] = useState<boolean>(false);
-  const [stop, setstop] = useState<boolean>(false);
   const [file, setfile] = useState<File>();
   const [course, setcourse] = useState<Course>();
   const [topic, settopic] = useState<Topic>();
@@ -126,7 +125,7 @@ function PlayCourse() {
 
   return (
     <div style={styles.container}>
-      <BackButton onClick={() => setstop(true)} />
+      <BackButton onClick={() => onStop()} />
       <form
         style={styles.container}
         onSubmit={onSubmit}>
@@ -141,7 +140,7 @@ function PlayCourse() {
         <h1 style={styles.hintText}>{audioName}</h1>
         <PlayerControls
           status={playState}
-          enable={!file}
+          enable={!file && !enable}
           noNext={true}
           noPrevious={true}
           onPlay={onPlay}

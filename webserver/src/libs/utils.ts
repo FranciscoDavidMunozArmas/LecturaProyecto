@@ -45,6 +45,9 @@ export const GETTING_DATA_ERROR = "Error al obtener datos";
 export const SEND_DATA_ERROR = "Error al enviar datos";
 export const SAVING_DATA_ERROR = "Error al guardar datos";
 export const AUDIO_ERROR = "Error al cargar el audio";
+export const DELETE_DATA_ERROR = "Error al eliminar los datos";
+
+export const SUCCESS_MESSAGE = "Operacion realizada con exito";
 
 export const ENTERING_COURSE_ERROR = "Primero debe inscribirse en el curso";
 
