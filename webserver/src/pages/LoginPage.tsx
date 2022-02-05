@@ -43,11 +43,7 @@ function LoginPage() {
     useEffect(() => {
         if (checkToken()) {
             const token: any = decodeToken(getToken());
-            if (token.role === ROLES[0]) {
-                navigate(PATH_EARLEANING);
-            } else if (token.role === ROLES[1]) {
-                navigate(PATH_TEACHER);
-            }
+            pageManager(token.role);
         }
         return () => { }
     })
@@ -81,13 +77,7 @@ function LoginPage() {
                 if (token.data) {
                     setloading(false);
                     setUpToken(token.data);
-                    console.log(`${decoded.role} === ${ROLES[0]} => ${decoded.role === ROLES[0]}`);
-                    console.log(`${decoded.role} === ${ROLES[1]} => ${decoded.role === ROLES[1]}`);
-                    if (decoded.role === ROLES[0]) {
-                        navigate(PATH_EARLEANING);
-                    } else if (decoded.role === ROLES[1]) {
-                        navigate(PATH_TEACHER);
-                    }
+                    pageManager(decoded.role);
                 }
             } catch (error: any) {
                 setloading(false);
@@ -99,6 +89,17 @@ function LoginPage() {
             onSpeak(LOGIN_ERROR);
             toastManager.error(LOGIN_ERROR);
             return;
+        }
+    }
+
+    const pageManager = (role: string) => {
+        switch (role) {
+            case ROLES[0]:
+                navigate(`../${PATH_EARLEANING}`);
+                break;
+            case ROLES[1]:
+                navigate(`../${PATH_TEACHER}`);
+                break;
         }
     }
 

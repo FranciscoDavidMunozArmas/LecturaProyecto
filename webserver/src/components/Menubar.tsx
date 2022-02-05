@@ -102,7 +102,7 @@ function Menubar(props: Props) {
         const response = await signOut();
         if(response) {
             removeToken();
-            navigate("/");
+            navigate("/login");
         } else {
             toastManager.error(SIGN_OUT_ERROR);
             onSpeak(SIGN_OUT_ERROR);

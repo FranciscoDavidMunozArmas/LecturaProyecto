@@ -12,7 +12,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Appmain from './pages/Appmain';
 import LoadingContainer from './components/LoadingContainer';
-import { PATH_TEACHER } from './libs/utils';
+import { PATH_EARLEANING, PATH_LOGIN, PATH_REGISTER, PATH_TEACHER } from './libs/utils';
 import TeacherPage from './pages/TeacherPage';
 
 const styles = {
@@ -35,11 +35,13 @@ function App() {
         square>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/earlearning/*" element={<Appmain />} />
-            <Route path="/teacher/*" element={<TeacherPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path='/'>
+              <Route path={`${PATH_LOGIN}`} element={<LoginPage />} />
+              <Route path={`${PATH_EARLEANING}/*`} element={<Appmain />} />
+              <Route path={`${PATH_TEACHER}/*`} element={<TeacherPage />} />
+              <Route path={`${PATH_REGISTER}`} element={<RegisterPage />} />
+              <Route path="*" element={<Navigate to={`${PATH_LOGIN}`} />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </Paper>

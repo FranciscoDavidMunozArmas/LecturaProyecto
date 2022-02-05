@@ -60,7 +60,6 @@ function Appmain() {
     }
 
     useEffect(() => {
-        console.log('Appmain');
         if (!checkToken()) {
             navigate("/login");
             return;
@@ -83,7 +82,7 @@ function Appmain() {
                             <Route path={PATH_CERTIFICATES} element={<CertificatePage />} />
                             <Route path={PATH_COURSE} element={<CoursePage />} />
                             <Route path={`${PATH_COURSE}/${PATH_PLAYCOURSE}`} element={<PlayCourse />} />
-                            <Route path="/*" element={<Navigate to={PATH_HOME} />} />
+                            <Route path="*" element={<Navigate to={PATH_HOME} />} />
                         </Routes>
                     </div>
                 </div>
