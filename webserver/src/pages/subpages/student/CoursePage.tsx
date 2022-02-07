@@ -53,9 +53,10 @@ function CoursePage() {
             course?.content.topics.forEach((topic: any) => {
                 audioFiles = audioFiles.concat(topic.classes);
             });
-            const index = audioFiles.findIndex((audio: CourseClass, index: any) => {
-                if (audio.id === audios[position].id) {
-                    return index;
+            let index = 0;
+            audioFiles.forEach((audio: CourseClass, i: number) => {
+                if (audio.id.toString() === audios[position].id.toString()) {
+                    index = i;
                 }
             });
             navigate(`${PATH_PLAYCOURSE}`, { state: { audios: audioFiles, index: index, courseID: course?.id } });

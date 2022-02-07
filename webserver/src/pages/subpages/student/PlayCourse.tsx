@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import BackButton from '../../../components/BackButton';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import Player from '../../../components/Player';
 import { StudentContext } from '../../../context/StudentContext';
 import { text } from '../../../libs/styles';
@@ -128,14 +129,23 @@ function PlayCourse() {
     return (
         <div style={styles.container}>
             <BackButton onClick={() => setstop(true)} />
-            <Player
-                audio={`${`${AUDIO_URI}${getData()[current].file}`}`}
-                onNext={onNext}
-                onPrevious={onPrevious}
-                stop={stop} />
-            <div style={styles.classNameContainer}>
-                <h1 style={styles.className} onMouseEnter={() => onSpeak(getData()[current].name)} onMouseLeave={() => cancel()}>{getData()[current].name}</h1>
-            </div>
+            {
+                console.log(current)
+            }
+            {
+                (!audios[current]) ?
+                    <LoadingSpinner /> :
+                    <>
+                        <Player
+                            audio={`${AUDIO_URI}${audios[current].file}`}
+                            onNext={onNext}
+                            onPrevious={onPrevious}
+                            stop={stop} />
+                        <div style={styles.classNameContainer}>
+                            {/* <h1 style={styles.className} onMouseEnter={() => onSpeak(getData()[current].name)} onMouseLeave={() => cancel()}>{getData()[current].name}</h1> */}
+                        </div>
+                    </>
+            }
         </div>
     )
 }
