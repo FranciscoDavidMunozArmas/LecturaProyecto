@@ -82,6 +82,10 @@ function PlayCourse() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!file){
+      toastManager.error(AUDIO_ERROR);
+      return;
+    }
     try {
       if (course && topic && file) {
         const courseClass = courseClassConverter.fromJSON({ name: name });
@@ -133,9 +137,7 @@ function PlayCourse() {
           required={true}
           onChange={onNameChange} />
         <InputFile hint={HINT_SELECT_AUDIO}
-          onChange={onFileChange}
-          required={true}
-          value={audioRef.current.src} />
+          onChange={onFileChange} />
         <h1 style={styles.hintText}>{audioName}</h1>
         <PlayerControls
           status={playState}

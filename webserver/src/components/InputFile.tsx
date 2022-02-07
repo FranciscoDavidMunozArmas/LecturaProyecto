@@ -51,10 +51,8 @@ const styles = {
 
 interface Props {
     name?: string;
-    value?: string,
     ref?: any,
     type?: string | undefined,
-    required?: boolean,
     hint: string,
     onChange?: (file: File) => void;
 }
@@ -92,9 +90,7 @@ function InputFile(props: Props) {
                 name={(props.name) ? props.name : "file"}
                 onChange={() => onChange(inputFile.current as HTMLInputElement)}
                 ref={inputFile}
-                required={!!props.required}
-                style={styles.disable}
-                value={props.value} />
+                style={styles.disable} />
             </div>
         </>
     );
