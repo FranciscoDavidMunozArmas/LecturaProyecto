@@ -35,7 +35,7 @@ function App() {
         square>
         <BrowserRouter>
           <Routes>
-            <Route path='/'>
+            <Route path='/*'>
               <Route path={`${PATH_LOGIN}`} element={<LoginPage />} />
               <Route path={`${PATH_EARLEANING}/*`} element={<Appmain />} />
               <Route path={`${PATH_TEACHER}/*`} element={<TeacherPage />} />
