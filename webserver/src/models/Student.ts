@@ -46,7 +46,7 @@ export const studentConverter = {
         return {
             name: student.name,
             surname: student.surname,
-            courses: student.courses.map(courseDataConverter.toJSON),
+            courses: (student.courses) ? student.courses.map(courseDataConverter.toJSON) : [],
             certifications: student.certifications
         }
     },
@@ -54,7 +54,7 @@ export const studentConverter = {
         return new Student(
             snapshot.name,
             snapshot.surname,
-            snapshot.courses.map(courseDataConverter.fromJSON),
+            (snapshot.courses) ? snapshot.courses.map(courseDataConverter.fromJSON) : [],
             snapshot.certifications
         );
     }
