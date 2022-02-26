@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import { palette } from '../libs/styles';
 import { toastManager } from '../libs/toastManager';
-import { AUDIO_ERROR, AUDIO_URI, VOICE_ES } from '../libs/utils';
+import { AUDIO_ERROR, VOICE_ES } from '../libs/utils';
 import PlayerControls from './PlayerControls';
 import PlayerDetails from './PlayerDetails';
 import Trackbar from './Trackbar';
@@ -42,7 +42,7 @@ function Player(props: Props) {
     const [isPlaying, setisPlaying] = useState<boolean>(true);
     const [trackProgress, settrackProgress] = useState<number>(0);
 
-    const { speak, cancel } = useSpeechSynthesis();
+    const { speak } = useSpeechSynthesis();
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const intervalRef = useRef<NodeJS.Timeout>(0 as any);
@@ -138,9 +138,10 @@ function Player(props: Props) {
             isReady.current = true;
         }
 
-        return () => { };
+        return () => {
+            onStop();
+        }
     }, [props.audio]);
-
 
     useEffect(() => {
         if (isPlaying) {
@@ -153,11 +154,16 @@ function Player(props: Props) {
                 audioRef.current.pause();
             }
         }
-        return () => { };
+        return () => {
+            onStop();
+        }
     }, [isPlaying]);
 
     useEffect(() => {
         if (props.stop) {
+            onStop();
+        }
+        return () => {
             onStop();
         }
     }, [props.stop]);

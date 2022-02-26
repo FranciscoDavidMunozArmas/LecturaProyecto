@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { styles } from './libs/styles';
 import {
   BrowserRouter,
@@ -11,7 +11,6 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Appmain from './pages/Appmain';
-import LoadingContainer from './components/LoadingContainer';
 import { PATH_EARLEANING, PATH_LOGIN, PATH_REGISTER, PATH_TEACHER } from './libs/utils';
 import TeacherPage from './pages/TeacherPage';
 

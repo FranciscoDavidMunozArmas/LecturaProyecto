@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import BackButton from '../../../components/BackButton';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -9,7 +9,6 @@ import { text } from '../../../libs/styles';
 import { toastManager } from '../../../libs/toastManager';
 import { decodeToken, getToken } from '../../../libs/tokenInterceptor';
 import { AUDIO_URI, GENERATE_CERTIFICATE_SUCCESS, SEND_DATA_ERROR, VOICE_ES } from '../../../libs/utils';
-import { Course } from '../../../models/Course';
 import { CourseClass, courseClassConverter } from '../../../models/CourseClass';
 import { Student } from '../../../models/Student';
 import { createCertificate } from '../../../services/certificate.service';
@@ -48,7 +47,7 @@ function PlayCourse() {
     const navigate = useNavigate();
     const student = useContext(StudentContext);
 
-    const { speak, cancel } = useSpeechSynthesis();
+    const { speak } = useSpeechSynthesis();
 
     const onNext = () => {
         completeCourse(current);
